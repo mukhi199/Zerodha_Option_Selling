@@ -1,0 +1,15 @@
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/obj/Debug/net8.0/Trading.MQ.csproj.AssemblyReference.cache
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/obj/Debug/net8.0/Trading.MQ.GeneratedMSBuildEditorConfig.editorconfig
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/obj/Debug/net8.0/Trading.MQ.AssemblyInfoInputs.cache
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/obj/Debug/net8.0/Trading.MQ.AssemblyInfo.cs
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/obj/Debug/net8.0/Trading.MQ.csproj.CoreCompileInputs.cache
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/bin/Debug/net8.0/Trading.MQ.deps.json
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/bin/Debug/net8.0/Trading.MQ.dll
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/bin/Debug/net8.0/Trading.MQ.pdb
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/bin/Debug/net8.0/Trading.Core.dll
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/bin/Debug/net8.0/Trading.Core.pdb
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/obj/Debug/net8.0/Trading.MQ.csproj.Up2Date
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/obj/Debug/net8.0/Trading.MQ.dll
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/obj/Debug/net8.0/refint/Trading.MQ.dll
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/obj/Debug/net8.0/Trading.MQ.pdb
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.MQ/obj/Debug/net8.0/ref/Trading.MQ.dll

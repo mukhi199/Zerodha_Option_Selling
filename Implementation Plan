@@ -1,0 +1,43 @@
+# CPR Bounce Strategy Implementation
+
+The goal is to track Weekly, Daily, and Monthly CPR for Nifty and BankNifty, and generate triggers when a 5-minute candle formed at the Daily CPR shows significant candlestick patterns (Bullish/Bearish, Hammer, Harami, etc.). We will also track whether the price is coming back down to the CPR or bouncing up to it based on the Daily Open.
+
+## Proposed Changes
+
+### Database Setup (Entity Framework Core)
+Since the project does not currently have a database context configured, we will introduce Entity Framework Core (using SQLite for portability, or SQL Server if you change the connection string).
+#### [NEW] `Trading.Core/Data/AppDbContext.cs`
+- Create `AppDbContext` and a `CprData` entity table.
+- `CprData` will have columns: `Id`, `Symbol`, `Timeframe` (Daily, Weekly, Monthly), `Date`, `Pivot`, `BottomCentral`, `TopCentral`, `R1`, `S1`, etc.
+#### [MODIFY] `Trading.Strategy/Worker.cs`
+- During startup, attempt to load the latest CPR data from the `AppDbContext` table into the in-memory `_dailyCPR`, `_weeklyCPR`, etc.
+- When new CPR data is calculated (e.g., end of the day), save it to the DB table.
+
+### Candlestick Pattern Recognition
+#### [NEW] `Trading.Core/Utils/CandlePatternDetector.cs`
+- Create a utility class that takes the current and previous candles and determines patterns.
+- Implement detection for:
+  - Bullish / Bearish Engulfing
+  - Bullish / Bearish Harami
+  - Hammer / Shooting Star
+  - Long Wicks (e.g. at support/resistance)
+  - Doji
+
+### Trading.Strategy Logic Update
+#### [NEW] `Trading.Strategy/Services/CprBounceStrategy.cs`
+- Implementing `IStrategy`. In `OnCandle`, logic will filter for 5-minute interval candles on `NIFTY 50` and `NIFTY BANK`.
+- Fetch Daily CPR from `TechnicalIndicatorsTracker`.
+- **Daily Open Tracking**: Track the `Open` of the day to know if we are currently **Above** or **Below** the CPR for the day.
+- Check if the 5-min candle touches or interacts with the CPR zone (`TopCentral` and `BottomCentral`).
+- If interacting, use `CandlePatternDetector` to see if a significant pattern formed (e.g., Bullish Harami, Hammer at CPR).
+- Log a **TRIGGER** stating the pattern formed, the symbol, and the context (e.g., "Price came down to CPR and formed a Hammer").
+- *Note:* Instead of placing a live order, we will rely exclusively on logging. A report can be generated manually by scanning these logs later.
+
+## Verification Plan
+
+### Automated Tests
+- Create `CandlePatternDetectorTests.cs` to pass mock candles that represent Hammers, Engulfing, etc., ensuring the detector works mathematically.
+
+### Manual Verification
+- Run the worker and verify it pulls CPR from the database table.
+- Observe the console logs for `TRIGGER:` messages with the correct candlestick pattern description at the correct price relative to CPR.

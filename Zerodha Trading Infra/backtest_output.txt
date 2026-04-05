@@ -1,0 +1,1138 @@
+info: Program[0]
+      ==========================================================
+info: Program[0]
+        ZERODHA STRATEGY BACKTESTER (REAL DATA)
+info: Program[0]
+      ==========================================================
+warn: Program[0]
+      Valid Zerodha access token not found. Zerodha backtest will be skipped, but Yahoo backtest will proceed.
+info: Trading.Backtest.BacktestRunner[0]
+      --- YAHOO BACKTEST START: NIFTY 50 (5 days) ---
+info: Trading.Backtest.YahooDataService[0]
+      Yahoo: Parsed 42 candles for NIFTY 50
+info: Trading.Backtest.YahooDataService[0]
+      Yahoo: Parsed 376 candles for NIFTY 50
+info: Trading.Backtest.BacktestRunner[0]
+      Simulating Day: 3/20/2026
+info: Trading.Backtest.BacktestEngine[0]
+      Starting Backtest with 75 candles...
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] New Day Open recorded: 23130.599609375 at 03/20/2026 09:15:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/20/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23052.94 │  23103.73 │  23154.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23277.12 │  22828.77 │  23552.08 │
+      └─────────────┴───────────┴───────────┴───────────┘
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY 50
+        Time     : 03/20/2026 09:15:00
+        Day Open : 23130.599609375 (OPEN INSIDE CPR)
+        CPR Zone : BC=23052.941731770833333333333334 | Pivot=23103.733072916666666666666667 | TC=23154.5244140625
+        Candle   : O=23130.599609375 H=23284.5 L=23130.599609375 C=23281.5
+        Pattern  : Bullish Candle
+        Direction: BULLISH
+        Scenario : Day opened inside CPR. Candle is bullish — watch for upward break above TC to target R1.
+      ================
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/20/2026 10:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23052.94 │  23103.73 │  23154.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23277.12 │  22828.77 │  23552.08 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/20/2026 11:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23052.94 │  23103.73 │  23154.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23277.12 │  22828.77 │  23552.08 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/20/2026 12:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23052.94 │  23103.73 │  23154.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23277.12 │  22828.77 │  23552.08 │
+      └─────────────┴───────────┴───────────┴───────────┘
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY 50
+        Time     : 03/20/2026 12:20:00
+        Day Open : 23130.599609375 (OPEN INSIDE CPR)
+        CPR Zone : BC=23052.941731770833333333333334 | Pivot=23103.733072916666666666666667 | TC=23154.5244140625
+        Candle   : O=23187.44921875 H=23193.55078125 L=23153.19921875 C=23155.05078125
+        Pattern  : Bearish Candle
+        Direction: BEARISH
+        Scenario : Day opened inside CPR. Candle is bearish — watch for downward break below BC to target S1.
+      ================
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/20/2026 13:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23052.94 │  23103.73 │  23154.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23277.12 │  22828.77 │  23552.08 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/20/2026 14:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23052.94 │  23103.73 │  23154.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23277.12 │  22828.77 │  23552.08 │
+      └─────────────┴───────────┴───────────┴───────────┘
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY 50
+        Time     : 03/20/2026 14:30:00
+        Day Open : 23130.599609375 (OPEN INSIDE CPR)
+        CPR Zone : BC=23052.941731770833333333333334 | Pivot=23103.733072916666666666666667 | TC=23154.5244140625
+        Candle   : O=23164.05078125 H=23188.05078125 L=23152 C=23176.650390625
+        Pattern  : Bullish Harami
+        Direction: BULLISH
+        Scenario : Day opened inside CPR. Candle is bullish — watch for upward break above TC to target R1.
+      ================
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY 50
+        Time     : 03/20/2026 14:45:00
+        Day Open : 23130.599609375 (OPEN INSIDE CPR)
+        CPR Zone : BC=23052.941731770833333333333334 | Pivot=23103.733072916666666666666667 | TC=23154.5244140625
+        Candle   : O=23099.400390625 H=23113.400390625 L=23086.5 C=23104.349609375
+        Pattern  : Bullish Harami
+        Direction: BULLISH
+        Scenario : Day opened inside CPR. Candle is bullish — watch for upward break above TC to target R1.
+      ================
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY 50
+        Time     : 03/20/2026 15:00:00
+        Day Open : 23130.599609375 (OPEN INSIDE CPR)
+        CPR Zone : BC=23052.941731770833333333333334 | Pivot=23103.733072916666666666666667 | TC=23154.5244140625
+        Candle   : O=23091.30078125 H=23177.44921875 L=23078.599609375 C=23139.400390625
+        Pattern  : Bullish Candle
+        Direction: BULLISH
+        Scenario : Day opened inside CPR. Candle is bullish — watch for upward break above TC to target R1.
+      ================
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/20/2026 15:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23052.94 │  23103.73 │  23154.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23277.12 │  22828.77 │  23552.08 │
+      └─────────────┴───────────┴───────────┴───────────┘
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY 50
+        Time     : 03/20/2026 15:15:00
+        Day Open : 23130.599609375 (OPEN INSIDE CPR)
+        CPR Zone : BC=23052.941731770833333333333334 | Pivot=23103.733072916666666666666667 | TC=23154.5244140625
+        Candle   : O=23106.25 H=23107.30078125 L=23078.69921875 C=23092.5
+        Pattern  : Bearish Candle
+        Direction: BEARISH
+        Scenario : Day opened inside CPR. Candle is bearish — watch for downward break below BC to target S1.
+      ================
+info: Trading.Backtest.BacktestEngine[0]
+      Backtest completed.
+info: Trading.Backtest.BacktestRunner[0]
+      Simulating Day: 3/23/2026
+info: Trading.Backtest.BacktestEngine[0]
+      Starting Backtest with 75 candles...
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] New Day Open recorded: 22837.19921875 at 03/23/2026 09:15:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/23/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23145.13 │  23175.75 │  23206.38 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23283.90 │  23006.35 │  23453.30 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.ThreeDayBreakoutStrategy[0]
+      [NIFTY 50] 3-Day Low (22930.349609375) BROKEN DOWNWARDS by current price 22687.44921875. Selling Future NIFTY26APRFUT!
+info: Trading.Backtest.BacktestOrderService[0]
+      [BACKTEST] Market Order: SELL 1 NIFTY26APRFUT
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/23/2026 10:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23145.13 │  23175.75 │  23206.38 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23283.90 │  23006.35 │  23453.30 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/23/2026 11:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23145.13 │  23175.75 │  23206.38 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23283.90 │  23006.35 │  23453.30 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/23/2026 12:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23145.13 │  23175.75 │  23206.38 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23283.90 │  23006.35 │  23453.30 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/23/2026 13:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23145.13 │  23175.75 │  23206.38 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23283.90 │  23006.35 │  23453.30 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/23/2026 14:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23145.13 │  23175.75 │  23206.38 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23283.90 │  23006.35 │  23453.30 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/23/2026 15:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23145.13 │  23175.75 │  23206.38 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23283.90 │  23006.35 │  23453.30 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Backtest.BacktestEngine[0]
+      Backtest completed.
+info: Trading.Backtest.BacktestRunner[0]
+      Simulating Day: 3/24/2026
+info: Trading.Backtest.BacktestEngine[0]
+      Starting Backtest with 75 candles...
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] New Day Open recorded: 22854.05078125 at 03/24/2026 09:15:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/24/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22562.26 │  22611.87 │  22661.47 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  22752.48 │  22372.03 │  22992.32 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/24/2026 10:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22562.26 │  22611.87 │  22661.47 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  22752.48 │  22372.03 │  22992.32 │
+      └─────────────┴───────────┴───────────┴───────────┘
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY 50
+        Time     : 03/24/2026 10:35:00
+        Day Open : 22854.05078125 (OPEN ABOVE CPR)
+        CPR Zone : BC=22562.258463541666666666666666 | Pivot=22611.866536458333333333333333 | TC=22661.474609375
+        Candle   : O=22665.599609375 H=22667.69921875 L=22624.900390625 C=22631.80078125
+        Pattern  : Bearish Candle
+        Direction: BEARISH
+        Scenario : Price dropped to Daily CPR from ABOVE and is showing a bearish continuation. If it breaks below BC, a downside move towards S1 is likely.
+      ================
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY 50
+        Time     : 03/24/2026 10:50:00
+        Day Open : 22854.05078125 (OPEN ABOVE CPR)
+        CPR Zone : BC=22562.258463541666666666666666 | Pivot=22611.866536458333333333333333 | TC=22661.474609375
+        Candle   : O=22691.900390625 H=22707.69921875 L=22653.599609375 C=22667.25
+        Pattern  : Bearish Candle
+        Direction: BEARISH
+        Scenario : Price dropped to Daily CPR from ABOVE and is showing a bearish continuation. If it breaks below BC, a downside move towards S1 is likely.
+      ================
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY 50
+        Time     : 03/24/2026 11:05:00
+        Day Open : 22854.05078125 (OPEN ABOVE CPR)
+        CPR Zone : BC=22562.258463541666666666666666 | Pivot=22611.866536458333333333333333 | TC=22661.474609375
+        Candle   : O=22679.75 H=22689.099609375 L=22661.44921875 C=22680.900390625
+        Pattern  : Doji
+        Direction: INDECISION (Doji)
+        Scenario : Price dropped to Daily CPR from ABOVE. Candle is indecisive at CPR — wait for next candle confirmation.
+      ================
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/24/2026 11:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22562.26 │  22611.87 │  22661.47 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  22752.48 │  22372.03 │  22992.32 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/24/2026 12:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22562.26 │  22611.87 │  22661.47 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  22752.48 │  22372.03 │  22992.32 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/24/2026 13:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22562.26 │  22611.87 │  22661.47 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  22752.48 │  22372.03 │  22992.32 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/24/2026 14:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22562.26 │  22611.87 │  22661.47 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  22752.48 │  22372.03 │  22992.32 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/24/2026 15:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22562.26 │  22611.87 │  22661.47 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  22752.48 │  22372.03 │  22992.32 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Backtest.BacktestEngine[0]
+      Backtest completed.
+info: Trading.Backtest.BacktestRunner[0]
+      Simulating Day: 3/25/2026
+info: Trading.Backtest.BacktestEngine[0]
+      Starting Backtest with 75 candles...
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] New Day Open recorded: 23067.75 at 03/25/2026 09:15:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/25/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22840.75 │  22864.63 │  22888.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23105.07 │  22671.97 │  23297.74 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/25/2026 10:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22840.75 │  22864.63 │  22888.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23105.07 │  22671.97 │  23297.74 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/25/2026 11:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22840.75 │  22864.63 │  22888.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23105.07 │  22671.97 │  23297.74 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/25/2026 12:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22840.75 │  22864.63 │  22888.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23105.07 │  22671.97 │  23297.74 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/25/2026 13:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22840.75 │  22864.63 │  22888.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23105.07 │  22671.97 │  23297.74 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/25/2026 14:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22840.75 │  22864.63 │  22888.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23105.07 │  22671.97 │  23297.74 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/25/2026 15:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  22840.75 │  22864.63 │  22888.52 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23105.07 │  22671.97 │  23297.74 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Backtest.BacktestEngine[0]
+      Backtest completed.
+info: Trading.Backtest.BacktestRunner[0]
+      Simulating Day: 3/27/2026
+info: Trading.Backtest.BacktestEngine[0]
+      Starting Backtest with 76 candles...
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] New Day Open recorded: 23173.55078125 at 03/27/2026 09:15:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/27/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23264.27 │  23278.33 │  23292.39 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23493.47 │  23091.32 │  23680.48 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/27/2026 10:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23264.27 │  23278.33 │  23292.39 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23493.47 │  23091.32 │  23680.48 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/27/2026 11:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23264.27 │  23278.33 │  23292.39 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23493.47 │  23091.32 │  23680.48 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/27/2026 12:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23264.27 │  23278.33 │  23292.39 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23493.47 │  23091.32 │  23680.48 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/27/2026 13:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23264.27 │  23278.33 │  23292.39 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23493.47 │  23091.32 │  23680.48 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/27/2026 14:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23264.27 │  23278.33 │  23292.39 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23493.47 │  23091.32 │  23680.48 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (03/27/2026 15:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  23264.27 │  23278.33 │  23292.39 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  23493.47 │  23091.32 │  23680.48 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Backtest.BacktestEngine[0]
+      Backtest completed.
+info: Trading.Backtest.BacktestRunner[0]
+      --- YAHOO BACKTEST COMPLETE for NIFTY 50 ---
+info: Trading.Backtest.BacktestRunner[0]
+      Total Trades Found: 1
+warn: Trading.Backtest.BacktestRunner[0]
+      RESULT-TRADE: 03/29/2026 15:47:51 SELL 1 NIFTY26APRFUT @ 0 (MARKET)
+info: Trading.Backtest.BacktestRunner[0]
+      --- YAHOO BACKTEST START: NIFTY BANK (5 days) ---
+info: Trading.Backtest.YahooDataService[0]
+      Yahoo: Parsed 42 candles for NIFTY BANK
+info: Trading.Backtest.YahooDataService[0]
+      Yahoo: Parsed 376 candles for NIFTY BANK
+info: Trading.Backtest.BacktestRunner[0]
+      Simulating Day: 3/20/2026
+info: Trading.Backtest.BacktestEngine[0]
+      Starting Backtest with 75 candles...
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] New Day Open recorded: 53548.19921875 at 03/20/2026 09:15:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/20/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53532.48 │  53613.97 │  53695.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53987.33 │  53077.63 │  54523.67 │
+      └─────────────┴───────────┴───────────┴───────────┘
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/20/2026 09:15:00
+        Day Open : 53548.19921875 (OPEN INSIDE CPR)
+        CPR Zone : BC=53532.483723958333333333333334 | Pivot=53613.967447916666666666666667 | TC=53695.451171875
+        Candle   : O=53548.19921875 H=54204.44921875 L=53548.19921875 C=54195.3984375
+        Pattern  : Bullish Candle
+        Direction: BULLISH
+        Scenario : Day opened inside CPR. Candle is bullish — watch for upward break above TC to target R1.
+      ================
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/20/2026 10:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53532.48 │  53613.97 │  53695.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53987.33 │  53077.63 │  54523.67 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/20/2026 11:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53532.48 │  53613.97 │  53695.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53987.33 │  53077.63 │  54523.67 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/20/2026 12:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53532.48 │  53613.97 │  53695.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53987.33 │  53077.63 │  54523.67 │
+      └─────────────┴───────────┴───────────┴───────────┘
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/20/2026 12:20:00
+        Day Open : 53548.19921875 (OPEN INSIDE CPR)
+        CPR Zone : BC=53532.483723958333333333333334 | Pivot=53613.967447916666666666666667 | TC=53695.451171875
+        Candle   : O=53720 H=53740.75 L=53644.8984375 C=53649.6484375
+        Pattern  : Bearish Candle
+        Direction: BEARISH
+        Scenario : Day opened inside CPR. Candle is bearish — watch for downward break below BC to target S1.
+      ================
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/20/2026 12:35:00
+        Day Open : 53548.19921875 (OPEN INSIDE CPR)
+        CPR Zone : BC=53532.483723958333333333333334 | Pivot=53613.967447916666666666666667 | TC=53695.451171875
+        Candle   : O=53670.75 H=53740.05078125 L=53653.1484375 C=53728.5
+        Pattern  : Bullish Candle
+        Direction: BULLISH
+        Scenario : Day opened inside CPR. Candle is bullish — watch for upward break above TC to target R1.
+      ================
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/20/2026 13:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53532.48 │  53613.97 │  53695.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53987.33 │  53077.63 │  54523.67 │
+      └─────────────┴───────────┴───────────┴───────────┘
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/20/2026 13:50:00
+        Day Open : 53548.19921875 (OPEN INSIDE CPR)
+        CPR Zone : BC=53532.483723958333333333333334 | Pivot=53613.967447916666666666666667 | TC=53695.451171875
+        Candle   : O=53713.3515625 H=53749.80078125 L=53693.55078125 C=53745.1015625
+        Pattern  : Bullish Candle
+        Direction: BULLISH
+        Scenario : Day opened inside CPR. Candle is bullish — watch for upward break above TC to target R1.
+      ================
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/20/2026 14:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53532.48 │  53613.97 │  53695.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53987.33 │  53077.63 │  54523.67 │
+      └─────────────┴───────────┴───────────┴───────────┘
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/20/2026 14:15:00
+        Day Open : 53548.19921875 (OPEN INSIDE CPR)
+        CPR Zone : BC=53532.483723958333333333333334 | Pivot=53613.967447916666666666666667 | TC=53695.451171875
+        Candle   : O=53711.80078125 H=53717 L=53671.30078125 C=53712.44921875
+        Pattern  : Doji
+        Direction: INDECISION (Doji)
+        Scenario : Day opened inside CPR. Doji / Neutral candle — highly uncertain, wait for direction.
+      ================
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/20/2026 14:30:00
+        Day Open : 53548.19921875 (OPEN INSIDE CPR)
+        CPR Zone : BC=53532.483723958333333333333334 | Pivot=53613.967447916666666666666667 | TC=53695.451171875
+        Candle   : O=53547.25 H=53619.1484375 L=53529.05078125 C=53603.75
+        Pattern  : Bullish Candle
+        Direction: BULLISH
+        Scenario : Day opened inside CPR. Candle is bullish — watch for upward break above TC to target R1.
+      ================
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/20/2026 15:00:00
+        Day Open : 53548.19921875 (OPEN INSIDE CPR)
+        CPR Zone : BC=53532.483723958333333333333334 | Pivot=53613.967447916666666666666667 | TC=53695.451171875
+        Candle   : O=53423.1015625 H=53621.8515625 L=53410.30078125 C=53527.3984375
+        Pattern  : Bullish Candle
+        Direction: BULLISH
+        Scenario : Day opened inside CPR. Candle is bullish — watch for upward break above TC to target R1.
+      ================
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/20/2026 15:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53532.48 │  53613.97 │  53695.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53987.33 │  53077.63 │  54523.67 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Backtest.BacktestEngine[0]
+      Backtest completed.
+info: Trading.Backtest.BacktestRunner[0]
+      Simulating Day: 3/23/2026
+info: Trading.Backtest.BacktestEngine[0]
+      Starting Backtest with 75 candles...
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] New Day Open recorded: 52605.80078125 at 03/23/2026 09:15:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/23/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53564.70 │  53702.35 │  53840.00 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54107.15 │  53022.25 │  54787.25 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.ThreeDayBreakoutStrategy[0]
+      [NIFTY BANK] 3-Day Low (53240.6015625) BROKEN DOWNWARDS by current price 52153.6015625. Selling Future BANKNIFTY26APRFUT!
+info: Trading.Backtest.BacktestOrderService[0]
+      [BACKTEST] Market Order: SELL 1 BANKNIFTY26APRFUT
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/23/2026 10:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53564.70 │  53702.35 │  53840.00 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54107.15 │  53022.25 │  54787.25 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/23/2026 11:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53564.70 │  53702.35 │  53840.00 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54107.15 │  53022.25 │  54787.25 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/23/2026 12:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53564.70 │  53702.35 │  53840.00 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54107.15 │  53022.25 │  54787.25 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/23/2026 13:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53564.70 │  53702.35 │  53840.00 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54107.15 │  53022.25 │  54787.25 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/23/2026 14:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53564.70 │  53702.35 │  53840.00 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54107.15 │  53022.25 │  54787.25 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/23/2026 15:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53564.70 │  53702.35 │  53840.00 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54107.15 │  53022.25 │  54787.25 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Backtest.BacktestEngine[0]
+      Backtest completed.
+info: Trading.Backtest.BacktestRunner[0]
+      Simulating Day: 3/24/2026
+info: Trading.Backtest.BacktestEngine[0]
+      Starting Backtest with 75 candles...
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] New Day Open recorded: 52438.69921875 at 03/24/2026 09:15:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/24/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  51623.32 │  51808.88 │  51994.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  52294.17 │  50952.47 │  53150.58 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/24/2026 10:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  51623.32 │  51808.88 │  51994.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  52294.17 │  50952.47 │  53150.58 │
+      └─────────────┴───────────┴───────────┴───────────┘
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/24/2026 10:30:00
+        Day Open : 52438.69921875 (OPEN ABOVE CPR)
+        CPR Zone : BC=51623.317057291666666666666666 | Pivot=51808.884114583333333333333333 | TC=51994.451171875
+        Candle   : O=52132.3984375 H=52132.94921875 L=51970.3515625 C=51972
+        Pattern  : Bearish Candle
+        Direction: BEARISH
+        Scenario : Price dropped to Daily CPR from ABOVE and is showing a bearish continuation. If it breaks below BC, a downside move towards S1 is likely.
+      ================
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/24/2026 10:45:00
+        Day Open : 52438.69921875 (OPEN ABOVE CPR)
+        CPR Zone : BC=51623.317057291666666666666666 | Pivot=51808.884114583333333333333333 | TC=51994.451171875
+        Candle   : O=51978.44921875 H=52111.1015625 L=51943.3515625 C=52035.1015625
+        Pattern  : Bullish Candle
+        Direction: BULLISH
+        Scenario : Price dropped to Daily CPR from ABOVE and is showing a bullish reversal. CPR may act as strong support. Watch for long entry above TC.
+      ================
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/24/2026 11:00:00
+        Day Open : 52438.69921875 (OPEN ABOVE CPR)
+        CPR Zone : BC=51623.317057291666666666666666 | Pivot=51808.884114583333333333333333 | TC=51994.451171875
+        Candle   : O=51846.6015625 H=51938.6015625 L=51846.05078125 C=51930.1015625
+        Pattern  : Bullish Candle
+        Direction: BULLISH
+        Scenario : Price dropped to Daily CPR from ABOVE and is showing a bullish reversal. CPR may act as strong support. Watch for long entry above TC.
+      ================
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/24/2026 11:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  51623.32 │  51808.88 │  51994.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  52294.17 │  50952.47 │  53150.58 │
+      └─────────────┴───────────┴───────────┴───────────┘
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/24/2026 11:15:00
+        Day Open : 52438.69921875 (OPEN ABOVE CPR)
+        CPR Zone : BC=51623.317057291666666666666666 | Pivot=51808.884114583333333333333333 | TC=51994.451171875
+        Candle   : O=51976.3515625 H=52067.19921875 L=51956 C=52046.30078125
+        Pattern  : Bullish Candle
+        Direction: BULLISH
+        Scenario : Price dropped to Daily CPR from ABOVE and is showing a bullish reversal. CPR may act as strong support. Watch for long entry above TC.
+      ================
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/24/2026 11:40:00
+        Day Open : 52438.69921875 (OPEN ABOVE CPR)
+        CPR Zone : BC=51623.317057291666666666666666 | Pivot=51808.884114583333333333333333 | TC=51994.451171875
+        Candle   : O=52064.1484375 H=52081.8984375 L=51992.6015625 C=52037.3984375
+        Pattern  : Bearish Candle
+        Direction: BEARISH
+        Scenario : Price dropped to Daily CPR from ABOVE and is showing a bearish continuation. If it breaks below BC, a downside move towards S1 is likely.
+      ================
+warn: Trading.Strategy.Services.CprBounceStrategy[0]
+      === TRIGGER ===
+        Symbol   : NIFTY BANK
+        Time     : 03/24/2026 12:10:00
+        Day Open : 52438.69921875 (OPEN ABOVE CPR)
+        CPR Zone : BC=51623.317057291666666666666666 | Pivot=51808.884114583333333333333333 | TC=51994.451171875
+        Candle   : O=52040.3515625 H=52063.05078125 L=51989.30078125 C=51993.3984375
+        Pattern  : Bearish Candle
+        Direction: BEARISH
+        Scenario : Price dropped to Daily CPR from ABOVE and is showing a bearish continuation. If it breaks below BC, a downside move towards S1 is likely.
+      ================
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/24/2026 12:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  51623.32 │  51808.88 │  51994.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  52294.17 │  50952.47 │  53150.58 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/24/2026 13:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  51623.32 │  51808.88 │  51994.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  52294.17 │  50952.47 │  53150.58 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/24/2026 14:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  51623.32 │  51808.88 │  51994.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  52294.17 │  50952.47 │  53150.58 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/24/2026 15:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  51623.32 │  51808.88 │  51994.45 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  52294.17 │  50952.47 │  53150.58 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Backtest.BacktestEngine[0]
+      Backtest completed.
+info: Trading.Backtest.BacktestRunner[0]
+      Simulating Day: 3/25/2026
+info: Trading.Backtest.BacktestEngine[0]
+      Starting Backtest with 75 candles...
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] New Day Open recorded: 53026.3515625 at 03/25/2026 09:15:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/25/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  52388.32 │  52460.77 │  52533.21 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53094.03 │  51972.38 │  53582.41 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/25/2026 10:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  52388.32 │  52460.77 │  52533.21 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53094.03 │  51972.38 │  53582.41 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/25/2026 11:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  52388.32 │  52460.77 │  52533.21 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53094.03 │  51972.38 │  53582.41 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/25/2026 12:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  52388.32 │  52460.77 │  52533.21 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53094.03 │  51972.38 │  53582.41 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/25/2026 13:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  52388.32 │  52460.77 │  52533.21 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53094.03 │  51972.38 │  53582.41 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/25/2026 14:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  52388.32 │  52460.77 │  52533.21 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53094.03 │  51972.38 │  53582.41 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/25/2026 15:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  52388.32 │  52460.77 │  52533.21 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  53094.03 │  51972.38 │  53582.41 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Backtest.BacktestEngine[0]
+      Backtest completed.
+info: Trading.Backtest.BacktestRunner[0]
+      Simulating Day: 3/27/2026
+info: Trading.Backtest.BacktestEngine[0]
+      Starting Backtest with 76 candles...
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] New Day Open recorded: 53244.25 at 03/27/2026 09:15:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/27/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53585.45 │  53626.33 │  53667.22 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54227.92 │  53106.52 │  54747.73 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/27/2026 10:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53585.45 │  53626.33 │  53667.22 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54227.92 │  53106.52 │  54747.73 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/27/2026 11:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53585.45 │  53626.33 │  53667.22 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54227.92 │  53106.52 │  54747.73 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/27/2026 12:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53585.45 │  53626.33 │  53667.22 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54227.92 │  53106.52 │  54747.73 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/27/2026 13:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53585.45 │  53626.33 │  53667.22 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54227.92 │  53106.52 │  54747.73 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/27/2026 14:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53585.45 │  53626.33 │  53667.22 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54227.92 │  53106.52 │  54747.73 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (03/27/2026 15:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  53585.45 │  53626.33 │  53667.22 │
+      │ Weekly      │ N/A       │ N/A       │ N/A       │
+      │ Monthly     │ N/A       │ N/A       │ N/A       │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  54227.92 │  53106.52 │  54747.73 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Backtest.BacktestEngine[0]
+      Backtest completed.
+info: Trading.Backtest.BacktestRunner[0]
+      --- YAHOO BACKTEST COMPLETE for NIFTY BANK ---
+info: Trading.Backtest.BacktestRunner[0]
+      Total Trades Found: 1
+warn: Trading.Backtest.BacktestRunner[0]
+      RESULT-TRADE: 03/29/2026 15:47:51 SELL 1 BANKNIFTY26APRFUT @ 0 (MARKET)
+info: Program[0]
+      ==========================================================
+info: Program[0]
+        BACKTEST SESSION COMPLETE
+info: Program[0]
+      ==========================================================

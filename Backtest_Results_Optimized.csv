@@ -1,0 +1,4 @@
+Symbol,Type,Entry Time,Entry Price,Exit Time,Exit Price,PnL,Cumulative PnL,Exit Reason
+NIFTY 50,Short,2024-11-22 09:35:00,23437.2,2024-11-22 09:40:00,23463.75,-26.55,-26.55,Indicator Cross
+NIFTY BANK,Short,2016-12-02 13:50:00,18336.2,2016-12-02 15:05:00,18259.65,76.55,50.00,Indicator Cross
+NIFTY BANK,Short,2018-02-06 14:30:00,25880.4,2018-02-06 14:35:00,25945.45,-65.05,-15.05,Indicator Cross
