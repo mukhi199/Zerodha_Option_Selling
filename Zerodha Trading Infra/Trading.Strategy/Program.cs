@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,70 +9,124 @@ using Trading.Strategy.Consumers;
 using Trading.Zerodha.Services;
 using Microsoft.EntityFrameworkCore;
 using Trading.Core.Data;
+using System.Text.Json;
+using System.IO;
 
-var builder = Host.CreateDefaultBuilder(args)
-    .ConfigureAppConfiguration((hostingContext, config) =>
-    {
-        config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-    })
-    .ConfigureServices((hostContext, services) =>
-    {
-        var config = hostContext.Configuration;
+var builder = WebApplication.CreateBuilder(args);
 
-        // 1. Zerodha Config
-        var apiKey = config["Zerodha:ApiKey"] ?? string.Empty;
-        var apiSecret = config["Zerodha:ApiSecret"] ?? string.Empty;
-        var tokenPath = config["Zerodha:TokenFilePath"] ?? "access_token.json";
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+var config = builder.Configuration;
+var apiKey = config["Zerodha:ApiKey"] ?? string.Empty;
+var apiSecret = config["Zerodha:ApiSecret"] ?? string.Empty;
+var tokenPath = config["Zerodha:TokenFilePath"] ?? "access_token.json";
+
+// 1. Zerodha Config
+builder.Services.AddSingleton(sp => new ZerodhaAuthService(config, sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<ZerodhaAuthService>>()));
+
+// 2. Order Execution Service
+builder.Services.AddSingleton<OrderExecutionService>(sp => 
+    new OrderExecutionService(apiKey, sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<OrderExecutionService>>()));
         
-        // Register Auth Service to fetch access token
-        services.AddSingleton(sp => new ZerodhaAuthService(apiKey, apiSecret, tokenPath, sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<ZerodhaAuthService>>()));
+builder.Services.AddSingleton<IOrderService>(sp => sp.GetRequiredService<OrderExecutionService>());
 
-        // 2. Order Execution Service
-        // We use a factory since it needs the access token, but the token might be fetched at runtime.
-        // For simplicity, we initialize it empty here and set the token inside the OrderExecutionService 
-        // OR we can make the OrderExecutionService fetch from AuthService directly.
-        // But since we designed it to take accessToken in constructor, let's inject it via a provider if needed.
-        // Actually, let's just make OrderExecutionService resolve the token at runtime to avoid circular injection.
-        
-        // Wait, a better approach is to let Worker fetch token, and then initialize OrderExecutionService.
-        // I will change OrderExecutionService to accept the token dynamically.
-        // Let's modify OrderExecutionService via file replacement after this.
-        services.AddSingleton<OrderExecutionService>(sp => 
-            new OrderExecutionService(apiKey, sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<OrderExecutionService>>()));
+builder.Services.AddSingleton<TechnicalIndicatorsTracker>();
+builder.Services.AddSingleton<MovingAverageService>();
+builder.Services.AddSingleton<Trading.Zerodha.Services.INfoSymbolMaster, Trading.Zerodha.Services.NfoSymbolMaster>(sp => 
+    new Trading.Zerodha.Services.NfoSymbolMaster(apiKey, sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Trading.Zerodha.Services.NfoSymbolMaster>>()));
 
-        services.AddSingleton<TechnicalIndicatorsTracker>();
-        services.AddSingleton<MovingAverageService>();
+builder.Services.AddSingleton<IStrategicStateStore, StrategicStateStore>();
 
-        // 3. Register Strategies
-        services.AddDbContext<AppDbContext>(options => 
-            options.UseSqlite("Data Source=TradingData.db"));
+// 3. Register Strategies
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseSqlite("Data Source=TradingData.db"), ServiceLifetime.Singleton);
 
-        services.AddSingleton<IStrategy, SampleStrategy>();
-        services.AddSingleton<IStrategy, ThreeDayBreakoutStrategy>();
-        services.AddSingleton<IStrategy, CprBounceStrategy>();
-        services.AddSingleton<IStrategy, RsiSmoothedStrategy>();
+builder.Services.AddSingleton<IStrategy, SampleStrategy>();
+builder.Services.AddSingleton<IStrategy, UltimateCombinedStrategy>();
+builder.Services.AddSingleton<IStrategy, CprBounceStrategy>();
+builder.Services.AddSingleton<IStrategy, RsiSmoothedStrategy>();
+builder.Services.AddSingleton<IStrategy, Strangle920Strategy>();
+builder.Services.AddSingleton<IStrategy, LevelStrangleStrategy>();
 
-        // 4. RabbitMQ Consumer
-        var mqHost = config["RabbitMQ:Host"] ?? "localhost";
-        var mqPort = int.TryParse(config["RabbitMQ:Port"], out var p) ? p : 5672;
-        var mqUser = config["RabbitMQ:User"] ?? "guest";
-        var mqPassword = config["RabbitMQ:Password"] ?? "guest";
+// 4. RabbitMQ Consumer
+var mqHost = config["RabbitMQ:Host"] ?? "localhost";
+var mqPort = int.TryParse(config["RabbitMQ:Port"], out var p) ? p : 5672;
+var mqUser = config["RabbitMQ:User"] ?? "guest";
+var mqPassword = config["RabbitMQ:Password"] ?? "guest";
 
-        services.AddHostedService<MQDataConsumer>(sp => new MQDataConsumer(
-            mqHost, mqPort, mqUser, mqPassword,
-            sp.GetServices<IStrategy>(),
-            sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<MQDataConsumer>>()));
+builder.Services.AddHostedService<MQDataConsumer>(sp => new MQDataConsumer(
+    mqHost, mqPort, mqUser, mqPassword,
+    sp.GetServices<IStrategy>(),
+    sp.GetRequiredService<IStrategicStateStore>(),
+    sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<MQDataConsumer>>(),
+    config));
 
-        // 5. Worker
-        services.AddHostedService<Worker>();
-    });
+// 5. Worker
+builder.Services.AddHostedService<Worker>();
+builder.Services.AddHostedService<StatusReporterService>();
+builder.Services.AddHostedService<MarketClosingService>();
 
-var host = builder.Build();
+var app = builder.Build();
 
-using (var scope = host.Services.CreateScope())
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
 }
 
-host.Run();
+// 6. Webhook Endpoint
+app.MapPost("/zerodha/postback", async (Microsoft.AspNetCore.Http.HttpContext context) =>
+{
+    using var reader = new StreamReader(context.Request.Body);
+    var body = await reader.ReadToEndAsync();
+    var payload = JsonSerializer.Deserialize<JsonElement>(body);
+
+    var strategy = app.Services.GetServices<IStrategy>().OfType<UltimateCombinedStrategy>().FirstOrDefault();
+    if (strategy != null)
+    {
+        strategy.ProcessWebhook(payload);
+    }
+    
+    return Microsoft.AspNetCore.Http.Results.Ok();
+});
+
+// 7. Dashboard API
+app.MapGet("/api/state", (IStrategicStateStore stateStore) => 
+{
+    return Microsoft.AspNetCore.Http.Results.Ok(new 
+    {
+        Metrics = stateStore.GetSystemMetrics(),
+        States = stateStore.GetAllStates().OrderBy(s => s.Symbol)
+    });
+});
+
+app.MapPost("/api/override", (IStrategicStateStore stateStore, JsonElement payload) =>
+{
+    if (payload.TryGetProperty("symbol", out var sym))
+    {
+        string symbol = sym.GetString() ?? "";
+        
+        stateStore.UpdateSymbolState(symbol, s => 
+        {
+            if (payload.TryGetProperty("signal", out var signal))
+                s.ManualOverrideSignal = signal.GetString() ?? "None";
+            
+            if (payload.TryGetProperty("level", out var level))
+                s.ManualTriggerLevel = level.GetDecimal();
+            
+            if (payload.TryGetProperty("side", out var side))
+                s.ManualTriggerSide = side.GetString() ?? "None";
+            
+            if (payload.TryGetProperty("sl", out var sl))
+                s.ManualStopLoss = sl.GetDecimal();
+        });
+
+        return Microsoft.AspNetCore.Http.Results.Ok(new { success = true, symbol });
+    }
+    return Microsoft.AspNetCore.Http.Results.BadRequest("Invalid payload");
+});
+
+app.Run();

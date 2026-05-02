@@ -25,6 +25,7 @@ public class MQPublisher : IDisposable
     private readonly object _lock = new();
 
     public const string TicksExchange = "ticks-exchange";
+    public const string StatusExchange = "system-status-exchange";
 
     public MQPublisher(
         string host,
@@ -49,6 +50,11 @@ public class MQPublisher : IDisposable
     {
         var routingKey = $"tick.{tick.Symbol}";
         Publish(TicksExchange, routingKey, tick);
+    }
+
+    public void PublishStatus(SystemStatus status)
+    {
+        Publish(StatusExchange, "system.status", status);
     }
 
     // ─────────────────── internals ───────────────────
@@ -102,6 +108,7 @@ public class MQPublisher : IDisposable
 
             // Declare both exchanges (idempotent)
             _channel.ExchangeDeclare(TicksExchange, ExchangeType.Topic, durable: true);
+            _channel.ExchangeDeclare(StatusExchange, ExchangeType.Fanout, durable: true);
 
             _logger.LogInformation("MQPublisher connected to RabbitMQ at {Host}:{Port}", _host, _port);
         }

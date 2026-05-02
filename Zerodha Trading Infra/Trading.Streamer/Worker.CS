@@ -54,12 +54,14 @@ public class Worker : BackgroundService
             return;
         }
 
-        // ── Step 2: Load instruments ──────────────────────────────────
+        // ── Step 2: Load instruments ────────────────────────────────
         List<Trading.Core.Models.InstrumentInfo> instruments;
         try
         {
-            instruments = await _instrumentService.LoadInstrumentsAsync(accessToken, "NSE");
-            _logger.LogInformation("Loaded {Count} NSE instruments.", instruments.Count);
+            var nse = await _instrumentService.LoadInstrumentsAsync(accessToken, "NSE");
+            var nfo = await _instrumentService.LoadInstrumentsAsync(accessToken, "NFO");
+            instruments = nse.Concat(nfo).ToList();
+            _logger.LogInformation("Loaded {Count} instruments (NSE + NFO).", instruments.Count);
         }
         catch (Exception ex)
         {
@@ -73,8 +75,22 @@ public class Worker : BackgroundService
             return;
         }
 
-        // ── Step 3: Extract tokens ────────────────────────────────────
-        var tokensToSymbols = instruments.ToDictionary(i => i.InstrumentToken, i => i.TradingSymbol);
+
+        // ── Step 3: Filter to strategy-relevant tokens ───────────────
+        // Subscribe to: Nifty 50 spot (NSE) + NFO Nifty options (Current week only)
+        var niftySpot    = instruments.Where(i => i.Exchange == "NSE" && (i.TradingSymbol == "NIFTY 50" || i.TradingSymbol == "NIFTY BANK")).ToList();
+        
+        DateTime expiryThreshold = DateTime.Today.AddDays(10);
+        var niftyOptions = instruments
+            .Where(i => i.Exchange == "NFO" && (i.TradingSymbol.StartsWith("NIFTY") || i.TradingSymbol.StartsWith("BANKNIFTY"))
+                     && (i.InstrumentType == "CE" || i.InstrumentType == "PE")
+                     && i.Expiry <= expiryThreshold) // Only current week + next rollover
+            .ToList();
+
+        var filtered = niftySpot.Concat(niftyOptions).ToList();
+        _logger.LogInformation("Filtered to {Count} strategy-relevant tokens (Nifty Spot + NFO Options expiring before {Threshold:d}).", filtered.Count, expiryThreshold);
+
+        var tokensToSymbols = filtered.ToDictionary(i => i.InstrumentToken, i => i.TradingSymbol);
         _logger.LogInformation("Subscribing to {Count} instrument tokens.", tokensToSymbols.Count);
 
         // ── Step 4: Backfill from KDB+ (Warm Start) ───────────────────

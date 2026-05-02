@@ -7,6 +7,7 @@ using Trading.Strategy.Services;
 using Trading.Core.Models;
 using Trading.Core.Utils;
 using ClosedXML.Excel;
+using Microsoft.Extensions.Logging;
 
 namespace Trading.Backtester
 {
@@ -59,7 +60,83 @@ namespace Trading.Backtester
             CombinedBreakoutBacktest.Run();
 
             // Run the deep parameter scanner
-            StrategyScannerBacktest.Run();
+            // StrategyScannerBacktest.Run();
+
+            // Run the 4-strategy grand comparison
+            // MultiStrategyRunner.Run();
+
+            RunOptionStrangleBacktest();
+        }
+
+        static void RunOptionStrangleBacktest()
+        {
+            Console.WriteLine("\n--- STARTING 1-YEAR 9:20 STRANGLE BACKTEST (HYBRID SIM) ---");
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            var logger = loggerFactory.CreateLogger<OptionStrangleBacktest>();
+            
+            var backtester = new OptionStrangleBacktest("dummy", "dummy", logger);
+            string csvPath = "/Users/Lenovo/Projects/Zerodha_Option_Selling/NIFTY 50_5minute.csv";
+            
+            if (File.Exists(csvPath))
+            {
+                backtester.LoadSpotData(csvPath);
+                // Last date in CSV is 2026-01-22
+                DateTime toDate = new DateTime(2024, 10, 30); 
+                DateTime fromDate = new DateTime(2024, 1, 1); 
+                
+                var results = backtester.RunAsync(fromDate, toDate).GetAwaiter().GetResult();
+
+                // Export to Excel on Desktop
+                var desktopPath = "/Users/Lenovo/Desktop/Backtest_920_Strangle_1Year.xlsx";
+                using (var workbook = new XLWorkbook())
+                {
+                    var ws = workbook.Worksheets.Add("9-20 Strangle Results");
+                    ws.Cell(1, 1).Value = "Date";
+                    ws.Cell(1, 2).Value = "Niffy Spot";
+                    ws.Cell(1, 3).Value = "CE Entry";
+                    ws.Cell(1, 4).Value = "CE SL (2x)";
+                    ws.Cell(1, 5).Value = "CE SL Hit";
+                    ws.Cell(1, 6).Value = "CE Hit Time";
+                    ws.Cell(1, 7).Value = "PE Entry";
+                    ws.Cell(1, 8).Value = "PE SL (2x)";
+                    ws.Cell(1, 9).Value = "PE SL Hit";
+                    ws.Cell(1, 10).Value = "PE Hit Time";
+                    ws.Cell(1, 11).Value = "Total Daily P&L";
+
+                    var header = ws.Range(1, 1, 1, 11);
+                    header.Style.Font.Bold = true;
+                    header.Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    int row = 2;
+                    foreach (var r in results)
+                    {
+                        ws.Cell(row, 1).Value = r.Date.ToString("yyyy-MM-dd");
+                        ws.Cell(row, 2).Value = r.Spot;
+                        ws.Cell(row, 3).Value = r.CeEntry;
+                        ws.Cell(row, 4).Value = r.CeEntry * 2.0m;
+                        ws.Cell(row, 5).Value = r.CeSlHit ? "YES" : "NO";
+                        ws.Cell(row, 6).Value = r.CeSlHitTime;
+                        ws.Cell(row, 7).Value = r.PeEntry;
+                        ws.Cell(row, 8).Value = r.PeEntry * 2.0m;
+                        ws.Cell(row, 9).Value = r.PeSlHit ? "YES" : "NO";
+                        ws.Cell(row, 10).Value = r.PeSlHitTime;
+                        ws.Cell(row, 11).Value = r.CeExitPoints + r.PeExitPoints;
+
+                        var pnlCell = ws.Cell(row, 11);
+                        if ((r.CeExitPoints + r.PeExitPoints) > 0) pnlCell.Style.Font.FontColor = XLColor.Green;
+                        else if ((r.CeExitPoints + r.PeExitPoints) < 0) pnlCell.Style.Font.FontColor = XLColor.Red;
+                        
+                        row++;
+                    }
+                    ws.Columns().AdjustToContents();
+                    workbook.SaveAs(desktopPath);
+                }
+                Console.WriteLine($"\n✅ DETAILED EXCEL REPORT SAVED TO: {desktopPath}");
+            }
+            else
+            {
+                Console.WriteLine($"Error: CSV not found at {csvPath}");
+            }
         }
 
         static void WriteTradesToWorksheet(XLWorkbook workbook, string sheetName, List<TradeRecord> trades)

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zerodha Strategy Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-gradient {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 1) 0%, rgba(15, 23, 42, 1) 100%);
+        }
+
+        .glow {
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .live-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-8 glass rounded-2xl p-6 glow">
+            <div class="flex items-center gap-3">
+                <div class="bg-sky-500 p-2 rounded-lg">
+                    <i data-lucide="activity" class="text-white"></i>
+                </div>
+                <div>
+                    <h1
+                        class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-400">
+                        Zerodha Strategy Console
+                    </h1>
+                    <div class="flex items-center gap-2 text-sm text-slate-400">
+                        <span id="conn-status" class="flex items-center gap-1">
+                            <span class="w-2 h-2 bg-emerald-500 rounded-full live-dot"></span>
+                            Connected
+                        </span>
+                        <span>•</span>
+                        <span id="last-updated">Updating...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right hidden sm:block">
+                <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Ticks Processed</p>
+                <p id="total-ticks" class="text-2xl font-mono font-bold text-sky-400">0</p>
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <div id="symbols-container" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Symbol Cards will be injected here -->
+        </div>
+
+        <!-- Footer Info -->
+        <footer class="mt-8 text-center text-slate-500 text-xs">
+            &copy; 2026 Zerodha Strategy Engine via Antigravity AI
+        </footer>
+    </div>
+
+    <!-- Template for Symbol Card -->
+    <template id="symbol-card-template">
+        <div
+            class="glass rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-sky-500/50">
+            <div class="p-6 border-b border-white/5 flex justify-between items-start">
+                <div>
+                    <h2 class="symbol-name text-xl font-bold text-slate-100 italic">NIFTY 50</h2>
+                    <p class="text-3xl font-mono font-bold mt-1 ltp-value text-sky-400">00000.00</p>
+                </div>
+                <div class="text-right">
+                    <span
+                        class="trend-badge px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Neutral</span>
+                    <p class="text-[10px] text-slate-500 mt-2 font-mono last-update-time">15:30:00</p>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Levels Grid -->
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="text-center p-3 rounded-2xl bg-white/5 border border-white/5">
+                        <p class="text-xs text-slate-500 uppercase">BC</p>
+                        <p class="bc-level font-mono font-semibold">0.0</p>
+                    </div>
+                    <div class="text-center p-3 rounded-2xl bg-sky-500/10 border border-sky-500/20">
+                        <p class="text-xs text-sky-500 uppercase font-bold">Pivot</p>
+                        <p class="pivot-level font-mono font-bold text-sky-400">0.0</p>
+                    </div>
+                    <div class="text-center p-3 rounded-2xl bg-white/5 border border-white/5">
+                        <p class="text-xs text-slate-500 uppercase">TC</p>
+                        <p class="tc-level font-mono font-semibold">0.0</p>
+                    </div>
+                </div>
+
+                <!-- Secondary Data -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center text-sm p-3 rounded-xl hover:bg-white/5">
+                        <span class="text-slate-400 flex items-center gap-2"><i data-lucide="zap"
+                                class="w-4 h-4 text-amber-400"></i> Virgin CPR</span>
+                        <span class="virgin-status font-bold">Calculating...</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm p-3 rounded-xl hover:bg-white/5">
+                        <span class="text-slate-400 flex items-center gap-2"><i data-lucide="layers"
+                                class="w-4 h-4 text-indigo-400"></i> Prev Day Range</span>
+                        <span class="pd-range font-mono font-semibold">0.0 - 0.0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm p-3 rounded-xl hover:bg-white/5">
+                        <span class="text-slate-400 flex items-center gap-2"><i data-lucide="trending-up"
+                                class="w-4 h-4 text-emerald-400"></i> 3-Day High</span>
+                        <span class="three-day-high font-mono font-bold text-emerald-400">0.0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm p-3 rounded-xl hover:bg-white/5">
+                        <span class="text-slate-400 flex items-center gap-2"><i data-lucide="trending-down"
+                                class="w-4 h-4 text-rose-400"></i> 3-Day Low</span>
+                        <span class="three-day-low font-mono font-bold text-rose-400">0.0</span>
+                    </div>
+                </div>
+
+                <!-- Strangle Status -->
+                <div class="strangle-box p-4 rounded-2xl bg-slate-900/50 border border-white/5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-sky-400"></i>
+                        <h3 class="text-xs font-bold text-slate-300 uppercase">9:20 Strangle Deployment</h3>
+                    </div>
+                    <p class="strangle-status text-sm text-slate-400 italic">Not Started</p>
+                    <p class="strangle-legs text-[10px] text-slate-500 font-mono mt-1"></p>
+                </div>
+
+                <!-- Override Controls -->
+                <div class="pt-4 border-t border-white/5">
+                    <h3 class="text-xs font-bold text-slate-300 uppercase mb-4 flex items-center gap-2">
+                        <i data-lucide="terminal" class="w-4 h-4 text-rose-500"></i> Manual Rule Override
+                    </h3>
+
+                    <!-- Conditional Inputs -->
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] text-slate-500 uppercase font-bold px-1">Trigger Level</label>
+                            <input type="number" step="0.05"
+                                class="trigger-level-input w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-sm focus:border-sky-500 outline-none font-mono"
+                                placeholder="Price">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] text-slate-500 uppercase font-bold px-1">Stop Loss (Abs)</label>
+                            <input type="number" step="0.05"
+                                class="sl-input w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-sm focus:border-rose-500/50 outline-none font-mono"
+                                placeholder="Price">
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="issueConditional(this, 'BUY')"
+                            class="flex-1 py-3 px-4 bg-emerald-600/20 border border-emerald-500/50 text-emerald-400 rounded-xl font-bold hover:bg-emerald-600 hover:text-white transition-all text-xs">ARM
+                            BUY LEVEL</button>
+                        <button onclick="issueConditional(this, 'SELL')"
+                            class="flex-1 py-3 px-4 bg-rose-600/20 border border-rose-500/50 text-rose-400 rounded-xl font-bold hover:bg-rose-600 hover:text-white transition-all text-xs">ARM
+                            SELL LEVEL</button>
+                    </div>
+
+                    <div class="mt-4 flex gap-3">
+                        <button onclick="issueImmediate(this, 'BUY')"
+                            class="flex-1 py-2 px-3 bg-slate-800 text-slate-300 rounded-lg text-[10px] font-bold hover:bg-emerald-600 hover:text-white transition-all uppercase">Instant
+                            Buy</button>
+                        <button onclick="issueImmediate(this, 'SELL')"
+                            class="flex-1 py-2 px-3 bg-slate-800 text-slate-300 rounded-lg text-[10px] font-bold hover:bg-rose-600 hover:text-white transition-all uppercase">Instant
+                            Sell</button>
+                    </div>
+
+                    <div
+                        class="active-trigger-info hidden mt-3 p-2 bg-sky-500/10 border border-sky-500/20 rounded-lg text-[10px] text-sky-400 font-bold flex justify-between items-center">
+                        <span>ACTIVE TRIGGER: <span class="trigger-msg"></span></span>
+                        <button onclick="cancelTrigger(this)" class="text-rose-400 hover:text-rose-300">CANCEL</button>
+                    </div>
+
+                    <p class="text-[9px] text-slate-500 mt-3 text-center uppercase tracking-widest">⚠️ Bypasses all
+                        system rules</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        lucide.createIcons();
+
+        async function updateDashboard() {
+            try {
+                const response = await fetch('/api/state');
+                if (!response.ok) throw new Error('Not connected');
+
+                const data = await response.json();
+
+                document.getElementById('total-ticks').textContent = data.metrics.ticksProcessed.toLocaleString();
+                document.getElementById('last-updated').textContent = new Date().toLocaleTimeString();
+                document.getElementById('conn-status').innerHTML = `
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full live-dot"></span>
+                    Connected
+                `;
+
+                renderSymbols(data.states);
+            } catch (error) {
+                console.warn('Backend not detected. Falling back to Demo Mode.');
+                document.getElementById('conn-status').innerHTML = `
+                    <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                    Demo Mode (Backend Disconnected)
+                `;
+                document.getElementById('last-updated').textContent = "Demo Data • " + new Date().toLocaleTimeString();
+
+                // Inject Mock Data for the User to see the UI
+                renderSymbols([
+                    {
+                        symbol: "NIFTY 50", ltp: 22453.75, bc: 22410.2, pivot: 22428.5, tc: 22446.8,
+                        threeDayHigh: 22512.4, threeDayLow: 22354.1, pdh: 22498.2, pdl: 22381.6,
+                        trend: "Bullish", isVirginCpr: true, lastUpdate: new Date(),
+                        strangleStatus: "Active • Profit: +₹2,450",
+                        strangleLegs: "CE: 22600 @ 45.2 | PE: 22200 @ 38.5",
+                        manualTriggerSide: "BUY", manualTriggerLevel: 22550.0, manualStopLoss: 22400.0
+                    },
+                    {
+                        symbol: "NIFTY BANK", ltp: 48212.30, bc: 48050.4, pivot: 48120.0, tc: 48189.6,
+                        threeDayHigh: 48450.0, threeDayLow: 47900.0, pdh: 48320.5, pdl: 48012.3,
+                        trend: "Neutral", isVirginCpr: false, lastUpdate: new Date(),
+                        strangleStatus: "Waiting for 9:20", strangleLegs: "No Active Positions",
+                        manualTriggerSide: "SELL", manualTriggerLevel: 47800.0, manualStopLoss: 48100.0
+                    }
+                ]);
+            }
+        }
+
+        function renderSymbols(states) {
+            const container = document.getElementById('symbols-container');
+            const template = document.getElementById('symbol-card-template');
+
+            states.forEach(s => {
+                let card = document.getElementById(`card-${s.symbol.replace(/\s+/g, '-')}`);
+                if (!card) {
+                    const clone = template.content.cloneNode(true);
+                    card = clone.querySelector('div');
+                    card.id = `card-${s.symbol.replace(/\s+/g, '-')}`;
+                    container.appendChild(clone);
+                }
+
+                card.querySelector('.symbol-name').textContent = s.symbol;
+                card.querySelector('.ltp-value').textContent = s.ltp.toFixed(2);
+                card.querySelector('.bc-level').textContent = s.bc.toFixed(1);
+                card.querySelector('.pivot-level').textContent = s.pivot.toFixed(1);
+                card.querySelector('.tc-level').textContent = s.tc.toFixed(1);
+                card.querySelector('.three-day-high').textContent = s.threeDayHigh.toFixed(1);
+                card.querySelector('.three-day-low').textContent = s.threeDayLow.toFixed(1);
+                card.querySelector('.pd-range').textContent = `${s.pdh.toFixed(1)} - ${s.pdl.toFixed(1)}`;
+                card.querySelector('.last-update-time').textContent = new Date(s.lastUpdate).toLocaleTimeString();
+                card.querySelector('.virgin-status').textContent = s.isVirginCpr ? '✨ Virgin' : '🚫 Touched';
+                card.querySelector('.virgin-status').className = `virgin-status font-bold ${s.isVirginCpr ? 'text-amber-400' : 'text-slate-500'}`;
+
+                card.querySelector('.strangle-status').textContent = s.strangleStatus;
+                card.querySelector('.strangle-legs').textContent = s.strangleLegs;
+
+                const badge = card.querySelector('.trend-badge');
+                badge.textContent = s.trend;
+                if (s.trend.toLowerCase() === 'bullish') {
+                    badge.className = 'trend-badge px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+                } else if (s.trend.toLowerCase() === 'bearish') {
+                    badge.className = 'trend-badge px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-500/20 text-rose-400 border border-rose-500/30';
+                } else {
+                    badge.className = 'trend-badge px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-500/20 text-slate-400 border border-slate-500/30';
+                }
+
+                // Active trigger info
+                const triggerBanner = card.querySelector('.active-trigger-info');
+                if (s.manualTriggerSide && s.manualTriggerSide !== "None") {
+                    triggerBanner.classList.remove('hidden');
+                    triggerBanner.querySelector('.trigger-msg').textContent = `${s.manualTriggerSide} when price crosses ${s.manualTriggerLevel.toFixed(1)}${s.manualStopLoss > 0 ? ' (SL: ' + s.manualStopLoss.toFixed(1) + ')' : ''}`;
+                } else {
+                    triggerBanner.classList.add('hidden');
+                }
+
+                // Set data-symbol for the override buttons
+                card.querySelectorAll('button').forEach(btn => btn.setAttribute('data-symbol', s.symbol));
+
+                lucide.createIcons();
+            });
+        }
+
+        async function issueConditional(btn, side) {
+            const card = btn.closest('[id^="card-"]');
+            const symbol = btn.getAttribute('data-symbol');
+            const level = parseFloat(card.querySelector('.trigger-level-input').value);
+            const sl = parseFloat(card.querySelector('.sl-input').value) || 0;
+
+            if (!level || isNaN(level)) {
+                alert('Please enter a valid trigger level.');
+                return;
+            }
+
+            if (!confirm(`ARM TRIGGER: ${side} ${symbol} if price closes ${side === 'BUY' ? 'above' : 'below'} ${level}?`)) return;
+
+            await sendOverrideRequest({ symbol, side, level, sl });
+        }
+
+        async function issueImmediate(btn, signal) {
+            const symbol = btn.getAttribute('data-symbol');
+            const card = btn.closest('[id^="card-"]');
+            const sl = parseFloat(card.querySelector('.sl-input').value) || 0;
+
+            if (!confirm(`INSTANT EXECUTION: Force ${signal} on ${symbol}?`)) return;
+
+            await sendOverrideRequest({ symbol, signal, sl });
+        }
+
+        async function cancelTrigger(btn) {
+            const symbol = btn.closest('[id^="card-"]').querySelector('.symbol-name').textContent;
+            await sendOverrideRequest({ symbol, side: "None", level: 0, sl: 0 });
+        }
+
+        async function sendOverrideRequest(payload) {
+            try {
+                const response = await fetch('/api/override', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    console.log('Override command issued');
+                    updateDashboard();
+                }
+            } catch (error) {
+                alert('Failed to issue override command.');
+            }
+        }
+
+        setInterval(updateDashboard, 2000);
+        updateDashboard();
+    </script>
+</body>
+
+</html>

@@ -32,6 +32,7 @@ public class TechnicalIndicatorsTracker
         public decimal S2 { get; set; }
         public decimal R3 { get; set; }
         public decimal S3 { get; set; }
+        public bool TouchedToday { get; set; } = false;
     }
 
     private readonly ConcurrentDictionary<string, PivotLevels> _dailyCPR = new();

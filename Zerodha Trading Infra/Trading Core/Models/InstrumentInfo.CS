@@ -20,4 +20,6 @@ public class InstrumentInfo
     public string InstrumentType { get; set; } = string.Empty;
 
     public string Segment { get; set; } = string.Empty;
+
+    public System.DateTime? Expiry { get; set; }
 }

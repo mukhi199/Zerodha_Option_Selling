@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Trading.Strategy.Services;
 using Trading.Zerodha.Services;
 using Trading.Core.Data;
@@ -18,6 +19,7 @@ public class Worker : BackgroundService
     private readonly OrderExecutionService _orderService;
     private readonly TechnicalIndicatorsTracker _tracker;
     private readonly MovingAverageService _maService;
+    private readonly INfoSymbolMaster _nfoSymbolMaster;
     private readonly IServiceScopeFactory _scopeFactory;
 
     public Worker(
@@ -27,6 +29,7 @@ public class Worker : BackgroundService
         OrderExecutionService orderService,
         TechnicalIndicatorsTracker tracker,
         MovingAverageService maService,
+        INfoSymbolMaster nfoSymbolMaster,
         IServiceScopeFactory scopeFactory)
     {
         _logger = logger;
@@ -35,6 +38,7 @@ public class Worker : BackgroundService
         _orderService = orderService;
         _tracker = tracker;
         _maService = maService;
+        _nfoSymbolMaster = nfoSymbolMaster;
         _scopeFactory = scopeFactory;
     }
 
@@ -47,6 +51,7 @@ public class Worker : BackgroundService
             // 1. Ensure we have a valid access token for today
             var accessToken = await _authService.EnsureAccessTokenAsync();
             _orderService.SetAccessToken(accessToken);
+            _nfoSymbolMaster.Initialize(accessToken);
             _logger.LogInformation("Strategy Engine authenticated successfully with Zerodha.");
 
             // 2. Pre-warm Technical Indicators
@@ -84,24 +89,65 @@ public class Worker : BackgroundService
 
         foreach (var symbol in symbols)
         {
-            // Try to load from DB first
+            // Step 1: Load what we have in DB into tracker
             bool warmed = await _maService.LoadIntoTrackerAsync(symbol);
-            if (!warmed)
+            
+            // Step 2: Always check if DB is stale and fill missing days from Zerodha
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<Trading.Core.Data.AppDbContext>();
+            
+            var lastRecord = await db.DailyCloses
+                .Where(d => d.Symbol == symbol)
+                .OrderByDescending(d => d.Date)
+                .FirstOrDefaultAsync();
+
+            // Fetch from the day after last record up to Yesterday (No partial today)
+            DateTime fromDate = lastRecord != null
+                ? lastRecord.Date.AddDays(1)
+                : DateTime.Now.AddDays(-300);
+            DateTime toDate = DateTime.Now.Date.AddDays(-1);
+
+            if (fromDate <= toDate)
             {
-                _logger.LogInformation("{Symbol} not found in DB or insufficient data. Bootstrapping...", symbol);
-                var token = tokens[symbol];
-                var toDate = DateTime.Now;
-                var fromDate = toDate.AddDays(-300);
-                var dailyData = kite.GetHistoricalData(token, fromDate, toDate, "day", false);
+                _logger.LogInformation("{Symbol}: DB data ends at {LastDate}. Fetching missing days {From} → {To} from Zerodha...",
+                    symbol, lastRecord?.Date.ToShortDateString() ?? "N/A", fromDate.ToShortDateString(), toDate.ToShortDateString());
                 
-                if (dailyData.Count > 0)
+                try
                 {
-                    await _maService.BootstrapFromHistoryAsync(symbol, dailyData);
+                    var token = tokens[symbol];
+                    var dailyData = kite.GetHistoricalData(token, fromDate, toDate, "day", false);
+                    
+                    if (dailyData?.Count > 0)
+                    {
+                        _logger.LogInformation("{Symbol}: Received {Count} new daily candles from Zerodha.", symbol, dailyData.Count);
+                        await _maService.BootstrapFromHistoryAsync(symbol, dailyData);
+                    }
+                    else
+                    {
+                        _logger.LogWarning("{Symbol}: No new daily candles returned from Zerodha.", symbol);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "{Symbol}: Failed to fetch missing daily closes from Zerodha.", symbol);
                 }
             }
             else
             {
-                _logger.LogInformation("{Symbol} indicators loaded from local database.", symbol);
+                _logger.LogInformation("{Symbol}: DB is up-to-date (last: {LastDate}). No sync needed.", symbol, lastRecord?.Date.ToShortDateString());
+            }
+
+            // Final safety re-load to ensure 3-day range is strictly previous days
+            await _maService.LoadIntoTrackerAsync(symbol);
+
+            var range = _tracker.GetThreeDayRange(symbol);
+            if (range != null)
+            {
+                _logger.LogInformation(">>> {Symbol} 3-DAY RANGE (PREV): Low {Low} - High {High} <<<", symbol, range.Value.Low, range.Value.High);
+            }
+            else
+            {
+                _logger.LogWarning("{Symbol}: 3-Day range still null after sync. DB may need more historical data.", symbol);
             }
         }
         

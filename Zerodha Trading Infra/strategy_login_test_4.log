@@ -1,0 +1,377 @@
+Using launch settings from Trading.Strategy/Properties/launchSettings.json...
+Building...
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService started. Waiting 10s for initial sync...
+info: Trading.Strategy.Services.MarketClosingService[0]
+      MarketClosingService started. Monitoring for 15:35 IST market close.
+info: Trading.Strategy.Worker[0]
+      Strategy Engine Worker starting at: 04/21/2026 18:49:22 +05:30
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Launching Playwright to automate login at https://kite.zerodha.com/connect/login?v=3&api_key=6zfzn8a4x91snnpz
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://0.0.0.0:5008
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.Strategy
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer started listening to RabbitMQ.
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Step 1 & 2: Entering Credentials...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Step 2: Entering Password...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Step 3: Waiting for TOTP prompt...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Injecting Generated TOTP (639306)...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Clicking TOTP Continue button (ignoring if missing due to auto-submit)...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Waiting for redirect request to be fired...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Redirect request intercepted: https://127.0.0.1:5000/?action=login&type=login&status=success&request_token=kE88QDKnPofraXwk2R31hjyikhopTZqa
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Generating Zerodha access token...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Access token generated and cached to access_token.json
+info: Trading.Zerodha.Services.NfoSymbolMaster[0]
+      Downloading NFO Instrument Master from Zerodha Kite...
+info: Trading.Zerodha.Services.NfoSymbolMaster[0]
+      Successfully cached 3514 NFO derivative instruments.
+info: Trading.Strategy.Worker[0]
+      Strategy Engine authenticated successfully with Zerodha.
+info: Trading.Strategy.Worker[0]
+      Pre-warming Technical Indicators...
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@__symbol_0='?' (Size = 8), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "d0"."Id", "d0"."Close", "d0"."Date", "d0"."High", "d0"."Low", "d0"."Open", "d0"."Symbol"
+      FROM (
+          SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__symbol_0
+          ORDER BY "d"."Date" DESC
+          LIMIT @__p_1
+      ) AS "d0"
+      ORDER BY "d0"."Date"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      SELECT "m"."Id", "m"."Date", "m"."EMA100", "m"."EMA200", "m"."EMA50", "m"."SMA100", "m"."SMA200", "m"."SMA50", "m"."Symbol"
+      FROM "MovingAverageSnapshots" AS "m"
+      WHERE "m"."Symbol" = @__symbol_0
+      ORDER BY "m"."Date" DESC
+      LIMIT 1
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Restored NIFTY 50 state from DB. Latest Date: 4/10/2026
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
+      FROM "DailyCloses" AS "d"
+      WHERE "d"."Symbol" = @__symbol_0
+      ORDER BY "d"."Date" DESC
+      LIMIT 1
+info: Trading.Strategy.Worker[0]
+      NIFTY 50: DB data ends at 4/10/2026. Fetching missing days 4/11/2026 → 4/21/2026 from Zerodha...
+info: Trading.Strategy.Worker[0]
+      NIFTY 50: Received 6 new daily candles from Zerodha.
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Bootstrapping NIFTY 50 from historical data (6 candles).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 8), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 8), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 8), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 8), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 8), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 8), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "d0"."Id", "d0"."Close", "d0"."Date", "d0"."High", "d0"."Low", "d0"."Open", "d0"."Symbol"
+      FROM (
+          SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__symbol_0
+          ORDER BY "d"."Date" DESC
+          LIMIT @__p_1
+      ) AS "d0"
+      ORDER BY "d0"."Date"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      SELECT "m"."Id", "m"."Date", "m"."EMA100", "m"."EMA200", "m"."EMA50", "m"."SMA100", "m"."SMA200", "m"."SMA50", "m"."Symbol"
+      FROM "MovingAverageSnapshots" AS "m"
+      WHERE "m"."Symbol" = @__symbol_0
+      ORDER BY "m"."Date" DESC
+      LIMIT 1
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Restored NIFTY 50 state from DB. Latest Date: 4/10/2026
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8), @__date_Date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
+      FROM "DailyCloses" AS "d"
+      WHERE "d"."Symbol" = @__symbol_0 AND rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "d"."Date", 'start of day'), '0'), '.') = @__date_Date_1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8), @__date_Date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "m"."Id", "m"."Date", "m"."EMA100", "m"."EMA200", "m"."EMA50", "m"."SMA100", "m"."SMA200", "m"."SMA50", "m"."Symbol"
+      FROM "MovingAverageSnapshots" AS "m"
+      WHERE "m"."Symbol" = @__symbol_0 AND rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "m"."Date", 'start of day'), '0'), '.') = @__date_Date_1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Decimal), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "MovingAverageSnapshots" ("Date", "EMA100", "EMA200", "EMA50", "SMA100", "SMA200", "SMA50", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Updated NIFTY 50 MA Snapshot for 4/21/2026
+info: Trading.Strategy.Worker[0]
+      >>> NIFTY 50 3-DAY RANGE LOADED: Low 24096.05 - High 24601.7 <<<
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "d0"."Id", "d0"."Close", "d0"."Date", "d0"."High", "d0"."Low", "d0"."Open", "d0"."Symbol"
+      FROM (
+          SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__symbol_0
+          ORDER BY "d"."Date" DESC
+          LIMIT @__p_1
+      ) AS "d0"
+      ORDER BY "d0"."Date"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      SELECT "m"."Id", "m"."Date", "m"."EMA100", "m"."EMA200", "m"."EMA50", "m"."SMA100", "m"."SMA200", "m"."SMA50", "m"."Symbol"
+      FROM "MovingAverageSnapshots" AS "m"
+      WHERE "m"."Symbol" = @__symbol_0
+      ORDER BY "m"."Date" DESC
+      LIMIT 1
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Restored NIFTY BANK state from DB. Latest Date: 4/10/2026
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
+      FROM "DailyCloses" AS "d"
+      WHERE "d"."Symbol" = @__symbol_0
+      ORDER BY "d"."Date" DESC
+      LIMIT 1
+info: Trading.Strategy.Worker[0]
+      NIFTY BANK: DB data ends at 4/10/2026. Fetching missing days 4/11/2026 → 4/21/2026 from Zerodha...
+info: Trading.Strategy.Worker[0]
+      NIFTY BANK: Received 6 new daily candles from Zerodha.
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Bootstrapping NIFTY BANK from historical data (6 candles).
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 10), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 10), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 10), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 10), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 10), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__8__locals1_symbol_0='?' (Size = 10), @__date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__8__locals1_symbol_0 AND "d"."Date" = @__date_1)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "d0"."Id", "d0"."Close", "d0"."Date", "d0"."High", "d0"."Low", "d0"."Open", "d0"."Symbol"
+      FROM (
+          SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__symbol_0
+          ORDER BY "d"."Date" DESC
+          LIMIT @__p_1
+      ) AS "d0"
+      ORDER BY "d0"."Date"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      SELECT "m"."Id", "m"."Date", "m"."EMA100", "m"."EMA200", "m"."EMA50", "m"."SMA100", "m"."SMA200", "m"."SMA50", "m"."Symbol"
+      FROM "MovingAverageSnapshots" AS "m"
+      WHERE "m"."Symbol" = @__symbol_0
+      ORDER BY "m"."Date" DESC
+      LIMIT 1
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Restored NIFTY BANK state from DB. Latest Date: 4/10/2026
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10), @__date_Date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
+      FROM "DailyCloses" AS "d"
+      WHERE "d"."Symbol" = @__symbol_0 AND rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "d"."Date", 'start of day'), '0'), '.') = @__date_Date_1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10), @__date_Date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "m"."Id", "m"."Date", "m"."EMA100", "m"."EMA200", "m"."EMA50", "m"."SMA100", "m"."SMA200", "m"."SMA50", "m"."Symbol"
+      FROM "MovingAverageSnapshots" AS "m"
+      WHERE "m"."Symbol" = @__symbol_0 AND rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "m"."Date", 'start of day'), '0'), '.') = @__date_Date_1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Decimal), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "MovingAverageSnapshots" ("Date", "EMA100", "EMA200", "EMA50", "SMA100", "SMA200", "SMA50", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Updated NIFTY BANK MA Snapshot for 4/21/2026
+info: Trading.Strategy.Worker[0]
+      >>> NIFTY BANK 3-DAY RANGE LOADED: Low 55841.65 - High 57456.3 <<<
+info: Trading.Strategy.Worker[0]
+      Finished tracking all historical data for SMAs, EMAs, and CPRs.
+info: Trading.Strategy.Worker[0]
+      Saved latest CPRs to SQLite Database.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Attempting to send report...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Reporting on 0 symbols. Metrics Ticks: 0
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sending JSON payload to Telegram...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Message sent successfully.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Report cycle complete.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sleeping for 30 minutes...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Attempting to send report...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Reporting on 0 symbols. Metrics Ticks: 0
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sending JSON payload to Telegram...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Message sent successfully.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Report cycle complete.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sleeping for 30 minutes...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Attempting to send report...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Reporting on 0 symbols. Metrics Ticks: 0
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sending JSON payload to Telegram...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Message sent successfully.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Report cycle complete.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sleeping for 30 minutes...
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+crit: Trading.Strategy.Worker[0]
+      Strategy Engine encountered a fatal error.
+      System.Threading.Tasks.TaskCanceledException: A task was canceled.
+         at Trading.Strategy.Worker.ExecuteAsync(CancellationToken stoppingToken) in /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.Strategy/Worker.cs:line 67
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      Stopping MQDataConsumer...

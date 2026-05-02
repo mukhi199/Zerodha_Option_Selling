@@ -124,7 +124,7 @@ public class CandleAggregator
         var alignedMinute = alignedMin % 60;
 
         return new DateTime(time.Year, time.Month, time.Day,
-            alignedHour, alignedMinute, 0, DateTimeKind.Local);
+            alignedHour, alignedMinute, 0, time.Kind);
     }
 
     /// <summary>

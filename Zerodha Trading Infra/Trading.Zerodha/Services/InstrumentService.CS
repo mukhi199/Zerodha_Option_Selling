@@ -83,6 +83,7 @@ public class InstrumentService
                 var ticks   = (double[])flip.y[Array.IndexOf(flip.x, "ticksize")];
                 var lots    = (long[])  flip.y[Array.IndexOf(flip.x, "lotsize")];
                 var types   = (string[])flip.y[Array.IndexOf(flip.x, "instrumenttype")];
+                var expiries = (DateTime[])flip.y[Array.IndexOf(flip.x, "expiry")];
 
                 for (int i = 0; i < n; i++)
                 {
@@ -94,7 +95,8 @@ public class InstrumentService
                         Name            = names[i],
                         TickSize        = (decimal)ticks[i],
                         LotSize         = (int)lots[i],
-                        InstrumentType  = types[i]
+                        InstrumentType  = types[i],
+                        Expiry          = expiries[i] == DateTime.MinValue ? null : expiries[i]
                     });
                 }
             }
@@ -125,7 +127,8 @@ public class InstrumentService
             TickSize        = (decimal)i.TickSize,
             LotSize         = (int)i.LotSize,
             InstrumentType  = i.InstrumentType ?? string.Empty,
-            Segment         = i.Segment        ?? string.Empty
+            Segment         = i.Segment        ?? string.Empty,
+            Expiry          = i.Expiry
         }).ToList();
     }
 
@@ -137,13 +140,14 @@ public class InstrumentService
         {
             using var conn = new c(_kdbHost, _kdbPort);
 
-            // Ensure the instruments table exists in KDB+
-            // Schema: instrumenttoken(long), tradingsymbol(sym), exchange(sym),
-            //         name(sym), ticksize(float), lotsize(long), instrumenttype(sym)
+            // Ensure the instruments table exists in KDB+ with the correct schema
+            // If the table exists but is missing the 'expiry' column, drop it for recreation
+            conn.k("if[`instruments in tables[]; if[not `expiry in cols `instruments; delete instruments from `.]];");
+
             conn.k("if[not `instruments in tables[];instruments:([]" +
                    "instrumenttoken:`long$();tradingsymbol:`symbol$();" +
                    "exchange:`symbol$();name:`symbol$();" +
-                   "ticksize:`float$();lotsize:`long$();instrumenttype:`symbol$())]");
+                   "ticksize:`float$();lotsize:`long$();instrumenttype:`symbol$();expiry:`timestamp$())]");
 
             // Batch insert
             var tokens  = instruments.Select(i => (long)i.InstrumentToken).ToArray();
@@ -153,12 +157,13 @@ public class InstrumentService
             var ticks   = instruments.Select(i => (double)i.TickSize).ToArray();
             var lots    = instruments.Select(i => (long)i.LotSize).ToArray();
             var types   = instruments.Select(i => (object)i.InstrumentType).ToArray();
+            var expiries = instruments.Select(i => i.Expiry ?? DateTime.MinValue).ToArray();
 
             conn.k("insert",
                 "instruments",
                 new c.Flip(new c.Dict(
-                    new[] { "instrumenttoken","tradingsymbol","exchange","name","ticksize","lotsize","instrumenttype" },
-                    new object[] { tokens, syms, exch, names, ticks, lots, types })));
+                    new[] { "instrumenttoken","tradingsymbol","exchange","name","ticksize","lotsize","instrumenttype","expiry" },
+                    new object[] { tokens, syms, exch, names, ticks, lots, types, expiries })));
 
             _logger.LogInformation("Seeded KDB+ instruments table with {Count} records.", instruments.Count);
         }

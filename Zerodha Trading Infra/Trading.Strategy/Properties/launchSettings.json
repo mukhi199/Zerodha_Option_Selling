@@ -4,8 +4,10 @@
     "Trading.Strategy": {
       "commandName": "Project",
       "dotnetRunMessages": true,
+      "applicationUrl": "http://0.0.0.0:5005",
       "environmentVariables": {
-        "DOTNET_ENVIRONMENT": "Development"
+        "DOTNET_ENVIRONMENT": "Development",
+        "PAPER_TRADING": "true"
       }
     }
   }

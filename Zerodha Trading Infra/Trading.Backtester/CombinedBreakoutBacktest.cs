@@ -10,16 +10,15 @@ using ClosedXML.Excel;
 namespace Trading.Backtester
 {
     /// <summary>
-    /// Combined PDLH + 3-Day Breakout Strategy
-    /// - Watches both the Previous Day Last-Hour band AND the 3-Day rolling High/Low simultaneously
-    /// - Whichever signal triggers first on a given day gets executed (max 1 trade/day)
-    /// - Only Marubozu + Engulfing patterns accepted (highest conviction)
-    /// - Fixed SL: 60 pts (Nifty) / 150 pts (BankNifty)
-    /// - EOD square-off at 15:15
+    /// Optimized Combined Engine: PDLH + 3-Day Breakout
+    /// Production settings derived from 1,296-config grid scan:
+    ///   Nifty  50  → EMA20 trend gate | SL  60pts | MinBand 40pts | Entry deadline 12:00
+    ///   Nifty BANK → EMA50 trend gate | SL 100pts | MinBand 80pts | Entry deadline 12:00
+    ///   Patterns   → Marubozu + Engulfing only
     /// </summary>
     public static class CombinedBreakoutBacktest
     {
-        // ── Pattern whitelist ────────────────────────────────────────────────
+        // ── Pattern whitelist ─────────────────────────────────────────────────
         private static readonly HashSet<CandlePatternDetector.CandlePattern> AllowedPatterns = new()
         {
             CandlePatternDetector.CandlePattern.BullishMarubozu,
@@ -28,23 +27,21 @@ namespace Trading.Backtester
             CandlePatternDetector.CandlePattern.BearishEngulfing,
         };
 
-        const decimal MinBandWidthNifty     = 60m;
-        const decimal MinBandWidthBankNifty = 120m;
-
         public static void Run()
         {
-            Console.WriteLine("\n╔══════════════════════════════════════════════════════╗");
-            Console.WriteLine("║   COMBINED (PDLH + 3-DAY) BREAKOUT BACKTEST         ║");
-            Console.WriteLine("╚══════════════════════════════════════════════════════╝\n");
+            Console.WriteLine("\n╔══════════════════════════════════════════════════════════╗");
+            Console.WriteLine("║   OPTIMIZED COMBINED ENGINE (PDLH + 3-DAY + EMA)        ║");
+            Console.WriteLine("╚══════════════════════════════════════════════════════════╝\n");
 
-            var root        = "/Users/Lenovo/Projects/Zerodha_Option_Selling";
-            var niftyFile   = Path.Combine(root, "NIFTY 50_5minute.csv");
-            var bankFile    = Path.Combine(root, "NIFTY BANK_5minute.csv");
-            var exportPath  = Path.Combine(root, "Backtest_Results_Combined.xlsx");
+            var root       = "/Users/Lenovo/Projects/Zerodha_Option_Selling";
+            var niftyFile  = Path.Combine(root, "NIFTY 50_5minute.csv");
+            var bankFile   = Path.Combine(root, "NIFTY BANK_5minute.csv");
+            var exportPath = Path.Combine(root, "Backtest_Results_Combined.xlsx");
 
-            var niftyTrades = RunSymbol("NIFTY 50",   niftyFile);
+            // Optimal configs per scanner results
+            var niftyTrades = RunSymbol("NIFTY 50",   niftyFile,  slLimit: 60m,  emaPeriod: 20, minBandWidth: 40m);
             Console.WriteLine("\n----------------------------------------------------\n");
-            var bankTrades  = RunSymbol("NIFTY BANK", bankFile);
+            var bankTrades  = RunSymbol("NIFTY BANK", bankFile,   slLimit: 100m, emaPeriod: 50, minBandWidth: 80m);
 
             using (var wb = new XLWorkbook())
             {
@@ -55,24 +52,29 @@ namespace Trading.Backtester
                 wb.SaveAs(exportPath);
             }
 
-            Console.WriteLine($"\n=== Combined Backtest Complete! ===");
+            Console.WriteLine($"\n=== Optimized Combined Backtest Complete! ===");
             Console.WriteLine($"Workbook saved to: {exportPath}");
         }
 
-        // ── Core loop ────────────────────────────────────────────────────────
-        static List<TradeRecord> RunSymbol(string symbol, string filePath)
+        static List<TradeRecord> RunSymbol(
+            string symbol, string filePath,
+            decimal slLimit, int emaPeriod, decimal minBandWidth)
         {
             var trades = new List<TradeRecord>();
             if (!File.Exists(filePath)) { Console.WriteLine($"[ERROR] {filePath}"); return trades; }
+            Console.WriteLine($"[Loading] {filePath}  (EMA{emaPeriod} | SL={slLimit} | MinBand={minBandWidth})");
 
-            Console.WriteLine($"[Loading Data] {filePath}");
+            var tracker    = new TechnicalIndicatorsTracker();
+            var entryDeadline = new TimeSpan(12, 0, 0);
+            var lastHourStart = new TimeSpan(14, 15, 0);
+            var lastHourEnd   = new TimeSpan(15, 15, 0);
 
-            decimal slLimit      = symbol == "NIFTY BANK" ? 150m : 60m;
-            decimal minBandWidth = symbol == "NIFTY BANK" ? MinBandWidthBankNifty : MinBandWidthNifty;
+            // EMA state
+            decimal emaAlpha = 2m / (emaPeriod + 1);
+            decimal emaValue = 0;
+            bool    emaReady = false;
 
-            var tracker = new TechnicalIndicatorsTracker();
-
-            bool isLong = false, isShort = false;
+            bool    isLong = false, isShort = false;
             decimal entryPrice = 0, slPrice = 0;
             string  entryStrategy = "", entryPattern = "";
             DateTime entryTime = DateTime.MinValue;
@@ -81,16 +83,18 @@ namespace Trading.Backtester
             decimal cumPnL = 0;
 
             DateTime currentDay  = DateTime.MinValue;
-            bool tradedToday     = false;
-            decimal dayHigh = decimal.MinValue, dayLow = decimal.MaxValue;
+            int      tradesToday = 0;
+            decimal  dayHigh = decimal.MinValue, dayLow = decimal.MaxValue;
+            decimal  prevDayH = 0, prevDayL = 0;
 
             decimal prevLHHigh = decimal.MinValue, prevLHLow = decimal.MaxValue;
             decimal currLHHigh = decimal.MinValue, currLHLow = decimal.MaxValue;
-            bool prevLHReady = false;
+            bool    prevLHReady = false;
 
-            var lastHourStart = new TimeSpan(14, 15, 0);
-            var lastHourEnd   = new TimeSpan(15, 15, 0);
-            var entryDeadline = new TimeSpan(12, 0, 0);
+            int candlesToday = 0;
+            decimal orbHigh = decimal.MinValue, orbLow = decimal.MaxValue, orbOpen = 0, orbClose = 0;
+            bool orbSet = false, isGapUp = false, isGapDown = false, orbIsBearish = false, orbIsBullish = false;
+            var orbEnd = new TimeSpan(9, 45, 0);
 
             Candle? prevCandle = null;
 
@@ -100,13 +104,17 @@ namespace Trading.Backtester
             string? line;
             while ((line = reader.ReadLine()) != null)
             {
-                var parts = line.Split(',');
-                if (parts.Length < 5) continue;
-                if (!DateTime.TryParse(parts[0], out DateTime ct))   continue;
-                if (!decimal.TryParse(parts[1],  out decimal open))  continue;
-                if (!decimal.TryParse(parts[2],  out decimal high))  continue;
-                if (!decimal.TryParse(parts[3],  out decimal low))   continue;
-                if (!decimal.TryParse(parts[4],  out decimal close)) continue;
+                var  p     = line.Split(',');
+                if (p.Length < 5) continue;
+                if (!DateTime.TryParse(p[0], out DateTime ct))   continue;
+                if (!decimal.TryParse(p[1],  out decimal open))  continue;
+                if (!decimal.TryParse(p[2],  out decimal high))  continue;
+                if (!decimal.TryParse(p[3],  out decimal low))   continue;
+                if (!decimal.TryParse(p[4],  out decimal close)) continue;
+
+                // ── EMA update ───────────────────────────────────────────────
+                if (!emaReady) { emaValue = close; emaReady = true; }
+                else           { emaValue = emaAlpha * close + (1 - emaAlpha) * emaValue; }
 
                 var tod = ct.TimeOfDay;
 
@@ -115,20 +123,27 @@ namespace Trading.Backtester
                 {
                     if (currentDay != DateTime.MinValue)
                     {
-                        // Commit yesterday's OHLC bounds for 3-Day tracker
                         tracker.AddDailyRange(symbol, dayHigh, dayLow);
-                        // Commit yesterday's last-hour band for PDLH
-                        prevLHHigh   = currLHHigh;
-                        prevLHLow    = currLHLow;
-                        prevLHReady  = (prevLHHigh != decimal.MinValue);
+                        prevLHHigh  = currLHHigh;
+                        prevLHLow   = currLHLow;
+                        prevLHReady = prevLHHigh != decimal.MinValue;
+                        prevDayH    = dayHigh;
+                        prevDayL    = dayLow;
                     }
                     currentDay   = ct.Date;
-                    tradedToday  = false;
+                    tradesToday  = 0;
                     dayHigh      = decimal.MinValue;
                     dayLow       = decimal.MaxValue;
                     currLHHigh   = decimal.MinValue;
                     currLHLow    = decimal.MaxValue;
                     prevCandle   = null;
+
+                    candlesToday = 0;
+                    orbHigh = decimal.MinValue; orbLow = decimal.MaxValue;
+                    orbSet = false;
+                    isGapUp = prevDayH > 0 && open > prevDayH;
+                    isGapDown = prevDayL > 0 && open < prevDayL;
+                    orbOpen = open;
                 }
 
                 dayHigh = Math.Max(dayHigh, high);
@@ -140,15 +155,27 @@ namespace Trading.Backtester
                     currLHLow  = Math.Min(currLHLow,  low);
                 }
 
-                var currCandle = new Candle { StartTime = ct, Open = open, High = high, Low = low, Close = close };
+                if (tod <= orbEnd)
+                {
+                    candlesToday++;
+                    orbHigh = Math.Max(orbHigh, high);
+                    orbLow  = Math.Min(orbLow,  low);
+                    if (candlesToday == 3)
+                    {
+                        orbClose = close; orbSet = true;
+                        orbIsBearish = orbClose < orbOpen;
+                        orbIsBullish = orbClose > orbOpen;
+                    }
+                }
+
+                var currCandle    = new Candle { StartTime = ct, Open = open, High = high, Low = low, Close = close };
                 var threeDayRange = tracker.GetThreeDayRange(symbol);
 
-                // ── Exit ─────────────────────────────────────────────────────
+                // ── Exit ──────────────────────────────────────────────────────
                 if (isLong || isShort)
                 {
-                    bool hitSL = isLong  ? low  <= slPrice : high >= slPrice;
+                    bool hitSL = isLong ? low <= slPrice : high >= slPrice;
                     bool eod   = tod >= lastHourEnd;
-
                     if (hitSL || eod)
                     {
                         decimal exitP = hitSL ? slPrice : close;
@@ -170,69 +197,73 @@ namespace Trading.Backtester
                 }
 
                 // ── Entry ─────────────────────────────────────────────────────
-                if (!isLong && !isShort && !tradedToday)
+                if (!isLong && !isShort && tradesToday < 2 && emaReady)
                 {
                     bool inWindow = tod > new TimeSpan(9, 15, 0) && tod < entryDeadline;
+                    bool bandOk   = prevLHReady && (prevLHHigh - prevLHLow) >= minBandWidth;
 
                     if (inWindow)
                     {
-                        bool isBullish = close > open;
-                        bool isBearish = close < open;
+                        bool isBullish    = close > open;
+                        bool isBearish    = close < open;
+                        // EMA trend gate: long only above EMA, short only below EMA
+                        bool emaTrending  = emaReady;
+                        bool emaBullish   = emaTrending && close > emaValue;
+                        bool emaBearish   = emaTrending && close < emaValue;
 
-                        // --- Check PDLH signal ---
-                        bool pdlhBandOk    = prevLHReady && (prevLHHigh - prevLHLow) >= minBandWidth;
-                        bool pdlhLong      = pdlhBandOk && high >= prevLHHigh && isBullish;
-                        bool pdlhShort     = pdlhBandOk && low  <= prevLHLow  && isBearish;
+                        bool pdlhLong  = bandOk && high >= prevLHHigh && isBullish && emaBullish;
+                        bool pdlhShort = bandOk && low  <= prevLHLow  && isBearish && emaBearish;
+                        bool tdLong    = threeDayRange != null && high >= threeDayRange.Value.High && isBullish && emaBullish;
+                        bool tdShort   = threeDayRange != null && low  <= threeDayRange.Value.Low  && isBearish && emaBearish;
 
-                        // --- Check 3-Day signal ---
-                        bool threeDayLong  = threeDayRange != null && high >= threeDayRange.Value.High && isBullish;
-                        bool threeDayShort = threeDayRange != null && low  <= threeDayRange.Value.Low  && isBearish;
+                        bool gapOrbLong  = orbSet && isGapDown && orbIsBullish && high >= orbHigh && isBullish;
+                        bool gapOrbShort = orbSet && isGapUp   && orbIsBearish && low  <= orbLow  && isBearish;
 
-                        bool goLong  = pdlhLong  || threeDayLong;
-                        bool goShort = pdlhShort || threeDayShort;
+                        bool goLong  = pdlhLong  || tdLong  || gapOrbLong;
+                        bool goShort = pdlhShort || tdShort || gapOrbShort;
 
                         if (goLong || goShort)
                         {
-                            // Detect pattern
-                            var p1 = CandlePatternDetector.DetectSingleCandle(currCandle);
-                            var p2 = prevCandle != null 
-                                     ? CandlePatternDetector.DetectTwoCandle(prevCandle, currCandle)
-                                     : CandlePatternDetector.CandlePattern.None;
+                            // Pattern gate
+                            var p1     = CandlePatternDetector.DetectSingleCandle(currCandle);
+                            var p2     = prevCandle != null
+                                         ? CandlePatternDetector.DetectTwoCandle(prevCandle, currCandle)
+                                         : CandlePatternDetector.CandlePattern.None;
                             var finalP = p2 != CandlePatternDetector.CandlePattern.None ? p2 : p1;
 
-                            // Pattern gate
                             if (!AllowedPatterns.Contains(finalP))
                             {
                                 prevCandle = currCandle;
                                 continue;
                             }
 
-                            entryPattern  = CandlePatternDetector.Describe(finalP);
+                            entryPattern = CandlePatternDetector.Describe(finalP);
 
                             if (goLong)
                             {
-                                // Label which strategy fired
-                                entryStrategy = (pdlhLong && threeDayLong) ? "PDLH+3Day Long"
-                                              : pdlhLong ? "PDLH Long" : "3-Day Long";
-                                entryPrice   = pdlhLong
-                                               ? Math.Max(open, prevLHHigh)
-                                               : Math.Max(open, threeDayRange!.Value.High);
-                                slPrice      = entryPrice - slLimit;
+                                entryStrategy = gapOrbLong ? "Gap Reversal ORB Long" :
+                                                (pdlhLong && tdLong) ? "PDLH+3Day Long" :
+                                                pdlhLong ? "PDLH Long" : "3-Day Long";
+                                entryPrice   = gapOrbLong ? Math.Max(open, orbHigh) :
+                                               pdlhLong ? Math.Max(open, prevLHHigh) :
+                                               Math.Max(open, threeDayRange!.Value.High);
+                                slPrice      = gapOrbLong ? orbLow : entryPrice - slLimit;
                                 isLong       = true;
                                 entryTime    = ct;
-                                tradedToday  = true;
+                                tradesToday++;
                             }
                             else
                             {
-                                entryStrategy = (pdlhShort && threeDayShort) ? "PDLH+3Day Short"
-                                              : pdlhShort ? "PDLH Short" : "3-Day Short";
-                                entryPrice   = pdlhShort
-                                               ? Math.Min(open, prevLHLow)
-                                               : Math.Min(open, threeDayRange!.Value.Low);
-                                slPrice      = entryPrice + slLimit;
+                                entryStrategy = gapOrbShort ? "Gap Reversal ORB Short" :
+                                                (pdlhShort && tdShort) ? "PDLH+3Day Short" :
+                                                pdlhShort ? "PDLH Short" : "3-Day Short";
+                                entryPrice   = gapOrbShort ? Math.Min(open, orbLow) :
+                                               pdlhShort ? Math.Min(open, prevLHLow) :
+                                               Math.Min(open, threeDayRange!.Value.Low);
+                                slPrice      = gapOrbShort ? orbHigh : entryPrice + slLimit;
                                 isShort      = true;
                                 entryTime    = ct;
-                                tradedToday  = true;
+                                tradesToday++;
                             }
                         }
                     }
@@ -241,7 +272,11 @@ namespace Trading.Backtester
                 prevCandle = currCandle;
             }
 
-            Console.WriteLine($"=== Combined Breakout Report for {symbol} ===");
+            // Console Report
+            Console.WriteLine($"\n══════ Optimized Combined Report: {symbol} ══════");
+            Console.WriteLine($"EMA Period:        EMA{emaPeriod}");
+            Console.WriteLine($"Stop Loss:         {slLimit} pts");
+            Console.WriteLine($"Min PDLH Band:     {minBandWidth} pts");
             Console.WriteLine($"Total Trades:      {totalTrades}");
             Console.WriteLine($"Winning Trades:    {wins}");
             Console.WriteLine($"Losing Trades:     {losses}");
@@ -249,31 +284,31 @@ namespace Trading.Backtester
                 Console.WriteLine($"Win Rate:          {((double)wins / totalTrades * 100):F2}%");
             Console.WriteLine($"Cumulative Profit: {cumPnL:F2} Points");
 
-            Console.WriteLine("\n--- Strategy Source Breakdown ---");
+            // Strategy source breakdown
+            Console.WriteLine("\n--- Strategy Source ---");
             foreach (var g in trades.GroupBy(t => t.Strategy).OrderByDescending(g => g.Sum(x => x.PnL)))
             {
-                int cnt  = g.Count();
-                int w    = g.Count(t => t.PnL > 0);
+                int cnt = g.Count(), w = g.Count(t => t.PnL > 0);
                 double wr = cnt > 0 ? (double)w / cnt * 100 : 0;
                 decimal pl = g.Sum(t => t.PnL);
-                Console.WriteLine($"{g.Key,-22} | Trades: {cnt,4} | WinRate: {wr,5:F1}% | PnL: {pl,9:F2}");
+                Console.WriteLine($"{g.Key,-22} | {cnt,4} trades | {wr,5:F1}% WR | {pl,9:F2} pts");
             }
 
-            Console.WriteLine("\n--- Pattern Performance ---");
-            foreach (var g in trades.GroupBy(t => t.BreakoutPattern).OrderByDescending(g => g.Sum(x => x.PnL)))
+            // Yearly rollup
+            Console.WriteLine("\n--- Yearly Breakdown ---");
+            foreach (var g in trades.GroupBy(t => t.EntryTime.Year).OrderBy(g => g.Key))
             {
-                int cnt  = g.Count();
-                int w    = g.Count(t => t.PnL > 0);
+                int cnt = g.Count(), w = g.Count(t => t.PnL > 0);
                 double wr = cnt > 0 ? (double)w / cnt * 100 : 0;
                 decimal pl = g.Sum(t => t.PnL);
-                Console.WriteLine($"{g.Key,-20} | Trades: {cnt,4} | WinRate: {wr,5:F1}% | PnL: {pl,9:F2}");
+                Console.WriteLine($"{g.Key} | {cnt,4} trades | {wr,5:F1}% WR | {pl,8:F2} pts");
             }
-            Console.WriteLine("----------------------------------\n");
+            Console.WriteLine();
 
             return trades;
         }
 
-        // ── Excel helpers ────────────────────────────────────────────────────
+        // ── Excel Helpers ─────────────────────────────────────────────────────
         static void WriteTradeSheet(XLWorkbook wb, string name, List<TradeRecord> trades)
         {
             var ws = wb.Worksheets.Add(name);

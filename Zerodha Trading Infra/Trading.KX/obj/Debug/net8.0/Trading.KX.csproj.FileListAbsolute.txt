@@ -15,3 +15,4 @@
 /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.KX/obj/Debug/net8.0/refint/Trading.KX.dll
 /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.KX/obj/Debug/net8.0/Trading.KX.pdb
 /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.KX/obj/Debug/net8.0/ref/Trading.KX.dll
+/Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.KX/obj/Debug/net8.0/Trading.KX.sourcelink.json

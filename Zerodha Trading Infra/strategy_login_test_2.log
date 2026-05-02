@@ -1,0 +1,100 @@
+Using launch settings from Trading.Strategy/Properties/launchSettings.json...
+Building...
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService started. Waiting 10s for initial sync...
+info: Trading.Strategy.Services.MarketClosingService[0]
+      MarketClosingService started. Monitoring for 15:35 IST market close.
+info: Trading.Strategy.Worker[0]
+      Strategy Engine Worker starting at: 04/21/2026 18:20:12 +05:30
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Launching Playwright to automate login at https://kite.zerodha.com/connect/login?v=3&api_key=6zfzn8a4x91snnpz
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://0.0.0.0:5006
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.Strategy
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer started listening to RabbitMQ.
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Step 1 & 2: Entering Credentials...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Step 2: Entering Password...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Step 3: Waiting for TOTP prompt...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Injecting Generated TOTP (535731)...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Clicking TOTP Continue button (ignoring if missing due to auto-submit)...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Waiting for route interception to capture request_token...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Attempting to send report...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Reporting on 0 symbols. Metrics Ticks: 0
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sending JSON payload to Telegram...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Message sent successfully.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Report cycle complete.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sleeping for 30 minutes...
+fail: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Route interception timed out. Page URL=chrome-error://chromewebdata/ Title=. Screenshot: /tmp/zerodha_debug.png
+fail: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Failed to automate browser login safely. Check permissions or network.
+      System.TimeoutException: Timed out waiting for Zerodha redirect URL containing request_token.
+         at Trading.Zerodha.Services.ZerodhaAuthService.EnsureAccessTokenAsync() in /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.Zerodha/Services/ZerodhaAuthService.CS:line 163
+         at Trading.Zerodha.Services.ZerodhaAuthService.EnsureAccessTokenAsync() in /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.Zerodha/Services/ZerodhaAuthService.CS:line 168
+crit: Trading.Strategy.Worker[0]
+      Strategy Engine encountered a fatal error.
+      System.TimeoutException: Timed out waiting for Zerodha redirect URL containing request_token.
+         at Trading.Zerodha.Services.ZerodhaAuthService.EnsureAccessTokenAsync() in /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.Zerodha/Services/ZerodhaAuthService.CS:line 163
+         at Trading.Zerodha.Services.ZerodhaAuthService.EnsureAccessTokenAsync() in /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.Zerodha/Services/ZerodhaAuthService.CS:line 168
+         at Trading.Strategy.Worker.ExecuteAsync(CancellationToken stoppingToken) in /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.Strategy/Worker.cs:line 52
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Attempting to send report...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Reporting on 0 symbols. Metrics Ticks: 0
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sending JSON payload to Telegram...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Message sent successfully.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Report cycle complete.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sleeping for 30 minutes...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Attempting to send report...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Reporting on 0 symbols. Metrics Ticks: 0
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sending JSON payload to Telegram...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Message sent successfully.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Report cycle complete.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sleeping for 30 minutes...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Attempting to send report...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Reporting on 0 symbols. Metrics Ticks: 0
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sending JSON payload to Telegram...
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Message sent successfully.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Report cycle complete.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService: Sleeping for 30 minutes...
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      Stopping MQDataConsumer...

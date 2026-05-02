@@ -25,19 +25,36 @@ public class ZerodhaStreamer
     private Dictionary<uint, string> _tokensToSymbols = new();
     private readonly object    _reconnectLock = new();
     private bool               _running;
+    private long               _totalTicks;
+    private Timer?             _statusTimer;
+
+    private readonly string    _tgBotToken;
+    private readonly string    _tgChatId;
+    private readonly string    _tgProviderUrl;
+    private readonly HttpClient _httpClient = new();
+
+    // ── Debounce fields ────────────────────────────────────────────────────
+    private System.Threading.CancellationTokenSource? _pendingAlertCts;
+    private bool _isCurrentlyDisconnected = false;
 
     public ZerodhaStreamer(
         string apiKey,
         MQPublisher mqPublisher,
         TickBuffer tickBuffer,
         CandleAggregator candleAggregator,
-        ILogger<ZerodhaStreamer> logger)
+        ILogger<ZerodhaStreamer> logger,
+        string tgBotToken,
+        string tgChatId,
+        string tgProviderUrl)
     {
         _apiKey          = apiKey;
         _mqPublisher     = mqPublisher;
         _tickBuffer      = tickBuffer;
         _candleAggregator = candleAggregator;
         _logger          = logger;
+        _tgBotToken      = tgBotToken;
+        _tgChatId        = tgChatId;
+        _tgProviderUrl   = tgProviderUrl;
     }
 
     /// <summary>
@@ -51,8 +68,26 @@ public class ZerodhaStreamer
         _running          = true;
 
         _logger.LogInformation("ZerodhaStreamer: connecting with {Count} instruments...", _tokensToSymbols.Count);
-
+        _statusTimer = new Timer(BroadcastStatus, null, 10000, 10000);
         Connect();
+    }
+
+    private void BroadcastStatus(object? state)
+    {
+        try
+        {
+            _logger.LogInformation("ZerodhaStreamer: Broadcasting SystemStatus Heartbeat. Ticks: {Ticks}", _totalTicks);
+            _mqPublisher.PublishStatus(new SystemStatus
+            {
+                WebSocketConnected = true,
+                TicksProcessed = _totalTicks,
+                ServerTime = DateTime.Now
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to broadcast status.");
+        }
     }
 
     public void Stop()
@@ -81,20 +116,77 @@ public class ZerodhaStreamer
     private void OnConnect()
     {
         _logger.LogInformation("ZerodhaStreamer: WebSocket connected. Subscribing to {Count} tokens.", _tokensToSymbols.Count);
+        
+        // Cancel any pending "Connection Lost" alert
+        _pendingAlertCts?.Cancel();
+
+        if (_isCurrentlyDisconnected)
+        {
+            SendTelegramAlert("✅ Zerodha WebSocket RECONNECTED.");
+            _isCurrentlyDisconnected = false;
+        }
+        else
+        {
+            SendTelegramAlert($"✅ Zerodha WebSocket Connected. Subscribing to {_tokensToSymbols.Count} tokens.");
+        }
 
         var tokensArray = _tokensToSymbols.Keys.ToArray();
         _ticker!.Subscribe(tokensArray);
-        _ticker!.SetMode(tokensArray, "full");
+        _ticker!.SetMode(tokensArray, "quote");
+        
+        // Tiered Subscription:
+        // NSE Spot (256265, 260105) -> Use "ltp" 
+        // Others (NFO) -> Use "quote"
+        var indices = tokensArray.Where(t => t == 256265 || t == 260105).ToArray();
+        var others  = tokensArray.Where(t => t != 256265 && t != 260105).ToArray();
+
+        if (indices.Length > 0)
+        {
+            _logger.LogInformation("Setting mode:quote for {Count} indices.", indices.Length);
+            _ticker!.SetMode(indices, "quote");
+        }
+        if (others.Length > 0)
+        {
+            _logger.LogInformation("Setting mode:quote for {Count} others.", others.Length);
+            _ticker!.SetMode(others, "quote");
+        }
     }
 
     private void OnClose()
     {
         _logger.LogWarning("ZerodhaStreamer: WebSocket closed. Reconnect will be attempted by the SDK.");
+        ScheduleAlert("⚠️ Zerodha WebSocket CLOSED. Reconnecting...");
     }
 
     private void OnError(string message)
     {
         _logger.LogError("ZerodhaStreamer: WebSocket error: {Message}", message);
+        ScheduleAlert($"❌ Zerodha WebSocket ERROR: {message}");
+    }
+
+    private void ScheduleAlert(string message, int delayMs = 5000)
+    {
+        _pendingAlertCts?.Cancel();
+        _pendingAlertCts = new System.Threading.CancellationTokenSource();
+        var token = _pendingAlertCts.Token;
+
+        Task.Run(async () =>
+        {
+            try
+            {
+                await Task.Delay(delayMs, token);
+                if (!token.IsCancellationRequested)
+                {
+                    SendTelegramAlert(message);
+                    _isCurrentlyDisconnected = true;
+                }
+            }
+            catch (TaskCanceledException) { /* Flicker resolved */ }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed in ScheduleAlert task.");
+            }
+        });
     }
 
     private void OnNoReconnect()
@@ -119,18 +211,26 @@ public class ZerodhaStreamer
 
     private void HandleTicks(Tick tick)
     {
+        var symbol = _tokensToSymbols.GetValueOrDefault(tick.InstrumentToken, tick.InstrumentToken.ToString());
+        
+        // Explicit override for indices to ensure Strategy Engine recognizes them
+        if (tick.InstrumentToken == 256265) symbol = "NIFTY 50";
+        if (tick.InstrumentToken == 260105) symbol = "NIFTY BANK";
+
         var normalized = new NormalizedTick
         {
-            Symbol          = _tokensToSymbols.GetValueOrDefault(tick.InstrumentToken, tick.InstrumentToken.ToString()),
+            Symbol          = symbol,
             InstrumentToken = tick.InstrumentToken,
             Price           = tick.LastPrice,
             Volume          = tick.Volume,
             OpenInterest    = tick.OI,
             BidPrice        = tick.Bids?.Length > 0 ? tick.Bids[0].Price : 0m,
             AskPrice        = tick.Offers?.Length > 0 ? tick.Offers[0].Price : 0m,
-            ExchangeTime    = tick.Timestamp ?? DateTime.Now,
+            ExchangeTime    = (tick.Timestamp ?? DateTime.Now).ToUniversalTime(),
             ReceivedAt      = DateTime.UtcNow
         };
+        
+        Interlocked.Increment(ref _totalTicks);
 
         // 1. Publish raw tick to RabbitMQ
         _mqPublisher.PublishTick(normalized);
@@ -140,5 +240,19 @@ public class ZerodhaStreamer
 
         // 3. Feed into OHLC aggregator (generates closed candles → MQ + CandleBuffer)
         _candleAggregator.ProcessTick(normalized);
+    }
+
+    private void SendTelegramAlert(string message)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(_tgBotToken) || string.IsNullOrWhiteSpace(_tgChatId)) return;
+            string url = $"{_tgProviderUrl}/bot{_tgBotToken}/sendMessage?chat_id={_tgChatId}&text={Uri.EscapeDataString(message)}";
+            _httpClient.GetAsync(url); // Fire and forget
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to send Telegram alert.");
+        }
     }
 }

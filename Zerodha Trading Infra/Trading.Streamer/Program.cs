@@ -66,7 +66,7 @@ builder.Services.AddSingleton<KdbTester>(sp => new KdbTester(
 
 // ── Zerodha Layer ─────────────────────────────────────────────────────────
 builder.Services.AddSingleton<ZerodhaAuthService>(sp => new ZerodhaAuthService(
-    apiKey, apiSecret, tokenFile,
+    config,
     sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<ZerodhaAuthService>>()));
 
 builder.Services.AddSingleton<InstrumentService>(sp => new InstrumentService(
@@ -78,10 +78,14 @@ builder.Services.AddSingleton<ZerodhaStreamer>(sp => new ZerodhaStreamer(
     sp.GetRequiredService<MQPublisher>(),
     sp.GetRequiredService<TickBuffer>(),
     sp.GetRequiredService<CandleAggregator>(),
-    sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<ZerodhaStreamer>>()));
+    sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<ZerodhaStreamer>>(),
+    config["TelegramSettings:BotToken"] ?? string.Empty,
+    config["TelegramSettings:ChatId"] ?? string.Empty,
+    config["TelegramSettings:ProviderUrl"] ?? "https://api.telegram.org"));
 
 // ── Main Worker ───────────────────────────────────────────────────────────
 builder.Services.AddHostedService<Worker>();
+builder.Services.AddHostedService<MarketClosingService>();
 
 // ── Build & Run ───────────────────────────────────────────────────────────
 var host = builder.Build();

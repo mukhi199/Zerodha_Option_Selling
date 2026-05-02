@@ -21,6 +21,7 @@ using Trading.Core.Utils;
 public class CprBounceStrategy : IStrategy
 {
     private readonly TechnicalIndicatorsTracker _tracker;
+    private readonly IStrategicStateStore        _stateStore;
     private readonly ILogger<CprBounceStrategy> _logger;
 
     // Track day-open and previous candle per symbol
@@ -37,10 +38,11 @@ public class CprBounceStrategy : IStrategy
         "NIFTY 50", "NIFTY BANK"
     };
 
-    public CprBounceStrategy(TechnicalIndicatorsTracker tracker, ILogger<CprBounceStrategy> logger)
+    public CprBounceStrategy(TechnicalIndicatorsTracker tracker, IStrategicStateStore stateStore, ILogger<CprBounceStrategy> logger)
     {
-        _tracker = tracker;
-        _logger  = logger;
+        _tracker    = tracker;
+        _stateStore = stateStore;
+        _logger     = logger;
     }
 
     // ── IStrategy.OnTick ───────────────────────────────────────────────────
@@ -94,6 +96,15 @@ public class CprBounceStrategy : IStrategy
 
         // ── 4. Check if current candle touches CPR zone ───────────────
         bool touchesCpr = CandleTouchesCpr(candle, dailyCpr);
+        
+        // Update State Store
+        _stateStore.UpdateSymbolState(sym, s => {
+            s.Pivot = dailyCpr.Pivot;
+            s.Bc = dailyCpr.BottomCentral;
+            s.Tc = dailyCpr.TopCentral;
+            if (touchesCpr) dailyCpr.TouchedToday = true;
+            s.IsVirginCpr = !dailyCpr.TouchedToday;
+        });
 
         if (!touchesCpr)
         {

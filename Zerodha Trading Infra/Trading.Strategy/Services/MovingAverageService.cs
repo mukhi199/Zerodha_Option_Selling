@@ -36,6 +36,46 @@ public class MovingAverageService
         foreach (var c in closes)
         {
             _tracker.AddClosePrice(symbol, c.Close);
+            
+            // Only add to the 3-Day Daily Range history if it's a COMPLETED day (Yesterday or older)
+            if (c.Date.Date < DateTime.Today)
+            {
+                _tracker.AddDailyRange(symbol, c.High, c.Low);
+            }
+        }
+
+        // ── Seed CPR Levels Dynamically ──
+        var lastDay = closes.Last();
+        _tracker.SetDailyCPR(symbol, lastDay.High, lastDay.Low, lastDay.Close);
+
+        var today = DateTime.Today;
+        // Previous Calendar Week
+        int diff = (7 + (today.DayOfWeek - DayOfWeek.Monday)) % 7;
+        var startOfCurrentWeek = today.AddDays(-1 * diff).Date;
+        var startOfLastWeek = startOfCurrentWeek.AddDays(-7);
+        var endOfLastWeek = startOfCurrentWeek.AddDays(-1);
+        
+        var weekCandles = closes.Where(c => c.Date >= startOfLastWeek && c.Date <= endOfLastWeek).ToList();
+        if (weekCandles.Any())
+        {
+            var wHigh = weekCandles.Max(c => c.High);
+            var wLow = weekCandles.Min(c => c.Low);
+            var wClose = weekCandles.Last().Close;
+            _tracker.SetWeeklyCPR(symbol, wHigh, wLow, wClose);
+        }
+
+        // Previous Calendar Month
+        var startOfCurrentMonth = new DateTime(today.Year, today.Month, 1);
+        var startOfLastMonth = startOfCurrentMonth.AddMonths(-1);
+        var endOfLastMonth = startOfCurrentMonth.AddDays(-1);
+        
+        var monthCandles = closes.Where(c => c.Date >= startOfLastMonth && c.Date <= endOfLastMonth).ToList();
+        if (monthCandles.Any())
+        {
+            var mHigh = monthCandles.Max(c => c.High);
+            var mLow = monthCandles.Min(c => c.Low);
+            var mClose = monthCandles.Last().Close;
+            _tracker.SetMonthlyCPR(symbol, mHigh, mLow, mClose);
         }
 
         // Also try to load the latest snapshot to restore EMA values correctly
