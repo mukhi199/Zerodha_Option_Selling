@@ -68,18 +68,29 @@ namespace Trading.Zerodha.Services
             _initializedEvent.Wait(); // Block until initialized
             string baseSymbol = spotSymbol == "NIFTY 50" ? "NIFTY" : "BANKNIFTY";
             
-            // Find the closest future expiry
-            var future = _nfoInstruments
-                .Where(i => i.Name == baseSymbol && i.InstrumentType == "FUT" && i.Expiry >= DateTime.UtcNow.Date)
+            var today = DateTime.Now.Date;
+
+            // On expiry day: skip any contract expiring today, use the NEXT one.
+            // On any other day: use the nearest contract (even if it expires today).
+            var futures = _nfoInstruments
+                .Where(i => i.Name == baseSymbol && i.InstrumentType == "FUT" && i.Expiry.HasValue)
                 .OrderBy(i => i.Expiry)
-                .FirstOrDefault();
+                .ToList();
+
+            // Try next-month future first if today is expiry day
+            var validFutures = futures.Where(i => i.Expiry!.Value.Date > today).ToList();
+            if (!validFutures.Any())
+                validFutures = futures.Where(i => i.Expiry!.Value.Date >= today).ToList();
+
+            var future = validFutures.FirstOrDefault();
 
             if (!string.IsNullOrEmpty(future.TradingSymbol))
                 return (future.TradingSymbol, (int)future.LotSize);
             
             // Fallback default
-            return ($"{baseSymbol}24MAYFUT", spotSymbol == "NIFTY 50" ? 25 : 15);
+            return ($"{baseSymbol}26MAYFUT", spotSymbol == "NIFTY 50" ? 25 : 15);
         }
+
 
         public (string TradingSymbol, int LotSize) GetActiveOtmOption(string spotSymbol, decimal currentPrice, bool isPut)
         {

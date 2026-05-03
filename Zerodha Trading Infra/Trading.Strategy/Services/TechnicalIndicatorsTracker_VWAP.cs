@@ -9,6 +9,18 @@ public partial class TechnicalIndicatorsTracker
     private readonly ConcurrentDictionary<string, decimal> _vwapCumulativeVolume = new();
     private readonly ConcurrentDictionary<string, decimal> _vwapCumulativeSquaredPriceVolume = new();
 
+    // Latest volume from the futures contract (spot symbols have no volume)
+    private readonly ConcurrentDictionary<string, decimal> _futuresVolume = new();
+
+    /// <summary>
+    /// Called when a futures candle arrives — stores the volume so UpdateVwap can use it
+    /// instead of the always-zero spot volume.
+    /// </summary>
+    public void SetFuturesVolume(string spotSymbol, decimal volume)
+    {
+        _futuresVolume[spotSymbol] = volume;
+    }
+
     public void ResetVwap(string symbol)
     {
         _vwapCumulativePriceVolume[symbol] = 0;
@@ -18,15 +30,19 @@ public partial class TechnicalIndicatorsTracker
 
     public void UpdateVwap(string symbol, decimal high, decimal low, decimal close, decimal volume)
     {
+        // Prefer futures volume (spot instruments report zero volume on NSE indices)
+        decimal effectiveVolume = _futuresVolume.TryGetValue(symbol, out var fv) && fv > 0 ? fv : volume;
+
         decimal typicalPrice = (high + low + close) / 3m;
         
-        decimal pV = typicalPrice * volume;
-        decimal pPsqV = typicalPrice * typicalPrice * volume;
+        decimal pV    = typicalPrice * effectiveVolume;
+        decimal pPsqV = typicalPrice * typicalPrice * effectiveVolume;
 
         _vwapCumulativePriceVolume.AddOrUpdate(symbol, pV, (_, existing) => existing + pV);
-        _vwapCumulativeVolume.AddOrUpdate(symbol, volume, (_, existing) => existing + volume);
+        _vwapCumulativeVolume.AddOrUpdate(symbol, effectiveVolume, (_, existing) => existing + effectiveVolume);
         _vwapCumulativeSquaredPriceVolume.AddOrUpdate(symbol, pPsqV, (_, existing) => existing + pPsqV);
     }
+
 
     public decimal? GetVwap(string symbol)
     {

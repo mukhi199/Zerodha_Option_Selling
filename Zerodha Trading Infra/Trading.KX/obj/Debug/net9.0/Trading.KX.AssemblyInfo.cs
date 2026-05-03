@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Trading.KX")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c0000e1e5dc2347134c1cd0ededbaa4024089ace")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+23c7396abd644df0a4c4bc424b5ab1b86bf156b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("Trading.KX")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Trading.KX")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
