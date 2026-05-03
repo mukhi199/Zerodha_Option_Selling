@@ -102,7 +102,7 @@ namespace Trading.Strategy.Services
         private readonly IStrategicStateStore _stateStore;
 
         private readonly ConcurrentDictionary<string, SymbolState> _states = new();
-        private readonly TimeSpan _entryDeadline  = new TimeSpan(12, 0,  0);
+        private readonly TimeSpan _entryDeadline  = new TimeSpan(14, 30, 0); // FIX: Extended from 12:00 to 14:30 to capture afternoon moves
         private readonly TimeSpan _lastHourStart  = new TimeSpan(14, 15, 0);
         private readonly TimeSpan _lastHourEnd    = new TimeSpan(15, 15, 0);
         private readonly TimeSpan _squareOffTime  = new TimeSpan(15, 15, 0);
@@ -210,6 +210,9 @@ namespace Trading.Strategy.Services
                 state.EmaValue = emaAlpha * candle.Close + (1 - emaAlpha) * state.EmaValue;
             }
 
+            // ── Update Indicators ──
+            _tracker.UpdateVwap(candle.Symbol, candle.High, candle.Low, candle.Close, candle.Volume);
+
             // ── Day Rollover ──
             if (state.CurrentDay == DateTime.MinValue || localTime.Date > state.CurrentDay.Date)
             {
@@ -221,6 +224,11 @@ namespace Trading.Strategy.Services
                     state.PrevLHReady = state.PrevLHHigh != decimal.MinValue;
                     state.PrevDayH    = state.DayHigh;
                     state.PrevDayL    = state.DayLow;
+
+                    // FIX: Health check log so we can see if PrevLH data is populating correctly
+                    _logger.LogInformation("[{Symbol}] Day Rollover: PrevLHReady={Ready} | H={H} L={L} | Band={Band:F1}pts (Min={Min})",
+                        candle.Symbol, state.PrevLHReady, state.PrevLHHigh, state.PrevLHLow,
+                        state.PrevLHHigh - state.PrevLHLow, state.MinBandWidth);
                 }
 
                 state.CurrentDay  = localTime.Date;
@@ -230,6 +238,8 @@ namespace Trading.Strategy.Services
                 state.CurrLHHigh  = decimal.MinValue;
                 state.CurrLHLow   = decimal.MaxValue;
                 state.PrevCandle  = null;
+                
+                _tracker.ResetVwap(candle.Symbol);
 
                 // FIX #2 ↓ — reset both counters on day rollover (was resetting single CandlesToday)
                 state.OrbCandleCount  = 0;  // FIX #2
@@ -358,8 +368,19 @@ namespace Trading.Strategy.Services
             bool emaBearish = candle.Close < state.EmaValue;
             bool bandOk     = state.PrevLHReady && (state.PrevLHHigh - state.PrevLHLow) >= state.MinBandWidth;
 
-            bool pdlhLong  = bandOk && candle.High >= state.PrevLHHigh && isBullish && emaBullish;
-            bool pdlhShort = bandOk && candle.Low  <= state.PrevLHLow  && isBearish && emaBearish;
+            // ── RSI Filter ──────────────────────────────────────────────────────
+            var rsiData  = _tracker.GetRsiAndRma(candle.Symbol);
+            bool rsiReady = rsiData.HasValue;
+            decimal rsi   = rsiReady ? rsiData!.Value.Rsi : 50m;
+
+            bool rsiLong     = !rsiReady || rsi > 55m;
+            bool rsiShort    = !rsiReady || rsi < 45m;
+            bool rsiGapLong  = !rsiReady || rsi > 52m;  // Softer threshold for gap days
+            bool rsiGapShort = !rsiReady || rsi < 48m;
+            // ────────────────────────────────────────────────────────────────────
+
+            bool pdlhLong  = bandOk && candle.High >= state.PrevLHHigh && isBullish && emaBullish && rsiLong;
+            bool pdlhShort = bandOk && candle.Low  <= state.PrevLHLow  && isBearish && emaBearish && rsiShort;
 
             var threeDayRange = _tracker.GetThreeDayRange(state.Symbol);
             if (threeDayRange != null)
@@ -374,47 +395,84 @@ namespace Trading.Strategy.Services
                 if (state.HasBroken3DL && candle.High >= threeDayRange.Value.Low  - bufferL) state.HasRetraced3DL = true;
             }
 
-            bool tdLongInitial     = threeDayRange != null && candle.High >= threeDayRange.Value.High && isBullish && emaBullish;
-            bool tdLongRetracement = threeDayRange != null && state.HasRetraced3DH && candle.Close > threeDayRange.Value.High && isBullish && emaBullish;
+            // RSI gates applied: >55 for longs, <45 for shorts (3-day momentum)
+            bool tdLongInitial     = threeDayRange != null && candle.High >= threeDayRange.Value.High && isBullish && rsiLong;
+            bool tdLongRetracement = threeDayRange != null && state.HasRetraced3DH && candle.Close > threeDayRange.Value.High && isBullish && rsiLong;
             bool tdLong            = tdLongInitial || tdLongRetracement;
 
-            bool tdShortInitial     = threeDayRange != null && candle.Low <= threeDayRange.Value.Low && isBearish && emaBearish;
-            bool tdShortRetracement = threeDayRange != null && state.HasRetraced3DL && candle.Close < threeDayRange.Value.Low && isBearish && emaBearish;
+            bool tdShortInitial     = threeDayRange != null && candle.Low <= threeDayRange.Value.Low && isBearish && rsiShort;
+            bool tdShortRetracement = threeDayRange != null && state.HasRetraced3DL && candle.Close < threeDayRange.Value.Low && isBearish && rsiShort;
             bool tdShort            = tdShortInitial || tdShortRetracement;
 
-            bool gapOrbLong  = state.OrbSet && state.IsGapDown && state.OrbIsBullish && candle.High >= state.OrbHigh && isBullish;
-            bool gapOrbShort = state.OrbSet && state.IsGapUp   && state.OrbIsBearish && candle.Low  <= state.OrbLow  && isBearish;
+            bool gapOrbLong  = state.OrbSet && state.IsGapDown && state.OrbIsBullish && candle.High >= state.OrbHigh && isBullish && rsiGapLong;
+            bool gapOrbShort = state.OrbSet && state.IsGapUp   && state.OrbIsBearish && candle.Low  <= state.OrbLow  && isBearish && rsiGapShort;
 
             bool goLong  = pdlhLong  || tdLong  || gapOrbLong;
             bool goShort = pdlhShort || tdShort || gapOrbShort;
 
-            // -----------------------------------------------------------------
-            // FIX #5 — Proximity suggestion log throttled to once every 5 candles.
-            //
-            // ORIGINAL CODE: fired a LogWarning on every candle where price was
-            // within 0.2% of a key level. In a trending market this floods the
-            // log with dozens of identical suggestion lines per minute.
-            //
-            // FIX: track ScanCandleCount per symbol; only log every 5th candle.
-            // -----------------------------------------------------------------
-            state.ScanCandleCount++;  // FIX #2 + FIX #5: dedicated scan counter
-            bool shouldLogSuggestion = (state.ScanCandleCount % 5 == 0);  // FIX #5
+            // ── Status Pulse Log (every 5 candles) ──────────────────────────────
+            // Shows all key levels, distances, and live trigger states so the
+            // user can monitor what the engine is watching in real-time.
+            // ────────────────────────────────────────────────────────────────────
+            state.ScanCandleCount++;
+            bool shouldLogSuggestion = (state.ScanCandleCount % 5 == 0);
 
-            if (threeDayRange != null && candle.Close > 0 && shouldLogSuggestion)  // FIX #5
+            if (shouldLogSuggestion)
             {
-                decimal onePct    = candle.Close * 0.002m;
-                bool nearTdHigh   = Math.Abs(candle.Close - threeDayRange.Value.High) <= onePct;
-                bool nearTdLow    = Math.Abs(candle.Close - threeDayRange.Value.Low)  <= onePct;
+                decimal price = candle.Close;
+                string tdHighStr = threeDayRange != null
+                    ? $"{threeDayRange.Value.High:N1} (dist={price - threeDayRange.Value.High:+0.#;-0.#;0})"
+                    : "N/A";
+                string tdLowStr  = threeDayRange != null
+                    ? $"{threeDayRange.Value.Low:N1}  (dist={price - threeDayRange.Value.Low:+0.#;-0.#;0})"
+                    : "N/A";
+                string pdlhHighStr = state.PrevLHReady
+                    ? $"{state.PrevLHHigh:N1} (dist={price - state.PrevLHHigh:+0.#;-0.#;0})"
+                    : "NOT READY";
+                string pdlhLowStr  = state.PrevLHReady
+                    ? $"{state.PrevLHLow:N1}  (dist={price - state.PrevLHLow:+0.#;-0.#;0})"
+                    : "NOT READY";
+                string orbStr = state.OrbSet
+                    ? $"H={state.OrbHigh:N1} L={state.OrbLow:N1}"
+                    : "NOT SET";
 
-                if (nearTdHigh && emaBullish)
-                    _logger.LogWarning("[{Symbol}] SUGGESTION: Price {Price:N1} approaching 3-Day High {High:N1}. Bullish Marubozu/Engulfing here = LONG.",
-                        candle.Symbol, candle.Close, threeDayRange.Value.High);
-                else if (nearTdLow && emaBearish)
-                    _logger.LogWarning("[{Symbol}] SUGGESTION: Price {Price:N1} approaching 3-Day Low {Low:N1}. Bearish Marubozu/Engulfing here = SHORT.",
-                        candle.Symbol, candle.Close, threeDayRange.Value.Low);
+                _logger.LogInformation(
+                    "\n╔══════════════ STATUS PULSE [{Symbol}] @ {Time} ══════════════╗\n" +
+                    "║  Price : {Price:N2}   EMA{Ep}: {Ema:N2}   [{EmaDir}]  RSI: {Rsi:N1}\n" +
+                    "║  3-Day High : {TdH}   Broken={BrH}  Retraced={RtH}  → tdLong={TdL}\n" +
+                    "║  3-Day Low  : {TdLo}  Broken={BrL}  Retraced={RtL}  → tdShort={TdS}\n" +
+                    "║  PDLH High  : {Ph}   pdlhLong={PdL}  BandOk={Bo}\n" +
+                    "║  PDLH Low   : {Pl}   pdlhShort={PdS}\n" +
+                    "║  ORB        : {Orb}   GapUp={Gu}  GapDown={Gd}  orbLong={OL}  orbShort={OS}\n" +
+                    "║  Trades Today: {Tt}/2   InWindow: {Iw}   GoLong={GL}  GoShort={GS}\n" +
+                    "╚══════════════════════════════════════════════════════╝",
+                    candle.Symbol, localTime.ToString("HH:mm"),
+                    price, state.EmaPeriod, state.EmaValue,
+                    emaBullish ? "BULL↑" : (emaBearish ? "BEAR↓" : "FLAT"), rsi,
+                    tdHighStr, state.HasBroken3DH, state.HasRetraced3DH, tdLong,
+                    tdLowStr,  state.HasBroken3DL, state.HasRetraced3DL, tdShort,
+                    pdlhHighStr, pdlhLong, bandOk,
+                    pdlhLowStr,  pdlhShort,
+                    orbStr, state.IsGapUp, state.IsGapDown, gapOrbLong, gapOrbShort,
+                    state.TradesToday, inWindow, goLong, goShort
+                );
             }
 
-            if (bandOk && state.PrevLHHigh > 0 && candle.Close > 0 && shouldLogSuggestion)  // FIX #5
+            // RSI Rejection Log — visible whenever a breakout is structurally valid but RSI blocked it
+            if (!goLong && !goShort && rsiReady && shouldLogSuggestion)
+            {
+                bool structLong  = (bandOk && candle.High >= state.PrevLHHigh && isBullish && emaBullish)
+                                 || (threeDayRange != null && candle.High >= threeDayRange.Value.High && isBullish);
+                bool structShort = (bandOk && candle.Low <= state.PrevLHLow && isBearish && emaBearish)
+                                 || (threeDayRange != null && candle.Low <= threeDayRange.Value.Low && isBearish);
+
+                if (structLong && !rsiLong)
+                    _logger.LogWarning("[{Sym}] RSI BLOCKED LONG @ {P:N1} | RSI={R:N1} (need >55)", candle.Symbol, candle.Close, rsi);
+                else if (structShort && !rsiShort)
+                    _logger.LogWarning("[{Sym}] RSI BLOCKED SHORT @ {P:N1} | RSI={R:N1} (need <45)", candle.Symbol, candle.Close, rsi);
+            }
+
+            if (bandOk && state.PrevLHHigh > 0 && candle.Close > 0 && shouldLogSuggestion)
             {
                 decimal onePct     = candle.Close * 0.002m;
                 bool nearPdlhHigh  = Math.Abs(candle.Close - state.PrevLHHigh) <= onePct;

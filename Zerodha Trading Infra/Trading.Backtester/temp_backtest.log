@@ -1,0 +1,400 @@
+=== Starting Hybrid Pattern Extraction Backtest ===
+[Loading Data] /Users/Lenovo/Projects/Zerodha_Option_Selling/NIFTY 50_5minute.csv
+=== Pattern Analytics Engine Report for NIFTY 50 ===
+Total Trades:      1905
+Winning Trades:    991
+Losing Trades:     914
+Win Rate:          52.02%
+Cumulative Profit: 20997.95 Points
+
+--- Breakout Pattern Performance ---
+Bullish Marubozu     | Trades:  120 | WinRate:  63.3% | PnL:  2845.55
+Bearish Marubozu     | Trades:   96 | WinRate:  57.3% | PnL:  2240.45
+Bullish Candle       | Trades:  655 | WinRate:  52.7% | PnL:  5785.30
+Hammer               | Trades:   59 | WinRate:  52.5% | PnL:   906.15
+Bearish Candle       | Trades:  513 | WinRate:  51.3% | PnL:  7437.40
+Bullish Engulfing    | Trades:  132 | WinRate:  50.0% | PnL:   515.65
+Bearish Engulfing    | Trades:   82 | WinRate:  50.0% | PnL:   814.55
+Shooting Star        | Trades:   48 | WinRate:  50.0% | PnL:   -16.50
+Bullish Harami       | Trades:   79 | WinRate:  49.4% | PnL:   182.00
+Doji                 | Trades:   77 | WinRate:  44.2% | PnL:   216.65
+Bearish Harami       | Trades:   38 | WinRate:  42.1% | PnL:   183.80
+Bearish Long-Wick    | Trades:    3 | WinRate:  33.3% | PnL:    -5.45
+Bullish Long-Wick    | Trades:    3 | WinRate:   0.0% | PnL:  -107.60
+------------------------------------
+
+
+----------------------------------------------------
+
+[Loading Data] /Users/Lenovo/Projects/Zerodha_Option_Selling/NIFTY BANK_5minute.csv
+=== Pattern Analytics Engine Report for NIFTY BANK ===
+Total Trades:      1848
+Winning Trades:    884
+Losing Trades:     964
+Win Rate:          47.84%
+Cumulative Profit: 57429.65 Points
+
+--- Breakout Pattern Performance ---
+Bearish Harami       | Trades:   36 | WinRate:  55.6% | PnL:  5194.05
+Bullish Marubozu     | Trades:   85 | WinRate:  55.3% | PnL:  7005.90
+Bullish Engulfing    | Trades:  129 | WinRate:  51.9% | PnL:  5445.05
+Bullish Harami       | Trades:   63 | WinRate:  50.8% | PnL:  1672.05
+Bearish Long-Wick    | Trades:    2 | WinRate:  50.0% | PnL:   115.30
+Bearish Marubozu     | Trades:   88 | WinRate:  48.9% | PnL:  3880.75
+Bullish Candle       | Trades:  639 | WinRate:  48.8% | PnL: 19637.95
+Bearish Candle       | Trades:  555 | WinRate:  47.4% | PnL: 16280.00
+Bullish Long-Wick    | Trades:   11 | WinRate:  45.5% | PnL:  -394.15
+Bearish Engulfing    | Trades:   79 | WinRate:  44.3% | PnL:  1090.25
+Shooting Star        | Trades:   43 | WinRate:  39.5% | PnL:   352.60
+Doji                 | Trades:   65 | WinRate:  36.9% | PnL: -2571.65
+Hammer               | Trades:   53 | WinRate:  34.0% | PnL:  -278.45
+------------------------------------
+
+
+=== Backtest Complete! ===
+Hybrid Pattern Engine Workbook saved to: /Users/Lenovo/Projects/Zerodha_Option_Selling/Backtest_Results_HybridORB_FixedSL.xlsx
+
+╔══════════════════════════════════════════════════════╗
+║   PREV DAY LAST-HOUR (PDLH) BREAKOUT BACKTEST       ║
+╚══════════════════════════════════════════════════════╝
+
+[Loading Data] /Users/Lenovo/Projects/Zerodha_Option_Selling/NIFTY 50_5minute.csv
+=== PDLH Breakout Report for NIFTY 50 ===
+Total Trades:      859
+Winning Trades:    437
+Losing Trades:     422
+Win Rate:          50.87%
+Cumulative Profit: 20444.85 Points
+
+--- PDLH Pattern Performance ---
+Bullish Marubozu     | Trades:  167 | WinRate:  52.7% | PnL:   4869.55
+Bullish Engulfing    | Trades:  310 | WinRate:  51.6% | PnL:   4627.90
+Bearish Marubozu     | Trades:  176 | WinRate:  50.0% | PnL:   6539.30
+Bearish Engulfing    | Trades:  206 | WinRate:  49.0% | PnL:   4408.10
+--------------------------------
+
+
+----------------------------------------------------
+
+[Loading Data] /Users/Lenovo/Projects/Zerodha_Option_Selling/NIFTY BANK_5minute.csv
+=== PDLH Breakout Report for NIFTY BANK ===
+Total Trades:      1418
+Winning Trades:    668
+Losing Trades:     750
+Win Rate:          47.11%
+Cumulative Profit: 75886.00 Points
+
+--- PDLH Pattern Performance ---
+Bearish Marubozu     | Trades:  243 | WinRate:  53.9% | PnL:  22885.70
+Bullish Engulfing    | Trades:  524 | WinRate:  46.6% | PnL:  22363.65
+Bullish Marubozu     | Trades:  259 | WinRate:  45.9% | PnL:  13157.60
+Bearish Engulfing    | Trades:  392 | WinRate:  44.4% | PnL:  17479.05
+--------------------------------
+
+
+=== PDLH Backtest Complete! ===
+Workbook saved to: /Users/Lenovo/Projects/Zerodha_Option_Selling/Backtest_Results_PDLH.xlsx
+
+╔══════════════════════════════════════════════════════════╗
+║   OPTIMIZED COMBINED ENGINE (PDLH + 3-DAY + EMA)        ║
+╚══════════════════════════════════════════════════════════╝
+
+[Loading] /Users/Lenovo/Projects/Zerodha_Option_Selling/NIFTY 50_5minute.csv  (EMA20 | SL=60 | MinBand=40)
+
+══════ Optimized Combined Report: NIFTY 50 ══════
+EMA Period:        EMA20
+Stop Loss:         60 pts
+Min PDLH Band:     40 pts
+Total Trades:      2053
+Winning Trades:    1100
+Losing Trades:     953
+Win Rate:          53.58%
+Cumulative Profit: 41163.70 Points
+
+--- Strategy Source ---
+PDLH Long              |  524 trades |  53.4% WR |  12120.85 pts
+PDLH Short             |  363 trades |  51.5% WR |   9022.60 pts
+PDLH+3Day Short        |  272 trades |  54.0% WR |   7757.85 pts
+PDLH+3Day Long         |  333 trades |  52.0% WR |   4422.35 pts
+Gap Reversal ORB Short |  184 trades |  50.5% WR |   2664.05 pts
+3-Day Long             |  232 trades |  57.8% WR |   2216.10 pts
+3-Day Short            |   85 trades |  64.7% WR |   2140.10 pts
+Gap Reversal ORB Long  |   60 trades |  51.7% WR |    819.80 pts
+
+--- Yearly Breakdown ---
+2015 |  153 trades |  58.8% WR |  2519.60 pts
+2016 |  139 trades |  61.2% WR |  2229.35 pts
+2017 |  124 trades |  57.3% WR |   783.70 pts
+2018 |  165 trades |  60.6% WR |  2418.90 pts
+2019 |  167 trades |  52.1% WR |  1955.95 pts
+2020 |  197 trades |  55.8% WR |  5346.85 pts
+2021 |  217 trades |  51.2% WR |  4478.60 pts
+2022 |  232 trades |  50.9% WR |  5815.35 pts
+2023 |  196 trades |  52.6% WR |  2953.30 pts
+2024 |  216 trades |  47.7% WR |  6218.00 pts
+2025 |  233 trades |  50.2% WR |  6047.45 pts
+2026 |   14 trades |  35.7% WR |   396.65 pts
+
+
+----------------------------------------------------
+
+[Loading] /Users/Lenovo/Projects/Zerodha_Option_Selling/NIFTY BANK_5minute.csv  (EMA50 | SL=100 | MinBand=80)
+
+══════ Optimized Combined Report: NIFTY BANK ══════
+EMA Period:        EMA50
+Stop Loss:         100 pts
+Min PDLH Band:     80 pts
+Total Trades:      2290
+Winning Trades:    975
+Losing Trades:     1315
+Win Rate:          42.58%
+Cumulative Profit: 109010.85 Points
+
+--- Strategy Source ---
+PDLH Long              |  680 trades |  40.6% WR |  35288.90 pts
+PDLH Short             |  560 trades |  42.7% WR |  30627.40 pts
+PDLH+3Day Short        |  316 trades |  43.0% WR |  21406.25 pts
+PDLH+3Day Long         |  412 trades |  41.0% WR |  18006.60 pts
+3-Day Long             |   85 trades |  54.1% WR |   3068.90 pts
+Gap Reversal ORB Short |  133 trades |  45.1% WR |   2142.90 pts
+3-Day Short            |   40 trades |  57.5% WR |   1357.00 pts
+Gap Reversal ORB Long  |   64 trades |  40.6% WR |  -2887.10 pts
+
+--- Yearly Breakdown ---
+2015 |  163 trades |  49.1% WR |  6393.60 pts
+2016 |  170 trades |  45.3% WR |  3321.30 pts
+2017 |  140 trades |  50.7% WR |  2811.15 pts
+2018 |  182 trades |  52.2% WR |  6405.05 pts
+2019 |  204 trades |  45.6% WR | 12635.80 pts
+2020 |  233 trades |  41.2% WR | 18010.95 pts
+2021 |  243 trades |  35.8% WR | 13513.60 pts
+2022 |  252 trades |  36.5% WR |  9585.15 pts
+2023 |  216 trades |  38.4% WR |  6811.10 pts
+2024 |  235 trades |  38.3% WR | 14822.10 pts
+2025 |  240 trades |  45.0% WR | 14514.15 pts
+2026 |   12 trades |  25.0% WR |   186.90 pts
+
+
+=== Optimized Combined Backtest Complete! ===
+Workbook saved to: /Users/Lenovo/Projects/Zerodha_Option_Selling/Backtest_Results_Combined.xlsx
+
+=== STARTING INTRADAY BIG MOVE (ANOMALY) BACKTEST ===
+[Loading Data] /Users/Lenovo/Projects/Zerodha_Option_Selling/NIFTY 50_5minute.csv
+[Loading Data] /Users/Lenovo/Projects/Zerodha_Option_Selling/NIFTY BANK_5minute.csv
+
+--- Summary for NIFTY Summary ---
+Year 2015: 354 Trades | Win Rate: 23.73% | Target PnL: 743.75
+Year 2016: 322 Trades | Win Rate: 25.47% | Target PnL: 863.90
+Year 2017: 307 Trades | Win Rate: 26.38% | Target PnL: 954.05
+Year 2018: 309 Trades | Win Rate: 26.86% | Target PnL: 1475.70
+Year 2019: 338 Trades | Win Rate: 25.74% | Target PnL: 1749.20
+Year 2020: 361 Trades | Win Rate: 23.82% | Target PnL: 1433.80
+Year 2021: 325 Trades | Win Rate: 30.15% | Target PnL: 1900.80
+Year 2022: 306 Trades | Win Rate: 29.74% | Target PnL: 2195.00
+Year 2023: 298 Trades | Win Rate: 25.17% | Target PnL: 886.15
+Year 2024: 279 Trades | Win Rate: 35.48% | Target PnL: 2329.40
+Year 2025: 287 Trades | Win Rate: 33.45% | Target PnL: 1497.75
+Year 2026: 16 Trades | Win Rate: 37.50% | Target PnL: 221.65
+> GRAND TOTAL NIFTY Summary: 16251.15 Points across 3502 Trades
+
+--- Summary for BANKNIFTY Summary ---
+Year 2015: 353 Trades | Win Rate: 26.06% | Target PnL: 3224.50
+Year 2016: 345 Trades | Win Rate: 24.93% | Target PnL: 1593.60
+Year 2017: 335 Trades | Win Rate: 28.36% | Target PnL: 2286.70
+Year 2018: 327 Trades | Win Rate: 23.85% | Target PnL: 2615.00
+Year 2019: 342 Trades | Win Rate: 26.90% | Target PnL: 4217.55
+Year 2020: 342 Trades | Win Rate: 34.21% | Target PnL: 4547.95
+Year 2021: 336 Trades | Win Rate: 37.80% | Target PnL: 6398.90
+Year 2022: 316 Trades | Win Rate: 28.80% | Target PnL: 1270.35
+Year 2023: 331 Trades | Win Rate: 29.31% | Target PnL: 2780.25
+Year 2024: 308 Trades | Win Rate: 36.36% | Target PnL: 4549.40
+Year 2025: 287 Trades | Win Rate: 30.66% | Target PnL: 157.85
+Year 2026: 17 Trades | Win Rate: 29.41% | Target PnL: 767.65
+> GRAND TOTAL BANKNIFTY Summary: 34409.70 Points across 3639 Trades
+
+✅ Detailed Anomaly Backtest Report Saved: /Users/Lenovo/Projects/Zerodha_Option_Selling/Backtest_IntradayBigMove.xlsx
+
+
+--- STARTING 1-YEAR 9:20 STRANGLE BACKTEST (HYBRID SIM) ---
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Loading Spot Historical Data from /Users/Lenovo/Projects/Zerodha_Option_Selling/NIFTY 50_5minute.csv...
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Loaded 204167 minutes of Nifty Spot data.
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Starting 1-Year 9:20 Strangle Backtest from 1/1/2024 to 10/30/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 1/4/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 1/4/2024: P&L: 4.70
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 1/11/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 1/11/2024: P&L: 5.40
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 1/18/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 1/18/2024: P&L: -6.85
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 1/25/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 1/25/2024: P&L: -1.15
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 2/1/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 2/1/2024: P&L: 105.55
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 2/8/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 2/8/2024: P&L: -3.15
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 2/15/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 2/15/2024: P&L: -4.95
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 2/22/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 2/22/2024: P&L: -3.050
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 2/29/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 2/29/2024: P&L: -5.35
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 3/7/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 3/7/2024: P&L: 16.20
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 3/14/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 3/14/2024: P&L: 16.70
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 3/21/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 3/21/2024: P&L: 12.90
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 3/28/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 3/28/2024: P&L: 2.650
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 4/4/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 4/4/2024: P&L: -0.700
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 4/18/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 4/18/2024: P&L: -10.050
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 4/25/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 4/25/2024: P&L: -13.600
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 5/2/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 5/2/2024: P&L: 22.90
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 5/9/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 5/9/2024: P&L: 7.800
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 5/16/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 5/16/2024: P&L: -8.850
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 5/23/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 5/23/2024: P&L: 3.450
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 5/30/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 5/30/2024: P&L: 6.80
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 6/6/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 6/6/2024: P&L: 96.75
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 6/13/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 6/13/2024: P&L: 20.60
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 6/20/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 6/20/2024: P&L: 35.85
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 6/27/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 6/27/2024: P&L: 2.80
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 7/4/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 7/4/2024: P&L: 17.25
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 7/11/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 7/11/2024: P&L: -3.200
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 7/18/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 7/18/2024: P&L: 1.450
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 7/25/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 7/25/2024: P&L: 31.90
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 8/1/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 8/1/2024: P&L: 20.05
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 8/8/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 8/8/2024: P&L: -51.750
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 8/22/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 8/22/2024: P&L: 10.60
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 8/29/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 8/29/2024: P&L: -11.70
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 9/5/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 9/5/2024: P&L: -4.250
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 9/12/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 9/12/2024: P&L: -13.200
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 9/19/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 9/19/2024: P&L: 1.10
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 9/26/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 9/26/2024: P&L: -22.650
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 10/3/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 10/3/2024: P&L: -40.400
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 10/10/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 10/10/2024: P&L: 35.40
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 10/17/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 10/17/2024: P&L: 3.45
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Processing Day: 10/24/2024
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Result for 10/24/2024: P&L: 29.85
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      --- 2024 REAL-DATA STRANGLE BACKTEST SUMMARY ---
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Total Days: 41
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Total Points Captured: 307.250
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Average Points/Day: 7.5
+info: Trading.Backtester.OptionStrangleBacktest[0]
+      Win Rate: 58.54 %
+
+✅ DETAILED EXCEL REPORT SAVED TO: /Users/Lenovo/Desktop/Backtest_920_Strangle_1Year.xlsx

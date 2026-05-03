@@ -32,7 +32,7 @@ namespace Trading.Strategy.Services;
 using System.Collections.Concurrent;
 using Trading.Core.Models;
 
-public class TechnicalIndicatorsTracker
+public partial class TechnicalIndicatorsTracker
 {
     private readonly ConcurrentDictionary<string, ConcurrentQueue<decimal>> _closePriceHistory = new();
 

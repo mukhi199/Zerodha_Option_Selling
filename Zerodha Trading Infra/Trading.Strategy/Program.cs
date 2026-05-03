@@ -47,6 +47,10 @@ builder.Services.AddSingleton<IStrategy, CprBounceStrategy>();
 builder.Services.AddSingleton<IStrategy, RsiSmoothedStrategy>();
 builder.Services.AddSingleton<IStrategy, Strangle920Strategy>();
 builder.Services.AddSingleton<IStrategy, LevelStrangleStrategy>();
+builder.Services.AddSingleton<IStrategy, IntradayBigMoveStrategy>();
+builder.Services.AddSingleton<IStrategy, VwapStrategy>();
+builder.Services.AddSingleton<IStrategy, StandardOrbStrategy>();
+
 
 // 4. RabbitMQ Consumer
 var mqHost = config["RabbitMQ:Host"] ?? "localhost";
@@ -55,11 +59,11 @@ var mqUser = config["RabbitMQ:User"] ?? "guest";
 var mqPassword = config["RabbitMQ:Password"] ?? "guest";
 
 builder.Services.AddHostedService<MQDataConsumer>(sp => new MQDataConsumer(
-    mqHost, mqPort, mqUser, mqPassword,
     sp.GetServices<IStrategy>(),
     sp.GetRequiredService<IStrategicStateStore>(),
     sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<MQDataConsumer>>(),
     config));
+
 
 // 5. Worker
 builder.Services.AddHostedService<Worker>();

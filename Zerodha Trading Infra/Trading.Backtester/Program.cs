@@ -62,6 +62,9 @@ namespace Trading.Backtester
             // Run the deep parameter scanner
             // StrategyScannerBacktest.Run();
 
+            // Run Intraday Big Move Backtest
+            IntradayBigMoveBacktest.Run();
+
             // Run the 4-strategy grand comparison
             // MultiStrategyRunner.Run();
 
