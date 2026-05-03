@@ -24,6 +24,7 @@ namespace Trading.Strategy.Services
             public string OptionSymbol { get; set; } = string.Empty;
             public string PendingSlOrderId { get; set; } = string.Empty;
             public Candle? PrevCandle { get; set; }
+            public decimal DayPnl { get; set; } = 0;
         }
 
         private readonly ConcurrentDictionary<string, State> _states = new();
@@ -104,6 +105,7 @@ namespace Trading.Strategy.Services
                 state.TradesToday = 0;
                 state.ScanCandleCount = 0;
                 state.PrevCandle = null;
+                state.DayPnl = 0;
                 _tracker.ResetVwap(candle.Symbol);
                 if (state.IsActive)
                 {
@@ -203,9 +205,29 @@ namespace Trading.Strategy.Services
             _orderService.CloseHedgedBasket(futInfo.TradingSymbol, state.OptionSymbol, futInfo.LotSize, state.IsLong);
             
             decimal pnl = state.IsLong ? exitPrice - state.EntryPrice : state.EntryPrice - exitPrice;
+            state.DayPnl += pnl;
             _logger.LogInformation("[{Symbol}] Squared off VWAP Strategy ({Reason}). Est PnL Points: {Pnl:N2}", state.Symbol, reason, pnl);
 
             state.IsActive = false;
         }
+
+        public string GetStatusDigest()
+        {
+            var lines = new System.Text.StringBuilder();
+            lines.AppendLine("🔷 *VWAP Strategy*");
+            foreach (var kv in _states)
+            {
+                var s = kv.Value;
+                var vwap = _tracker.GetVwap(s.Symbol);
+                string vwapStr = vwap.HasValue ? $"{vwap.Value:N1}" : "N/A";
+                string statusLine = s.IsActive
+                    ? $"  ▶ {s.Symbol}: *ACTIVE* {(s.IsLong ? "LONG🔼" : "SHORT🔻")} | Entry:{s.EntryPrice:N1} SL:{s.StopLossLevel:N1} TP:{s.TargetLevel:N1}"
+                    : $"  ⏳ {s.Symbol}: Waiting for VWAP cross | VWAP≈{vwapStr} | Trades:{s.TradesToday}/2";
+                string pnlStr = s.DayPnl == 0 ? "₹0" : (s.DayPnl > 0 ? $"🟢 +{s.DayPnl:N0}pts" : $"🔴 {s.DayPnl:N0}pts");
+                lines.AppendLine($"{statusLine} | P&L: {pnlStr}");
+            }
+            return lines.ToString();
+        }
     }
 }
+

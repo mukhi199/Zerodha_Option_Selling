@@ -27,6 +27,7 @@ namespace Trading.Strategy.Services
             
             public string OptionSymbol { get; set; } = string.Empty;
             public string PendingSlOrderId { get; set; } = string.Empty;
+            public decimal DayPnl { get; set; } = 0;
         }
 
         private readonly ConcurrentDictionary<string, State> _states = new();
@@ -103,6 +104,7 @@ namespace Trading.Strategy.Services
                 state.OrbHigh = decimal.MinValue;
                 state.OrbLow = decimal.MaxValue;
                 state.OrbSet = false;
+                state.DayPnl = 0;
 
                 if (state.IsActive)
                 {
@@ -216,9 +218,28 @@ namespace Trading.Strategy.Services
             _orderService.CloseHedgedBasket(futInfo.TradingSymbol, state.OptionSymbol, futInfo.LotSize, state.IsLong);
             
             decimal pnl = state.IsLong ? exitPrice - state.EntryPrice : state.EntryPrice - exitPrice;
+            state.DayPnl += pnl;
             _logger.LogInformation("[{Symbol}] Squared off ORB Strategy ({Reason}). Est PnL Points: {Pnl:N2}", state.Symbol, reason, pnl);
 
             state.IsActive = false;
+        }
+
+        public string GetStatusDigest()
+        {
+            var lines = new System.Text.StringBuilder();
+            lines.AppendLine("🟠 *ORB Strategy*");
+            foreach (var kv in _states)
+            {
+                var s = kv.Value;
+                decimal w = s.OrbHigh != decimal.MinValue && s.OrbLow != decimal.MaxValue ? s.OrbHigh - s.OrbLow : 0;
+                string orbStatus = !s.OrbSet ? "Building ORB..." : $"ORB H:{s.OrbHigh:N0} L:{s.OrbLow:N0} W:{w:N0}";
+                string statusLine = s.IsActive
+                    ? $"  ▶ {s.Symbol}: *ACTIVE* {(s.IsLong ? "LONG🔼" : "SHORT🔻")} | Entry:{s.EntryPrice:N1} SL:{s.StopLossLevel:N1} TP:{s.TargetLevel:N1}"
+                    : $"  ⏳ {s.Symbol}: {orbStatus} | Trades:{s.TradesToday}/1";
+                string pnlStr = s.DayPnl == 0 ? "₹0" : (s.DayPnl > 0 ? $"🟢 +{s.DayPnl:N0}pts" : $"🔴 {s.DayPnl:N0}pts");
+                lines.AppendLine($"{statusLine} | P&L: {pnlStr}");
+            }
+            return lines.ToString();
         }
     }
 }

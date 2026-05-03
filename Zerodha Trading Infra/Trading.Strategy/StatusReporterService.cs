@@ -5,11 +5,12 @@ using Trading.Strategy.Services;
 using System.Text;
 using Trading.Core.Models;
 
- namespace Trading.Strategy;
+namespace Trading.Strategy;
 
- public class StatusReporterService : BackgroundService
- {
+public class StatusReporterService : BackgroundService
+{
     private readonly IStrategicStateStore _stateStore;
+    private readonly IEnumerable<IStrategy> _strategies;
     private readonly ILogger<StatusReporterService> _logger;
     private readonly HttpClient _httpClient = new();
     private readonly string _tgBotToken;
@@ -18,10 +19,12 @@ using Trading.Core.Models;
 
     public StatusReporterService(
         IStrategicStateStore stateStore,
+        IEnumerable<IStrategy> strategies,
         IConfiguration config,
         ILogger<StatusReporterService> logger)
     {
         _stateStore = stateStore;
+        _strategies = strategies;
         _logger = logger;
         _tgBotToken = config["TelegramSettings:BotToken"] ?? string.Empty;
         _tgChatId = config["TelegramSettings:ChatId"] ?? string.Empty;
@@ -57,47 +60,88 @@ using Trading.Core.Models;
         var metrics = _stateStore.GetSystemMetrics();
         var states = _stateStore.GetAllStates().OrderBy(x => x.Symbol).ToList();
         
-        _logger.LogInformation("StatusReporterService: Reporting on {Count} symbols. Metrics Ticks: {Ticks}", states.Count, metrics.TicksProcessed);
-
-        sb.AppendLine("🛰 *Zerodha Ticker Status*");
+        var now = DateTime.Now;
+        sb.AppendLine($"📡 *Strategy Engine Report* — {now:HH:mm dd-MMM}");
         sb.AppendLine($"• WebSocket: {(metrics.WebSocketConnected ? "🟢 Connected" : "🔴 Disconnected")}");
-        sb.AppendLine($"• Data Flow: 🟢 Active (`{metrics.TicksProcessed:N0}` ticks)");
+        sb.AppendLine($"• Data: `{metrics.TicksProcessed:N0}` ticks processed");
+        sb.AppendLine();
 
+        // ── Market Levels per Symbol ──
         foreach (var s in states)
         {
-            sb.AppendLine($"\n📈 *{s.Symbol}* (LTP: `{s.Ltp:N1}`)");
+            sb.AppendLine($"📈 *{s.Symbol}* (LTP: `{s.Ltp:N1}`)");
             
-            // CPR & Virgin Status
             if (s.Pivot > 0)
-            {
-                sb.AppendLine($"• CPR: BC:`{s.Bc:N1}` | P:`{s.Pivot:N1}` | TC:`{s.Tc:N1}` ({(s.IsVirginCpr ? "✨ Virgin" : "🚫 Touched")})");
-            }
+                sb.AppendLine($"  CPR: BC:`{s.Bc:N1}` P:`{s.Pivot:N1}` TC:`{s.Tc:N1}` {(s.IsVirginCpr ? "✨Virgin" : "")}");
             
-            // PDH / PDL
             if (s.Pdh > 0)
-            {
-                sb.AppendLine($"• Prev Day: High:`{s.Pdh:N1}` | Low:`{s.Pdl:N1}`");
-            }
+                sb.AppendLine($"  PDH:`{s.Pdh:N1}` PDL:`{s.Pdl:N1}`");
 
-            // 3-Day Breakout Range
             if (s.ThreeDayHigh > 0)
-            {
-                sb.AppendLine($"• 3-Day: High:`{s.ThreeDayHigh:N1}` | Low:`{s.ThreeDayLow:N1}`");
-            }
+                sb.AppendLine($"  3D: H:`{s.ThreeDayHigh:N1}` L:`{s.ThreeDayLow:N1}`");
 
-            // Trend & EMA
-            sb.AppendLine($"• Trend: *{s.Trend}* (EMA50: `{s.Ema50:N0}` / EMA200: `{s.Ema200:N0}`)");
+            sb.AppendLine($"  EMA50:`{s.Ema50:N0}` EMA200:`{s.Ema200:N0}` | Trend: *{s.Trend}*");
             
-            // Strangle Info
             if (!string.IsNullOrEmpty(s.StrangleStatus) && s.StrangleStatus != "Not Started")
             {
-                sb.AppendLine($"• Strangle: {s.StrangleStatus}");
+                sb.AppendLine($"  Strangle: {s.StrangleStatus}");
                 if (!string.IsNullOrEmpty(s.StrangleLegs))
-                    sb.AppendLine($"  _{s.StrangleLegs}_");
+                    sb.AppendLine($"    _{s.StrangleLegs}_");
+            }
+            sb.AppendLine();
+        }
+
+        // ── Strategy Digest ──
+        sb.AppendLine("── *Strategy Status* ──");
+        foreach (var strategy in _strategies)
+        {
+            try
+            {
+                var digest = strategy.GetStatusDigest();
+                if (!string.IsNullOrWhiteSpace(digest))
+                {
+                    sb.Append(digest);
+                    sb.AppendLine();
+                }
+            }
+            catch (Exception ex)
+            {
+                sb.AppendLine($"⚠️ {strategy.GetType().Name}: Error getting status");
+                _logger.LogError(ex, "Failed to get status digest from {Strategy}", strategy.GetType().Name);
             }
         }
 
-        sb.AppendLine("\n_Next automated update in 30 mins_");
+        // ── Next Expected Triggers ──
+        sb.AppendLine("── *What to Watch Next* ──");
+        var tod = now.TimeOfDay;
+        if (tod < new TimeSpan(9, 15, 0))
+        {
+            sb.AppendLine("• Pre-market. All strategies armed for 9:15 open.");
+        }
+        else if (tod < new TimeSpan(9, 30, 0))
+        {
+            sb.AppendLine("• ORB forming (9:15-9:30). Watch for range width.");
+            sb.AppendLine("• VWAP building. Cross signals armed.");
+        }
+        else if (tod < new TimeSpan(12, 30, 0))
+        {
+            sb.AppendLine("• Prime window open. ORB breakout, VWAP cross, 3-Day & PDLH breakouts all scanning.");
+            sb.AppendLine("• BigMove scanning for anomaly 5m candles (10:30-12:30).");
+        }
+        else if (tod < new TimeSpan(14, 30, 0))
+        {
+            sb.AppendLine("• BigMove window closed. VWAP, ORB, PDLH & 3-Day still active until 14:30.");
+        }
+        else if (tod < new TimeSpan(15, 15, 0))
+        {
+            sb.AppendLine("• Entry window closed. Any active positions will square off at 15:15.");
+        }
+        else
+        {
+            sb.AppendLine("• Market closed. All positions should be squared off.");
+        }
+
+        sb.AppendLine($"\n_Next update in 30 mins_");
 
         await PostToTelegram(sb.ToString());
     }
@@ -149,4 +193,4 @@ using Trading.Core.Models;
             _logger.LogError(ex, "StatusReporterService: Exception in PostToTelegram.");
         }
     }
- }
+}

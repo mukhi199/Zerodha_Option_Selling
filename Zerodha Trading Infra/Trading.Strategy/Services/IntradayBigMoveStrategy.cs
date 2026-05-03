@@ -24,6 +24,7 @@ namespace Trading.Strategy.Services
             
             public bool IsTrailing9EMA { get; set; } = false;
             public decimal TargetLockPoints { get; set; } = 100m;
+            public decimal DayPnl { get; set; } = 0;
         }
 
         private readonly ConcurrentDictionary<string, State> _states = new();
@@ -106,6 +107,7 @@ namespace Trading.Strategy.Services
                 state.CurrentDate = date;
                 state.MaxBodySizeToday = 0m;
                 state.TradesToday = 0;
+                state.DayPnl = 0;
                 if (state.IsActive)
                 {
                     // Failsafe reset if position held overnight mistakenly
@@ -196,10 +198,27 @@ namespace Trading.Strategy.Services
             _orderService.CloseHedgedBasket(futInfo.TradingSymbol, state.OptionSymbol, futInfo.LotSize, state.IsLong);
             
             decimal pnl = state.IsLong ? exitPrice - state.EntryPrice : state.EntryPrice - exitPrice;
+            state.DayPnl += pnl;
             _logger.LogInformation("[{Symbol}] Squared off Big Move Strategy. Est PnL Points: {Pnl:N2}", state.Symbol, pnl);
 
             state.IsActive = false;
             state.IsTrailing9EMA = false;
+        }
+
+        public string GetStatusDigest()
+        {
+            var lines = new System.Text.StringBuilder();
+            lines.AppendLine("⚡ *BigMove Strategy*");
+            foreach (var kv in _states)
+            {
+                var s = kv.Value;
+                string statusLine = s.IsActive
+                    ? $"  ▶ {s.Symbol}: *ACTIVE* {(s.IsLong ? "LONG🔼" : "SHORT🔻")} | Entry:{s.EntryPrice:N1} SL:{s.StopLossLevel:N1} Trail:{(s.IsTrailing9EMA ? "✅ 9EMA" : "❌ Fixed")}"
+                    : $"  ⏳ {s.Symbol}: Scanning {_windowStart:hh\\:mm}-{_windowEnd:hh\\:mm} | MaxBody:{s.MaxBodySizeToday:N0} | Trades:{s.TradesToday}/1";
+                string pnlStr = s.DayPnl == 0 ? "₹0" : (s.DayPnl > 0 ? $"🟢 +{s.DayPnl:N0}pts" : $"🔴 {s.DayPnl:N0}pts");
+                lines.AppendLine($"{statusLine} | P&L: {pnlStr}");
+            }
+            return lines.ToString();
         }
     }
 }
