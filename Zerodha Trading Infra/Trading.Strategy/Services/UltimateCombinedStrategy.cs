@@ -42,15 +42,15 @@ namespace Trading.Strategy.Services
         public string? PendingSlOrderId { get; set; }
         public DateTime CurrentDay { get; set; } = DateTime.MinValue;
 
-        public decimal DayHigh { get; set; } = decimal.MinValue;
-        public decimal DayLow { get; set; } = decimal.MaxValue;
+        public decimal DayHigh { get; set; } = 0;
+        public decimal DayLow { get; set; } = 0;
         public decimal PrevDayH { get; set; } = 0;
         public decimal PrevDayL { get; set; } = 0;
 
-        public decimal PrevLHHigh { get; set; } = decimal.MinValue;
-        public decimal PrevLHLow { get; set; } = decimal.MaxValue;
-        public decimal CurrLHHigh { get; set; } = decimal.MinValue;
-        public decimal CurrLHLow { get; set; } = decimal.MaxValue;
+        public decimal PrevLHHigh { get; set; } = 0;
+        public decimal PrevLHLow { get; set; } = 0;
+        public decimal CurrLHHigh { get; set; } = 0;
+        public decimal CurrLHLow { get; set; } = 0;
         public bool PrevLHReady { get; set; } = false;
 
         public Candle? PrevCandle { get; set; } = null;
@@ -66,8 +66,8 @@ namespace Trading.Strategy.Services
         public int OrbCandleCount { get; set; } = 0;   // FIX #2: replaces CandlesToday for ORB
         public int ScanCandleCount { get; set; } = 0;  // FIX #2: replaces CandlesToday for log throttle
 
-        public decimal OrbHigh { get; set; } = decimal.MinValue;
-        public decimal OrbLow { get; set; } = decimal.MaxValue;
+        public decimal OrbHigh { get; set; } = 0;
+        public decimal OrbLow { get; set; } = 0;
         public decimal OrbOpen { get; set; } = 0;
         public decimal OrbClose { get; set; } = 0;
         public bool OrbSet { get; set; } = false;
@@ -247,10 +247,10 @@ namespace Trading.Strategy.Services
 
                 state.CurrentDay  = localTime.Date;
                 state.TradesToday = 0;
-                state.DayHigh     = decimal.MinValue;
-                state.DayLow      = decimal.MaxValue;
-                state.CurrLHHigh  = decimal.MinValue;
-                state.CurrLHLow   = decimal.MaxValue;
+                state.DayHigh     = 0;
+                state.DayLow      = 0;
+                state.CurrLHHigh  = 0;
+                state.CurrLHLow   = 0;
                 state.PrevCandle  = null;
                 
                 _tracker.ResetVwap(candle.Symbol);
@@ -260,8 +260,8 @@ namespace Trading.Strategy.Services
                 state.ScanCandleCount = 0;  // FIX #2
                 state.ProximitySuggestionCandle = 0; // FIX #5
 
-                state.OrbHigh = decimal.MinValue;
-                state.OrbLow  = decimal.MaxValue;
+                state.OrbHigh = 0;
+                state.OrbLow  = 0;
                 state.OrbSet  = false;
 
                 state.IsGapUp   = state.PrevDayH > 0 && candle.Open > state.PrevDayH;
@@ -277,13 +277,13 @@ namespace Trading.Strategy.Services
                 state.HasRetraced3DL = false;
             }
 
-            state.DayHigh = Math.Max(state.DayHigh, candle.High);
-            state.DayLow  = Math.Min(state.DayLow,  candle.Low);
+            state.DayHigh = state.DayHigh == 0 ? candle.High : Math.Max(state.DayHigh, candle.High);
+            state.DayLow  = state.DayLow == 0 ? candle.Low : Math.Min(state.DayLow,  candle.Low);
 
             if (tod >= _lastHourStart && tod < _lastHourEnd)
             {
-                state.CurrLHHigh = Math.Max(state.CurrLHHigh, candle.High);
-                state.CurrLHLow  = Math.Min(state.CurrLHLow,  candle.Low);
+                state.CurrLHHigh = state.CurrLHHigh == 0 ? candle.High : Math.Max(state.CurrLHHigh, candle.High);
+                state.CurrLHLow  = state.CurrLHLow == 0 ? candle.Low : Math.Min(state.CurrLHLow,  candle.Low);
             }
 
             // ── Build ORB ──
@@ -291,8 +291,8 @@ namespace Trading.Strategy.Services
             {
                 // FIX #2 ↓ — use OrbCandleCount (was CandlesToday which was shared)
                 state.OrbCandleCount++;  // FIX #2
-                state.OrbHigh = Math.Max(state.OrbHigh, candle.High);
-                state.OrbLow  = Math.Min(state.OrbLow,  candle.Low);
+                state.OrbHigh = state.OrbHigh == 0 ? candle.High : Math.Max(state.OrbHigh, candle.High);
+                state.OrbLow  = state.OrbLow == 0 ? candle.Low : Math.Min(state.OrbLow,  candle.Low);
                 if (state.OrbCandleCount == 3)  // FIX #2: was state.CandlesToday
                 {
                     state.OrbClose    = candle.Close;
