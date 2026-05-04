@@ -15,8 +15,8 @@ namespace Trading.Strategy.Services
             public DateTime CurrentDate { get; set; } = DateTime.MinValue;
             public int TradesToday { get; set; } = 0;
             
-            public decimal OrbHigh { get; set; } = decimal.MinValue;
-            public decimal OrbLow { get; set; } = decimal.MaxValue;
+            public decimal OrbHigh { get; set; } = 0;
+            public decimal OrbLow { get; set; } = 0;
             public bool OrbSet { get; set; } = false;
 
             public bool IsActive { get; set; } = false;
@@ -101,8 +101,8 @@ namespace Trading.Strategy.Services
             {
                 state.CurrentDate = date;
                 state.TradesToday = 0;
-                state.OrbHigh = decimal.MinValue;
-                state.OrbLow = decimal.MaxValue;
+                state.OrbHigh = 0;
+                state.OrbLow = 0;
                 state.OrbSet = false;
                 state.DayPnl = 0;
 
@@ -115,8 +115,16 @@ namespace Trading.Strategy.Services
             // Build ORB
             if (tod < _orbEnd)
             {
-                state.OrbHigh = Math.Max(state.OrbHigh, candle.High);
-                state.OrbLow = Math.Min(state.OrbLow, candle.Low);
+                if (state.OrbHigh == 0 && state.OrbLow == 0)
+                {
+                    state.OrbHigh = candle.High;
+                    state.OrbLow = candle.Low;
+                }
+                else
+                {
+                    state.OrbHigh = Math.Max(state.OrbHigh, candle.High);
+                    state.OrbLow = Math.Min(state.OrbLow, candle.Low);
+                }
             }
             else if (tod == _orbEnd && !state.OrbSet)
             {
@@ -130,20 +138,24 @@ namespace Trading.Strategy.Services
             if (tod >= _orbEnd && !state.OrbSet)
             {
                 state.OrbSet = true;
-                decimal minW = candle.Symbol.Contains("BANK") ? _bankNiftyMinWidth : _niftyMinWidth;
-                decimal w = state.OrbHigh - state.OrbLow;
-                if (w < minW)
+                if (state.OrbHigh > 0 && state.OrbLow > 0)
                 {
-                    _logger.LogWarning("[{Symbol}] ORB Narrow ({W:F1} < {MinW}). Signal might be weak today.", candle.Symbol, w, minW);
-                }
-                else
-                {
-                    _logger.LogInformation("[{Symbol}] ORB Set: {H} to {L} (Width: {W:F1})", candle.Symbol, state.OrbHigh, state.OrbLow, w);
+                    decimal minW = candle.Symbol.Contains("BANK") ? _bankNiftyMinWidth : _niftyMinWidth;
+                    decimal w = state.OrbHigh - state.OrbLow;
+                    if (w < minW)
+                    {
+                        _logger.LogWarning("[{Symbol}] ORB Narrow ({W:F1} < {MinW}). Signal might be weak today.", candle.Symbol, w, minW);
+                    }
+                    else
+                    {
+                        _logger.LogInformation("[{Symbol}] ORB Set: {H} to {L} (Width: {W:F1})", candle.Symbol, state.OrbHigh, state.OrbLow, w);
+                    }
                 }
             }
 
             if (!state.OrbSet || state.IsActive || state.TradesToday >= 1) return;
             if (tod < _orbEnd || tod >= _windowEnd) return;
+            if (state.OrbHigh <= 0 || state.OrbLow <= 0) return; // ORB data not populated
 
             decimal minWidth = candle.Symbol.Contains("BANK") ? _bankNiftyMinWidth : _niftyMinWidth;
             decimal width = state.OrbHigh - state.OrbLow;
