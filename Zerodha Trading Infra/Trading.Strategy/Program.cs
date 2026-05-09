@@ -61,6 +61,7 @@ var mqPassword = config["RabbitMQ:Password"] ?? "guest";
 builder.Services.AddHostedService<MQDataConsumer>(sp => new MQDataConsumer(
     sp.GetServices<IStrategy>(),
     sp.GetRequiredService<IStrategicStateStore>(),
+    sp.GetRequiredService<TechnicalIndicatorsTracker>(),
     sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<MQDataConsumer>>(),
     config));
 

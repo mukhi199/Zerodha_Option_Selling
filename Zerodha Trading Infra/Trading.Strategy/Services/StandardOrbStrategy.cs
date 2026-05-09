@@ -243,8 +243,8 @@ namespace Trading.Strategy.Services
             foreach (var kv in _states)
             {
                 var s = kv.Value;
-                decimal w = s.OrbHigh != decimal.MinValue && s.OrbLow != decimal.MaxValue ? s.OrbHigh - s.OrbLow : 0;
-                string orbStatus = !s.OrbSet ? "Building ORB..." : $"ORB H:{s.OrbHigh:N0} L:{s.OrbLow:N0} W:{w:N0}";
+                decimal w = (s.OrbHigh > 0 && s.OrbLow > 0) ? s.OrbHigh - s.OrbLow : 0;
+                string orbStatus = (!s.OrbSet || s.OrbHigh == 0) ? "Building ORB..." : $"ORB H:{s.OrbHigh:N0} L:{s.OrbLow:N0} W:{w:N0}";
                 string statusLine = s.IsActive
                     ? $"  ▶ {s.Symbol}: *ACTIVE* {(s.IsLong ? "LONG🔼" : "SHORT🔻")} | Entry:{s.EntryPrice:N1} SL:{s.StopLossLevel:N1} TP:{s.TargetLevel:N1}"
                     : $"  ⏳ {s.Symbol}: {orbStatus} | Trades:{s.TradesToday}/1";

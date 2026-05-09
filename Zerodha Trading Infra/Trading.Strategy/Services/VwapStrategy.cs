@@ -82,14 +82,6 @@ namespace Trading.Strategy.Services
 
         public void OnCandle(Candle candle)
         {
-            // Route futures volume to VWAP tracker (spot symbols have no volume)
-            if (candle.Symbol.EndsWith("FUT", StringComparison.OrdinalIgnoreCase))
-            {
-                string spotSym = candle.Symbol.StartsWith("BANKNIFTY", StringComparison.OrdinalIgnoreCase)
-                    ? "NIFTY BANK" : "NIFTY 50";
-                _tracker.SetFuturesVolume(spotSym, candle.Volume);
-                return;
-            }
 
             if (!_states.TryGetValue(candle.Symbol, out var state)) return;
 

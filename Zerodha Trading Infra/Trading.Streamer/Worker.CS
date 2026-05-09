@@ -87,8 +87,12 @@ public class Worker : BackgroundService
                      && i.Expiry <= expiryThreshold) // Only current week + next rollover
             .ToList();
 
-        var filtered = niftySpot.Concat(niftyOptions).ToList();
-        _logger.LogInformation("Filtered to {Count} strategy-relevant tokens (Nifty Spot + NFO Options expiring before {Threshold:d}).", filtered.Count, expiryThreshold);
+        var niftyFutures = instruments
+            .Where(i => i.Exchange == "NFO" && (i.TradingSymbol.StartsWith("NIFTY") || i.TradingSymbol.StartsWith("BANKNIFTY")) && i.InstrumentType == "FUT")
+            .ToList();
+
+        var filtered = niftySpot.Concat(niftyOptions).Concat(niftyFutures).ToList();
+        _logger.LogInformation("Filtered to {Count} strategy-relevant tokens (Spot + Options + FUT).", filtered.Count);
 
         var tokensToSymbols = filtered.ToDictionary(i => i.InstrumentToken, i => i.TradingSymbol);
         _logger.LogInformation("Subscribing to {Count} instrument tokens.", tokensToSymbols.Count);

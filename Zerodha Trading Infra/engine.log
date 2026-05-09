@@ -8,16 +8,16 @@ Tunnel established. Webhooks are natively routing to:
 Using launch settings from /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.Strategy/Properties/launchSettings.json...
 Building...
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
-info: Trading.Strategy.StatusReporterService[0]
-      StatusReporterService started. Waiting 60s for indicator warmup...
 info: Trading.Strategy.Services.MarketClosingService[0]
       MarketClosingService started. Monitoring for 15:35 IST market close.
+info: Trading.Strategy.StatusReporterService[0]
+      StatusReporterService started. Waiting 60s for indicator warmup...
 info: Trading.Strategy.Worker[0]
-      Strategy Engine Worker starting at: 05/04/2026 11:09:03 +05:30
+      Strategy Engine Worker starting at: 05/08/2026 09:24:24 +05:30
 info: Trading.Zerodha.Services.ZerodhaAuthService[0]
-      Validating cached token from access_token.json...
+      Cached token is from 05/07/2026 00:00:00 — requires fresh login.
 info: Microsoft.Hosting.Lifetime[14]
       Now listening on: http://0.0.0.0:5005
 info: Microsoft.Hosting.Lifetime[0]
@@ -26,37 +26,32 @@ info: Microsoft.Hosting.Lifetime[0]
       Hosting environment: Development
 info: Microsoft.Hosting.Lifetime[0]
       Content root path: /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.Strategy
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Launching Playwright to automate Zerodha login at https://kite.zerodha.com/connect/login?v=3&api_key=6zfzn8a4x91snnpz
 info: Trading.Strategy.Consumers.MQDataConsumer[0]
       MQDataConsumer started listening to RabbitMQ.
 info: Trading.Zerodha.Services.ZerodhaAuthService[0]
-      Cached token is valid. Skipping login.
+      Step 1: Entering User ID...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Step 2: Entering Password...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Step 3: Waiting for TOTP prompt...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Step 4: Injecting TOTP...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Step 5: Waiting for redirect with request_token...
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Redirect intercepted: https://127.0.0.1:5000/?action=login&type=login&status=success&request_token=jLTnY3I1kdQBSp3V5lKINtkDyl51kIwj
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Generating Zerodha access token from request_token...
+warn: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Access token written to access_token.json as plaintext. Ensure this file is excluded from source control (.gitignore) and protected by filesystem permissions.
+info: Trading.Zerodha.Services.ZerodhaAuthService[0]
+      Access token generated and cached to access_token.json
 info: Trading.Zerodha.Services.NfoSymbolMaster[0]
       Downloading NFO Instrument Master from Zerodha Kite...
-fail: Trading.Zerodha.Services.NfoSymbolMaster[0]
-      Failed to download NFO instruments from Zerodha.
-      System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 7 seconds elapsing.
-       ---> System.TimeoutException: A task was canceled.
-       ---> System.Threading.Tasks.TaskCanceledException: A task was canceled.
-         at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellation(CancellationToken cancellationToken)
-         at System.Net.Http.HttpConnectionWaiter`1.WaitForConnectionAsync(HttpRequestMessage request, HttpConnectionPool pool, Boolean async, CancellationToken requestCancellationToken)
-         at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
-         at System.Net.Http.HttpMessageHandlerStage.Send(HttpRequestMessage request, CancellationToken cancellationToken)
-         at System.Net.Http.Metrics.MetricsHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
-         at System.Net.Http.HttpMessageHandlerStage.Send(HttpRequestMessage request, CancellationToken cancellationToken)
-         at System.Net.Http.DiagnosticsHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
-         at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
-         at System.Net.Http.HttpMessageHandlerStage.Send(HttpRequestMessage request, CancellationToken cancellationToken)
-         at System.Net.Http.SocketsHttpHandler.Send(HttpRequestMessage request, CancellationToken cancellationToken)
-         at System.Net.Http.HttpClient.Send(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationToken cancellationToken)
-         --- End of inner exception stack trace ---
-         --- End of inner exception stack trace ---
-         at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
-         at System.Net.Http.HttpClient.Send(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationToken cancellationToken)
-         at System.Net.Http.HttpClient.Send(HttpRequestMessage request)
-         at KiteConnect.Kite.Request(String Route, String Method, Object Params, Dictionary`2 QueryParams, Boolean json)
-         at KiteConnect.Kite.Get(String Route, Dictionary`2 Params, Dictionary`2 QueryParams)
-         at KiteConnect.Kite.GetInstruments(String Exchange)
-         at Trading.Zerodha.Services.NfoSymbolMaster.Initialize(String accessToken) in /Users/Lenovo/Projects/Zerodha_Option_Selling/Zerodha Trading Infra/Trading.Zerodha/Services/NfoSymbolMaster.cs:line 40
+info: Trading.Zerodha.Services.NfoSymbolMaster[0]
+      Successfully cached 3090 NFO derivative instruments.
 info: Trading.Strategy.Worker[0]
       Strategy Engine authenticated successfully with Zerodha.
 info: Trading.Strategy.Worker[0]
@@ -64,7 +59,7 @@ info: Trading.Strategy.Worker[0]
 warn: Trading.Strategy.Worker[0]
       Zerodha:InstrumentTokens not found in config. Using hardcoded defaults. Add them to appsettings.json to remove this warning.
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (5ms) [Parameters=[@__symbol_0='?' (Size = 8), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (4ms) [Parameters=[@__symbol_0='?' (Size = 8), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT "d0"."Id", "d0"."Close", "d0"."Date", "d0"."High", "d0"."Low", "d0"."Open", "d0"."Symbol"
       FROM (
           SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
@@ -82,7 +77,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ORDER BY "m"."Date" DESC
       LIMIT 1
 info: Trading.Strategy.Services.MovingAverageService[0]
-      Restored NIFTY 50 EMA state from DB snapshot dated 4/30/2026. EMA50=24195.228653219661215319912386, EMA200=24906.484347707165312871173867
+      Restored NIFTY 50 EMA state from DB snapshot dated 5/6/2026. EMA50=24195.228653219661215319912386, EMA200=24906.484347707165312871173867
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
       SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
@@ -91,11 +86,56 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ORDER BY "d"."Date" DESC
       LIMIT 1
 info: Trading.Strategy.Worker[0]
-      NIFTY 50: DB ends at 4/30/2026. Fetching missing days 5/1/2026 → 5/3/2026 from Zerodha...
-warn: Trading.Strategy.Worker[0]
-      NIFTY 50: No new candles returned from Zerodha.
+      NIFTY 50: DB ends at 5/6/2026. Fetching missing days 5/7/2026 → 5/7/2026 from Zerodha...
 info: Trading.Strategy.Worker[0]
-      >>> NIFTY 50 3-DAY RANGE: Low=23796.85 High=24334.7 <<<
+      NIFTY 50: Received 1 new candles from Zerodha.
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Bootstrapping NIFTY 50 from 1 historical candles.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      SELECT "d"."Date"
+      FROM "DailyCloses" AS "d"
+      WHERE "d"."Symbol" = @__symbol_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "d0"."Id", "d0"."Close", "d0"."Date", "d0"."High", "d0"."Low", "d0"."Open", "d0"."Symbol"
+      FROM (
+          SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__symbol_0
+          ORDER BY "d"."Date" DESC
+          LIMIT @__p_1
+      ) AS "d0"
+      ORDER BY "d0"."Date"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      SELECT "m"."Id", "m"."Date", "m"."EMA100", "m"."EMA200", "m"."EMA50", "m"."SMA100", "m"."SMA200", "m"."SMA50", "m"."Symbol"
+      FROM "MovingAverageSnapshots" AS "m"
+      WHERE "m"."Symbol" = @__symbol_0
+      ORDER BY "m"."Date" DESC
+      LIMIT 1
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Restored NIFTY 50 EMA state from DB snapshot dated 5/6/2026. EMA50=24195.228653219661215319912386, EMA200=24906.484347707165312871173867
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8), @__date_Date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "m"."Id", "m"."Date", "m"."EMA100", "m"."EMA200", "m"."EMA50", "m"."SMA100", "m"."SMA200", "m"."SMA50", "m"."Symbol"
+      FROM "MovingAverageSnapshots" AS "m"
+      WHERE "m"."Symbol" = @__symbol_0 AND rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "m"."Date", 'start of day'), '0'), '.') = @__date_Date_1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Decimal), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (Size = 8)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "MovingAverageSnapshots" ("Date", "EMA100", "EMA200", "EMA50", "SMA100", "SMA200", "SMA50", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Bootstrap complete. Saved MA snapshot for NIFTY 50 dated 5/7/2026.
+info: Trading.Strategy.Worker[0]
+      >>> NIFTY 50 3-DAY RANGE: Low=23882.05 High=24482.1 <<<
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
       SELECT "d0"."Id", "d0"."Close", "d0"."Date", "d0"."High", "d0"."Low", "d0"."Open", "d0"."Symbol"
@@ -115,7 +155,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ORDER BY "m"."Date" DESC
       LIMIT 1
 info: Trading.Strategy.Services.MovingAverageService[0]
-      Restored NIFTY BANK EMA state from DB snapshot dated 4/30/2026. EMA50=56241.82762264738493406800419, EMA200=57306.797976523036117814477473
+      Restored NIFTY BANK EMA state from DB snapshot dated 5/6/2026. EMA50=56241.82762264738493406800419, EMA200=57306.797976523036117814477473
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
       SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
@@ -124,15 +164,60 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       ORDER BY "d"."Date" DESC
       LIMIT 1
 info: Trading.Strategy.Worker[0]
-      NIFTY BANK: DB ends at 4/30/2026. Fetching missing days 5/1/2026 → 5/3/2026 from Zerodha...
-warn: Trading.Strategy.Worker[0]
-      NIFTY BANK: No new candles returned from Zerodha.
+      NIFTY BANK: DB ends at 5/6/2026. Fetching missing days 5/7/2026 → 5/7/2026 from Zerodha...
 info: Trading.Strategy.Worker[0]
-      >>> NIFTY BANK 3-DAY RANGE: Low=54440.25 High=56178.75 <<<
+      NIFTY BANK: Received 1 new candles from Zerodha.
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Bootstrapping NIFTY BANK from 1 historical candles.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      SELECT "d"."Date"
+      FROM "DailyCloses" AS "d"
+      WHERE "d"."Symbol" = @__symbol_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "DailyCloses" ("Close", "Date", "High", "Low", "Open", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "d0"."Id", "d0"."Close", "d0"."Date", "d0"."High", "d0"."Low", "d0"."Open", "d0"."Symbol"
+      FROM (
+          SELECT "d"."Id", "d"."Close", "d"."Date", "d"."High", "d"."Low", "d"."Open", "d"."Symbol"
+          FROM "DailyCloses" AS "d"
+          WHERE "d"."Symbol" = @__symbol_0
+          ORDER BY "d"."Date" DESC
+          LIMIT @__p_1
+      ) AS "d0"
+      ORDER BY "d0"."Date"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      SELECT "m"."Id", "m"."Date", "m"."EMA100", "m"."EMA200", "m"."EMA50", "m"."SMA100", "m"."SMA200", "m"."SMA50", "m"."Symbol"
+      FROM "MovingAverageSnapshots" AS "m"
+      WHERE "m"."Symbol" = @__symbol_0
+      ORDER BY "m"."Date" DESC
+      LIMIT 1
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Restored NIFTY BANK EMA state from DB snapshot dated 5/6/2026. EMA50=56241.82762264738493406800419, EMA200=57306.797976523036117814477473
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 10), @__date_Date_1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "m"."Id", "m"."Date", "m"."EMA100", "m"."EMA200", "m"."EMA50", "m"."SMA100", "m"."SMA200", "m"."SMA50", "m"."Symbol"
+      FROM "MovingAverageSnapshots" AS "m"
+      WHERE "m"."Symbol" = @__symbol_0 AND rtrim(rtrim(strftime('%Y-%m-%d %H:%M:%f', "m"."Date", 'start of day'), '0'), '.') = @__date_Date_1
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (DbType = Decimal), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (Size = 10)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "MovingAverageSnapshots" ("Date", "EMA100", "EMA200", "EMA50", "SMA100", "SMA200", "SMA50", "Symbol")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+      RETURNING "Id";
+info: Trading.Strategy.Services.MovingAverageService[0]
+      Bootstrap complete. Saved MA snapshot for NIFTY BANK dated 5/7/2026.
+info: Trading.Strategy.Worker[0]
+      >>> NIFTY BANK 3-DAY RANGE: Low=54221.65 High=56334.15 <<<
 info: Trading.Strategy.Worker[0]
       Pre-warm complete. SMAs, EMAs, and CPRs ready.
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (1ms) [Parameters=[@__symbol_0='?' (Size = 8), @__timeframe_1='?' (Size = 5), @__date_2='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (0ms) [Parameters=[@__symbol_0='?' (Size = 8), @__timeframe_1='?' (Size = 5), @__date_2='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
       SELECT "c"."Id", "c"."BottomCentral", "c"."Date", "c"."Pivot", "c"."R1", "c"."R2", "c"."R3", "c"."S1", "c"."S2", "c"."S3", "c"."Symbol", "c"."Timeframe", "c"."TopCentral"
       FROM "CprData" AS "c"
       WHERE "c"."Symbol" = @__symbol_0 AND "c"."Timeframe" = @__timeframe_1 AND "c"."Date" = @__date_2
@@ -167,455 +252,1543 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       FROM "CprData" AS "c"
       WHERE "c"."Symbol" = @__symbol_0 AND "c"."Timeframe" = @__timeframe_1 AND "c"."Date" = @__date_2
       LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (DbType = Decimal), @p8='?' (DbType = Decimal), @p9='?' (Size = 8), @p10='?' (Size = 5), @p11='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "CprData" ("BottomCentral", "Date", "Pivot", "R1", "R2", "R3", "S1", "S2", "S3", "Symbol", "Timeframe", "TopCentral")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (DbType = Decimal), @p8='?' (DbType = Decimal), @p9='?' (Size = 8), @p10='?' (Size = 6), @p11='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "CprData" ("BottomCentral", "Date", "Pivot", "R1", "R2", "R3", "S1", "S2", "S3", "Symbol", "Timeframe", "TopCentral")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (DbType = Decimal), @p8='?' (DbType = Decimal), @p9='?' (Size = 8), @p10='?' (Size = 7), @p11='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "CprData" ("BottomCentral", "Date", "Pivot", "R1", "R2", "R3", "S1", "S2", "S3", "Symbol", "Timeframe", "TopCentral")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (DbType = Decimal), @p8='?' (DbType = Decimal), @p9='?' (Size = 10), @p10='?' (Size = 5), @p11='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "CprData" ("BottomCentral", "Date", "Pivot", "R1", "R2", "R3", "S1", "S2", "S3", "Symbol", "Timeframe", "TopCentral")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (DbType = Decimal), @p8='?' (DbType = Decimal), @p9='?' (Size = 10), @p10='?' (Size = 6), @p11='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "CprData" ("BottomCentral", "Date", "Pivot", "R1", "R2", "R3", "S1", "S2", "S3", "Symbol", "Timeframe", "TopCentral")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime), @p2='?' (DbType = Decimal), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Decimal), @p7='?' (DbType = Decimal), @p8='?' (DbType = Decimal), @p9='?' (Size = 10), @p10='?' (Size = 7), @p11='?' (DbType = Decimal)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "CprData" ("BottomCentral", "Date", "Pivot", "R1", "R2", "R3", "S1", "S2", "S3", "Symbol", "Timeframe", "TopCentral")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)
+      RETURNING "Id";
 info: Trading.Strategy.Worker[0]
       Saved latest CPRs to SQLite Database.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 41.5560ms
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      >>> 9:20 AM STRANGLE TRIGGERED for NIFTY BANK at 05/08/2026 09:24:33 with Spot: 55678.55 <<<
+info: Trading.Zerodha.Services.NfoSymbolMaster[0]
+      Searching for BANKNIFTY CE options. Total Master Count: 3090
+info: Trading.Zerodha.Services.NfoSymbolMaster[0]
+      Searching for BANKNIFTY PE options. Total Master Count: 3090
+info: Trading.Zerodha.Services.NfoSymbolMaster[0]
+      Searching for BANKNIFTY CE options. Total Master Count: 3090
+info: Trading.Zerodha.Services.NfoSymbolMaster[0]
+      Searching for BANKNIFTY PE options. Total Master Count: 3090
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      NIFTY BANK Selected strikes: CE BANKNIFTY26MAY56200CE (56200.0), PE BANKNIFTY26MAY55200PE (55200.0)
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      NIFTY BANK: Buying Margin Hedges...
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing Market BUY order for 30 BANKNIFTY26MAY56900CE
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper trade executed virtually. Order ID: 6631decb
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing Market BUY order for 30 BANKNIFTY26MAY54500PE
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper trade executed virtually. Order ID: a52b59bf
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      NIFTY BANK: Selling Main Strangle...
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing Market SELL order for 30 BANKNIFTY26MAY56200CE
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper trade executed virtually. Order ID: 0dcc8028
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing Market SELL order for 30 BANKNIFTY26MAY55200PE
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper trade executed virtually. Order ID: 30d668e1
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      NIFTY BANK: Fetching LTPs for SL orders...
+warn: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] No cached LTP for BANKNIFTY26MAY56200CE. Falling back to live Kite API.
+warn: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] No cached LTP for BANKNIFTY26MAY55200PE. Falling back to live Kite API.
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing SL BUY order for 30 BANKNIFTY26MAY56200CE @ 1556.0
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper SL trade executed virtually. Order ID: 817d88d5
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing SL BUY order for 30 BANKNIFTY26MAY55200PE @ 1339.6
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper SL trade executed virtually. Order ID: 2d1a9ee5
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      [SAFETY] NIFTY BANK 9:20 Strangle deployed. CE Entry: 778 | PE Entry: 669.8
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      >>> 9:20 AM STRANGLE TRIGGERED for NIFTY 50 at 05/08/2026 09:24:33 with Spot: 24215.15 <<<
+info: Trading.Zerodha.Services.NfoSymbolMaster[0]
+      Searching for NIFTY CE options. Total Master Count: 3090
+info: Trading.Zerodha.Services.NfoSymbolMaster[0]
+      Searching for NIFTY PE options. Total Master Count: 3090
+info: Trading.Zerodha.Services.NfoSymbolMaster[0]
+      Searching for NIFTY CE options. Total Master Count: 3090
+info: Trading.Zerodha.Services.NfoSymbolMaster[0]
+      Searching for NIFTY PE options. Total Master Count: 3090
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      NIFTY 50 Selected strikes: CE NIFTY2651224400CE (24400.0), PE NIFTY2651224000PE (24000.0)
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      NIFTY 50: Buying Margin Hedges...
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing Market BUY order for 65 NIFTY2651224700CE
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper trade executed virtually. Order ID: ce66a9e3
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing Market BUY order for 65 NIFTY2651223700PE
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper trade executed virtually. Order ID: 37ac439e
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      NIFTY 50: Selling Main Strangle...
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing Market SELL order for 65 NIFTY2651224400CE
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper trade executed virtually. Order ID: 20426832
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing Market SELL order for 65 NIFTY2651224000PE
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper trade executed virtually. Order ID: 8a6088af
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      NIFTY 50: Fetching LTPs for SL orders...
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] LTP for NIFTY2651224400CE: 94.0 (from tick cache)
+warn: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] No cached LTP for NIFTY2651224000PE. Falling back to live Kite API.
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing SL BUY order for 65 NIFTY2651224400CE @ 188.0
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper SL trade executed virtually. Order ID: 04b48ddf
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] Placing SL BUY order for 65 NIFTY2651224000PE @ 156.7
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      Paper SL trade executed virtually. Order ID: 11c71d2c
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      [SAFETY] NIFTY 50 9:20 Strangle deployed. CE Entry: 94.0 | PE Entry: 78.35
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 1624
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 3126
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] EMA50 seeded at 56241.82762264738493406800419 (from tracker pre-warm)
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55865.061, SMA200: 57194.08 | EMA50: 56219.777519798467877830043241, EMA200: 57290.606454368578046990452822
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] New Day Open recorded: 55678.55 at 05/08/2026 03:50:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (05/08/2026 03:50:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  56051.16 │  56054.92 │  56058.68 │
+      │ Weekly      │  55061.43 │  55259.52 │  55457.60 │
+      │ Monthly     │  53705.58 │  54091.50 │  54477.43 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  56326.63 │  55775.68 │  56605.87 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] EMA20 seeded at 24214.6 (from first candle fallback)
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23999.287, SMA200: 25072.5625 | EMA50: 24195.988313877713716679915822, EMA200: 24899.599926336944762494346266
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] New Day Open recorded: 24215.15 at 05/08/2026 03:50:00
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (05/08/2026 03:50:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  24345.45 │  24364.25 │  24383.05 │
+      │ Weekly      │  24020.29 │  24043.03 │  24065.78 │
+      │ Monthly     │  23392.13 │  23593.93 │  23795.74 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  24444.50 │  24246.40 │  24562.35 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 4644
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 6120
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 7572
 info: Trading.Strategy.StatusReporterService[0]
-      StatusReporterService: Sending report #1 at 05/04/2026 11:10:03...
+      StatusReporterService: Sending report #1 at 05/08/2026 09:25:24...
 info: Trading.Strategy.StatusReporterService[0]
       Telegram message sent OK.
 info: Trading.Strategy.StatusReporterService[0]
       StatusReporterService: Report #1 sent.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 3.8540ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.4573ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 21.0752ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 4.3728ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.9811ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.3711ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.7276ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.3006ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.2692ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 3.2809ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.3421ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.7867ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 3.3057ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 11.0711ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 3.1196ms
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 9210
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 10705
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 12236
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 13784
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 15281
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 16763
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 18275
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 19683
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 21129
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 09:24 ══════════════╗
+      ║  Price : 24,221.75   EMA20: 24,216.82   [BULL↑]  RSI: 53.0
+      ║  3-Day High : 24,482.1 (dist=-260.4)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+339.7)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,210.5   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 09:24 ══════════════╗
+      ║  Price : 55,670.75   EMA50: 56,158.92   [BEAR↓]  RSI: 50.7
+      ║  3-Day High : 56,334.2 (dist=-663.4)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1449.1)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,655.9   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 22617
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 24019
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 25372
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 26837
+warn: Trading.Strategy.Consumers.MQDataConsumer[0]
+      STALE DATA DETECTED! Total Age: 187.354529s [Exchange: 8E-06s, MQ Delay: 187.354521s]. Skipping strategy.
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23972.443, SMA200: 25067.6475 | EMA50: 24197.284850588391610143448535, EMA200: 24892.927787766427899185944810
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55755.201, SMA200: 57186.63025 | EMA50: 56198.570558237743647326904291, EMA200: 57274.570569250482743040299062
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 27629
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 28145
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 09:31 ══════════════╗
+      ║  Price : 24,227.60   EMA20: 24,222.26   [BULL↑]  RSI: 53.3
+      ║  3-Day High : 24,482.1 (dist=-254.5)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+345.6)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,210.5   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,227.6 EMA=24,222.3 | PDLH=band<min | 3DH=24,482.1(+1.1%) 3DL=23,882.1(+1.4%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23942.735, SMA200: 25063.22825 | EMA50: 24198.473679977082135235862318, EMA200: 24886.307610773727124069666752
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 09:31 ══════════════╗
+      ║  Price : 55,693.75   EMA50: 56,057.66   [BEAR↓]  RSI: 50.7
+      ║  3-Day High : 56,334.2 (dist=-640.4)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1472.1)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,655.9   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,693.8 EMA=56,057.7 | PDLH=band<min | 3DH=56,334.2(+1.1%) 3DL=54,221.7(+2.6%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55643.791, SMA200: 57180.955 | EMA50: 56178.773673600969386647417848, EMA200: 57258.841011347492865000097082
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 37651
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 09:36 ══════════════╗
+      ║  Price : 55,647.65   EMA50: 55,984.64   [BEAR↓]  RSI: 50.8
+      ║  3-Day High : 56,334.2 (dist=-686.5)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1426)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 09:36 ══════════════╗
+      ║  Price : 24,195.75   EMA20: 24,215.38   [BEAR↓]  RSI: 53.3
+      ║  3-Day High : 24,482.1 (dist=-286.4)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+313.7)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,189.6   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 38476
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 38879
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23918.157, SMA200: 25059.365 | EMA50: 24198.366868997588718167789286, EMA200: 24879.436390766028346715739719
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55536.409, SMA200: 57177.931 | EMA50: 56159.143333459754900896538717, EMA200: 57243.113240090303881268752832
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 39318
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 09:39 ══════════════╗
+      ║  Price : 24,185.80   EMA20: 24,205.85   [BEAR↓]  RSI: 52.5
+      ║  3-Day High : 24,482.1 (dist=-296.3)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+303.8)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,185.7   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,185.8 EMA=24,205.8 | PDLH=band<min | 3DH=24,482.1(+1.2%) 3DL=23,882.1(+1.3%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23892.223, SMA200: 25054.8405 | EMA50: 24197.874050605526415494542647, EMA200: 24872.534536131540502469811961
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 09:39 ══════════════╗
+      ║  Price : 55,626.00   EMA50: 55,925.07   [BEAR↓]  RSI: 50.7
+      ║  3-Day High : 56,334.2 (dist=-708.2)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1404.4)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,626.0 EMA=55,925.1 | PDLH=band<min | 3DH=56,334.2(+1.3%) 3DL=54,221.7(+2.5%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55428.062, SMA200: 57171.29725 | EMA50: 56138.235751755450787135890140, EMA200: 57227.022561084430210808367231
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 40941
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 42360
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 46880
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 47708
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 52208
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55317.845, SMA200: 57165.9015 | EMA50: 56120.142192863080168032521899, EMA200: 57211.597958486575183835149646
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 09:55 ══════════════╗
+      ║  Price : 55,676.85   EMA50: 55,875.37   [BEAR↓]  RSI: 50.7
+      ║  3-Day High : 56,334.2 (dist=-657.3)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1455.2)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 09:57 ══════════════╗
+      ║  Price : 24,193.70   EMA20: 24,198.51   [BEAR↓]  RSI: 52.3
+      ║  3-Day High : 24,482.1 (dist=-288.4)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+311.7)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,185.7   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23866.166, SMA200: 25050.5045 | EMA50: 24197.710362346486163906521367, EMA200: 24865.779963632719203937774031
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 52898
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 09:57 ══════════════╗
+      ║  Price : 24,193.00   EMA20: 24,196.49   [BEAR↓]  RSI: 52.5
+      ║  3-Day High : 24,482.1 (dist=-289.1)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+311)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,193.0 EMA=24,196.5 | PDLH=band<min | 3DH=24,482.1(+1.2%) 3DL=23,882.1(+1.3%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23846.453, SMA200: 25045.37 | EMA50: 24197.525642254467098655285235, EMA200: 24859.085635636373739221975284
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 09:57 ══════════════╗
+      ║  Price : 55,666.60   EMA50: 55,838.60   [BEAR↓]  RSI: 50.7
+      ║  3-Day High : 56,334.2 (dist=-667.6)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1445)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,666.6 EMA=55,838.6 | PDLH=band<min | 3DH=56,334.2(+1.2%) 3DL=54,221.7(+2.6%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55220.597, SMA200: 57158.18225 | EMA50: 56102.356224515508396737128884, EMA200: 57196.224844471783390961168058
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 53492
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55136.065, SMA200: 57150.91725 | EMA50: 56083.167745122743361570966967, EMA200: 57180.471860944700969160559420
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 10:05 ══════════════╗
+      ║  Price : 55,613.05   EMA50: 55,801.36   [BEAR↓]  RSI: 50.0
+      ║  3-Day High : 56,334.2 (dist=-721.1)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1391.4)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23833.047, SMA200: 25041.0365 | EMA50: 24197.442283734684075178607383, EMA200: 24852.481798465862557737179510
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 10:05 ══════════════╗
+      ║  Price : 24,195.40   EMA20: 24,195.74   [BEAR↓]  RSI: 52.5
+      ║  3-Day High : 24,482.1 (dist=-286.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+313.4)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 53934
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23827.678, SMA200: 25037.91175 | EMA50: 24198.015135352931758504936506, EMA200: 24846.109342759734572088053345
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55074.097, SMA200: 57146.557 | EMA50: 56066.449402176753425823085910, EMA200: 57165.311444417888024193787684
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 58873
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 63264
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 10:16 ══════════════╗
+      ║  Price : 55,636.25   EMA50: 55,773.60   [BEAR↓]  RSI: 50.5
+      ║  3-Day High : 56,334.2 (dist=-697.9)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1414.6)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,636.3 EMA=55,773.6 | PDLH=band<min | 3DH=56,334.2(+1.3%) 3DL=54,221.7(+2.5%) 
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 10:16 ══════════════╗
+      ║  Price : 24,210.10   EMA20: 24,201.64   [BULL↑]  RSI: 53.0
+      ║  3-Day High : 24,482.1 (dist=-272)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+328.1)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,210.1 EMA=24,201.6 | PDLH=band<min | 3DH=24,482.1(+1.1%) 3DL=23,882.1(+1.4%) 
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 63738
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 68520
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55004.49, SMA200: 57144.01 | EMA50: 56047.196484444331722849631561, EMA200: 57149.492425070446352311262433
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 10:15 ══════════════╗
+      ║  Price : 55,575.50   EMA50: 55,739.70   [BEAR↓]  RSI: 49.6
+      ║  3-Day High : 56,334.2 (dist=-758.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1353.9)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23816.048, SMA200: 25035.42925 | EMA50: 24197.481208476346199347880173, EMA200: 24839.525170194961093758818983
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 10:15 ══════════════╗
+      ║  Price : 24,184.40   EMA20: 24,195.82   [BEAR↓]  RSI: 52.0
+      ║  3-Day High : 24,482.1 (dist=-297.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+302.4)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 70164
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23811.761, SMA200: 25032.50425 | EMA50: 24198.995670889038505255806441, EMA200: 24833.520939645757500786094416
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (05/08/2026 05:00:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  24345.45 │  24364.25 │  24383.05 │
+      │ Weekly      │  24020.29 │  24043.03 │  24065.78 │
+      │ Monthly     │  23392.13 │  23593.93 │  23795.74 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  24444.50 │  24246.40 │  24562.35 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 54962.333, SMA200: 57141.277 | EMA50: 56032.616230152397145482979342, EMA200: 57134.824838751337433382792160
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (05/08/2026 05:00:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  56051.16 │  56054.92 │  56058.68 │
+      │ Weekly      │  55061.43 │  55259.52 │  55457.60 │
+      │ Monthly     │  53705.58 │  54091.50 │  54477.43 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  56326.63 │  55775.68 │  56605.87 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 77092
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 81366
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 10:33 ══════════════╗
+      ║  Price : 24,232.05   EMA20: 24,207.65   [BULL↑]  RSI: 53.7
+      ║  3-Day High : 24,482.1 (dist=-250.1)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+350)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,232.1 EMA=24,207.6 | PDLH=band<min | 3DH=24,482.1(+1.0%) 3DL=23,882.1(+1.4%) 
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 10:33 ══════════════╗
+      ║  Price : 55,643.70   EMA50: 55,722.26   [BEAR↓]  RSI: 50.8
+      ║  3-Day High : 56,334.2 (dist=-690.5)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1422.1)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,643.7 EMA=55,722.3 | PDLH=band<min | 3DH=56,334.2(+1.2%) 3DL=54,221.7(+2.6%) 
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 85748
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 86009
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 54954.65, SMA200: 57138.70175 | EMA50: 56017.048927009165884875803682, EMA200: 57119.907676176697259916296716
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23815.858, SMA200: 25029.3935 | EMA50: 24200.325252422801701128127757, EMA200: 24827.544611888088271922551188
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 89757
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 54926.699, SMA200: 57136.65825 | EMA50: 55998.860733793120163900281969, EMA200: 57104.319042582899277230562420
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 10:50 ══════════════╗
+      ║  Price : 55,553.25   EMA50: 55,700.23   [BEAR↓]  RSI: 49.2
+      ║  3-Day High : 56,334.2 (dist=-780.9)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1331.6)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23814.755, SMA200: 25026.584 | EMA50: 24200.565438602299673632907060, EMA200: 24821.364565998654557774068091
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 10:50 ══════════════╗
+      ║  Price : 24,206.45   EMA20: 24,212.79   [BEAR↓]  RSI: 52.5
+      ║  3-Day High : 24,482.1 (dist=-275.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+324.4)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 90641
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 94595
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 96004
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23821.494, SMA200: 25024.77625 | EMA50: 24200.692284147307529568871489, EMA200: 24815.219644943941577099699255
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 10:30 ══════════════╗
+      ║  Price : 24,203.80   EMA20: 24,209.42   [BEAR↓]  RSI: 52.4
+      ║  3-Day High : 24,482.1 (dist=-278.3)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+321.8)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,203.8 EMA=24,209.4 | PDLH=band<min | 3DH=24,482.1(+1.1%) 3DL=23,882.1(+1.3%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 54922.703, SMA200: 57136.25 | EMA50: 55980.707371683586039825761107, EMA200: 57088.713380467646548103890157
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 10:30 ══════════════╗
+      ║  Price : 55,535.95   EMA50: 55,670.86   [BEAR↓]  RSI: 48.9
+      ║  3-Day High : 56,334.2 (dist=-798.2)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1314.3)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,536.0 EMA=55,670.9 | PDLH=band<min | 3DH=56,334.2(+1.4%) 3DL=54,221.7(+2.4%) 
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 96759
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23833.32, SMA200: 25022.31475 | EMA50: 24201.859253396432724487739274, EMA200: 24809.401041511663551456916178
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 54933.172, SMA200: 57136.27525 | EMA50: 55966.734533578347371597299888, EMA200: 57074.143098074933647127732046
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 97523
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 102005
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 102403
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 11:16 ══════════════╗
+      ║  Price : 55,621.45   EMA50: 55,663.58   [BEAR↓]  RSI: 50.3
+      ║  3-Day High : 56,334.2 (dist=-712.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1399.8)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 54970.444, SMA200: 57137.58125 | EMA50: 55953.193963634098455064072441, EMA200: 57059.688440382645750141386454
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 11:16 ══════════════╗
+      ║  Price : 24,227.05   EMA20: 24,218.25   [BULL↑]  RSI: 53.5
+      ║  3-Day High : 24,482.1 (dist=-255.1)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+345)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23854.839, SMA200: 25020.20225 | EMA50: 24202.847125812258892154886754, EMA200: 24803.606503785179337014558803
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 103117
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 54993.455, SMA200: 57138.34525 | EMA50: 55937.929494471976947022344110, EMA200: 57044.805470826599523771820420
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 11:25 ══════════════╗
+      ║  Price : 55,563.95   EMA50: 55,649.44   [BEAR↓]  RSI: 49.3
+      ║  3-Day High : 56,334.2 (dist=-770.2)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1342.3)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,564.0 EMA=55,649.4 | PDLH=band<min | 3DH=56,334.2(+1.4%) 3DL=54,221.7(+2.4%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23870.672, SMA200: 25018.3335 | EMA50: 24202.753120878444817952734332, EMA200: 24797.604946533585512765657720
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 11:25 ══════════════╗
+      ║  Price : 24,200.45   EMA20: 24,214.81   [BEAR↓]  RSI: 51.9
+      ║  3-Day High : 24,482.1 (dist=-281.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+318.4)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,200.5 EMA=24,214.8 | PDLH=band<min | 3DH=24,482.1(+1.2%) 3DL=23,882.1(+1.3%) 
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 103800
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 104574
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 105072
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 105472
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 11:45 ══════════════╗
+      ║  Price : 24,204.55   EMA20: 24,210.14   [BEAR↓]  RSI: 51.9
+      ║  3-Day High : 24,482.1 (dist=-277.6)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+322.5)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23883.14, SMA200: 25016.3755 | EMA50: 24202.823586726348942738901613, EMA200: 24791.703902289470234031671076
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (05/08/2026 06:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  24345.45 │  24364.25 │  24383.05 │
+      │ Weekly      │  24020.29 │  24043.03 │  24065.78 │
+      │ Monthly     │  23392.13 │  23593.93 │  23795.74 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  24444.50 │  24246.40 │  24562.35 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 11:45 ══════════════╗
+      ║  Price : 55,555.80   EMA50: 55,633.31   [BEAR↓]  RSI: 49.3
+      ║  3-Day High : 56,334.2 (dist=-778.4)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1334.2)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55007.051, SMA200: 57138.5185 | EMA50: 55922.944024100526870668526694, EMA200: 57029.989495992504006122349570
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (05/08/2026 06:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  56051.16 │  56054.92 │  56058.68 │
+      │ Weekly      │  55061.43 │  55259.52 │  55457.60 │
+      │ Monthly     │  53705.58 │  54091.50 │  54477.43 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  56326.63 │  55775.68 │  56605.87 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 106194
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 106904
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23891.564, SMA200: 25015.554 | EMA50: 24202.673642148845062631493707, EMA200: 24785.806351022908341155734050
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55011.773, SMA200: 57141.30475 | EMA50: 55908.795238841682679661917804, EMA200: 57015.384127873175608051480421
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 107613
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 12:05 ══════════════╗
+      ║  Price : 55,562.45   EMA50: 55,619.99   [BEAR↓]  RSI: 49.2
+      ║  3-Day High : 56,334.2 (dist=-771.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1340.8)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,562.5 EMA=55,620.0 | PDLH=band<min | 3DH=56,334.2(+1.4%) 3DL=54,221.7(+2.4%) 
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 12:05 ══════════════╗
+      ║  Price : 24,199.75   EMA20: 24,206.57   [BEAR↓]  RSI: 51.8
+      ║  3-Day High : 24,482.1 (dist=-282.4)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+317.7)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,199.8 EMA=24,206.6 | PDLH=band<min | 3DH=24,482.1(+1.2%) 3DL=23,882.1(+1.3%) 
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 108038
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23915.545, SMA200: 25013.63475 | EMA50: 24202.615852260655060175356699, EMA200: 24779.989372405764974577070030
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55054.016, SMA200: 57141.56675 | EMA50: 55895.240523592989241243803380, EMA200: 57000.934037048566895533555242
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 12:21 ══════════════╗
+      ║  Price : 24,185.80   EMA20: 24,202.90   [BEAR↓]  RSI: 51.9
+      ║  3-Day High : 24,482.1 (dist=-296.3)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+303.8)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 12:21 ══════════════╗
+      ║  Price : 55,515.95   EMA50: 55,607.81   [BEAR↓]  RSI: 49.3
+      ║  3-Day High : 56,334.2 (dist=-818.2)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1294.3)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 112298
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55095.85, SMA200: 57143.942 | EMA50: 55880.476189334440643547967953, EMA200: 56986.185937177436876672524842
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23936.977, SMA200: 25012.12825 | EMA50: 24201.968171779845057815538790, EMA200: 24774.080025416652885277795701
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 113188
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 12:22 ══════════════╗
+      ║  Price : 55,501.05   EMA50: 55,590.97   [BEAR↓]  RSI: 48.3
+      ║  3-Day High : 56,334.2 (dist=-833.1)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1279.4)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,501.1 EMA=55,591.0 | PDLH=band<min | 3DH=56,334.2(+1.5%) 3DL=54,221.7(+2.3%) 
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 12:22 ══════════════╗
+      ║  Price : 24,181.70   EMA20: 24,195.86   [BEAR↓]  RSI: 50.9
+      ║  3-Day High : 24,482.1 (dist=-300.4)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+299.7)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,181.7 EMA=24,195.9 | PDLH=band<min | 3DH=24,482.1(+1.2%) 3DL=23,882.1(+1.2%) 
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 113609
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23970.345, SMA200: 25009.93675 | EMA50: 24201.147851317890349665909818, EMA200: 24768.179229143850369006374848
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55177.298, SMA200: 57145.5855 | EMA50: 55865.953593674266500663733916, EMA200: 56971.499012429402678894688774
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 114215
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 115476
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 116704
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 12:27 ══════════════╗
+      ║  Price : 24,197.45   EMA20: 24,193.01   [BULL↑]  RSI: 50.6
+      ║  3-Day High : 24,482.1 (dist=-284.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+315.4)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 23996.046, SMA200: 25007.7675 | EMA50: 24201.002837540718179090776100, EMA200: 24762.500331341423997175465646
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 12:27 ══════════════╗
+      ║  Price : 55,553.40   EMA50: 55,579.64   [BEAR↓]  RSI: 48.1
+      ║  3-Day High : 56,334.2 (dist=-780.8)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1331.8)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55236.253, SMA200: 57146.64325 | EMA50: 55853.696590000765853578881606, EMA200: 56957.388574494781756716632169
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 116961
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24013.299, SMA200: 25004.22825 | EMA50: 24199.751745872454721087216253, EMA200: 24756.595850432554106656306784
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 12:40 ══════════════╗
+      ║  Price : 24,169.10   EMA20: 24,187.40   [BEAR↓]  RSI: 49.5
+      ║  3-Day High : 24,482.1 (dist=-313)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+287.1)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,169.1 EMA=24,187.4 | PDLH=band<min | 3DH=24,482.1(+1.3%) 3DL=23,882.1(+1.2%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55270.922, SMA200: 57145.1765 | EMA50: 55837.533978628186800497356837, EMA200: 56942.305603604286415853780108
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 12:40 ══════════════╗
+      ║  Price : 55,441.55   EMA50: 55,562.24   [BEAR↓]  RSI: 46.5
+      ║  3-Day High : 56,334.2 (dist=-892.6)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1219.9)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,441.6 EMA=55,562.2 | PDLH=band<min | 3DH=56,334.2(+1.6%) 3DL=54,221.7(+2.2%) 
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 121520
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 122037
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 122636
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55333.38, SMA200: 57142.83825 | EMA50: 55820.277744172179474987656569, EMA200: 56926.934403568422869427374336
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (05/08/2026 07:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  56051.16 │  56054.92 │  56058.68 │
+      │ Weekly      │  55061.43 │  55259.52 │  55457.60 │
+      │ Monthly     │  53705.58 │  54091.50 │  54477.43 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  56326.63 │  55775.68 │  56605.87 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 12:30 ══════════════╗
+      ║  Price : 55,397.50   EMA50: 55,532.80   [BEAR↓]  RSI: 45.4
+      ║  3-Day High : 56,334.2 (dist=-936.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1175.9)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24040.022, SMA200: 25000.10375 | EMA50: 24198.026187210789830064188165, EMA200: 24750.617284756608294649776369
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (05/08/2026 07:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  24345.45 │  24364.25 │  24383.05 │
+      │ Weekly      │  24020.29 │  24043.03 │  24065.78 │
+      │ Monthly     │  23392.13 │  23593.93 │  23795.74 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  24444.50 │  24246.40 │  24562.35 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 12:30 ══════════════╗
+      ║  Price : 24,155.75   EMA20: 24,175.16   [BEAR↓]  RSI: 48.5
+      ║  3-Day High : 24,482.1 (dist=-326.4)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+273.7)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 123333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 123900
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 124685
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24076.686, SMA200: 24995.674 | EMA50: 24196.715356339778464179318041, EMA200: 24744.786266997836072812465162
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 13:05 ══════════════╗
+      ║  Price : 24,164.60   EMA20: 24,171.13   [BEAR↓]  RSI: 49.3
+      ║  3-Day High : 24,482.1 (dist=-317.5)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+282.6)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,164.6 EMA=24,171.1 | PDLH=band<min | 3DH=24,482.1(+1.3%) 3DL=23,882.1(+1.2%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55435.696, SMA200: 57141.3015 | EMA50: 55803.449205185035181850885723, EMA200: 56911.652966716995776199241258
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 13:05 ══════════════╗
+      ║  Price : 55,391.15   EMA50: 55,507.11   [BEAR↓]  RSI: 45.2
+      ║  3-Day High : 56,334.2 (dist=-943)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1169.5)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,391.2 EMA=55,507.1 | PDLH=band<min | 3DH=56,334.2(+1.7%) 3DL=54,221.7(+2.1%) 
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 125059
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 125712
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55514.79, SMA200: 57139.541 | EMA50: 55787.759040275818115895949028, EMA200: 56896.644976998418703799248808
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24106.444, SMA200: 24991.09175 | EMA50: 24195.561812953904798917384000, EMA200: 24739.040134987907355670052573
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 126309
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 13:29 ══════════════╗
+      ║  Price : 24,195.20   EMA20: 24,172.23   [BULL↑]  RSI: 49.5
+      ║  3-Day High : 24,482.1 (dist=-286.9)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+313.2)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24136.086, SMA200: 24987.71725 | EMA50: 24195.547624210614414646114039, EMA200: 24733.628790361162008847464985
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 13:29 ══════════════╗
+      ║  Price : 55,529.55   EMA50: 55,493.41   [BULL↑]  RSI: 45.6
+      ║  3-Day High : 56,334.2 (dist=-804.6)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1307.9)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55594.406, SMA200: 57141.44175 | EMA50: 55777.633195559119366252970635, EMA200: 56883.042041903907074905723944
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 127204
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 127712
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 13:30 ══════════════╗
+      ║  Price : 24,184.50   EMA20: 24,179.33   [BULL↑]  RSI: 52.1
+      ║  3-Day High : 24,482.1 (dist=-297.6)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+302.5)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,184.5 EMA=24,179.3 | PDLH=band<min | 3DH=24,482.1(+1.2%) 3DL=23,882.1(+1.3%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24160.411, SMA200: 24983.801 | EMA50: 24195.114384045492280738423293, EMA200: 24728.164822297866864480823542
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 13:30 ══════════════╗
+      ║  Price : 55,501.45   EMA50: 55,497.80   [BULL↑]  RSI: 49.7
+      ║  3-Day High : 56,334.2 (dist=-832.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1279.8)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,501.5 EMA=55,497.8 | PDLH=band<min | 3DH=56,334.2(+1.5%) 3DL=54,221.7(+2.3%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55652.253, SMA200: 57143.2525 | EMA50: 55766.802482007781351890109042, EMA200: 56869.294857407350785603179427
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 128713
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 129306
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 129668
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 13:48 ══════════════╗
+      ║  Price : 24,173.85   EMA20: 24,177.85   [BEAR↓]  RSI: 51.0
+      ║  3-Day High : 24,482.1 (dist=-308.3)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+291.8)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24181.415, SMA200: 24981.11 | EMA50: 24194.280486631943563846720419, EMA200: 24722.649251926743811102904900
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (05/08/2026 08:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  24345.45 │  24364.25 │  24383.05 │
+      │ Weekly      │  24020.29 │  24043.03 │  24065.78 │
+      │ Monthly     │  23392.13 │  23593.93 │  23795.74 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  24444.50 │  24246.40 │  24562.35 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 13:48 ══════════════╗
+      ║  Price : 55,464.15   EMA50: 55,493.04   [BEAR↓]  RSI: 48.9
+      ║  3-Day High : 56,334.2 (dist=-870)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+1242.5)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55707.211, SMA200: 57148.321 | EMA50: 55754.933757223162475345398884, EMA200: 56855.313316537625902164341821
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (05/08/2026 08:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  56051.16 │  56054.92 │  56058.68 │
+      │ Weekly      │  55061.43 │  55259.52 │  55457.60 │
+      │ Monthly     │  53705.58 │  54091.50 │  54477.43 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  56326.63 │  55775.68 │  56605.87 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 130565
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 134963
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 14:04 ══════════════╗
+      ║  Price : 55,152.20   EMA50: 55,464.24   [BEAR↓]  RSI: 47.6
+      ║  3-Day High : 56,334.2 (dist=-1182)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+930.6)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,152.2 EMA=55,464.2 | PDLH=band<min | 3DH=56,334.2(+2.1%) 3DL=54,221.7(+1.7%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55696.177, SMA200: 57154.98025 | EMA50: 55731.297139292842378273030301, EMA200: 56838.366915378047534978626977
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 14:04 ══════════════╗
+      ║  Price : 24,146.45   EMA20: 24,170.74   [BEAR↓]  RSI: 49.9
+      ║  3-Day High : 24,482.1 (dist=-335.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+264.4)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,146.5 EMA=24,170.7 | PDLH=band<min | 3DH=24,482.1(+1.4%) 3DL=23,882.1(+1.1%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24184.397, SMA200: 24979.33775 | EMA50: 24192.404781273828129970378442, EMA200: 24716.915926036925464723771518
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 135675
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 136353
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 137710
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 138808
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 14:06 ══════════════╗
+      ║  Price : 24,155.45   EMA20: 24,164.30   [BEAR↓]  RSI: 47.1
+      ║  3-Day High : 24,482.1 (dist=-326.7)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+273.4)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24192.004, SMA200: 24977.98075 | EMA50: 24190.955574165050556246049876, EMA200: 24711.329200404717251144430508
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 14:06 ══════════════╗
+      ║  Price : 55,160.20   EMA50: 55,409.18   [BEAR↓]  RSI: 38.9
+      ║  3-Day High : 56,334.2 (dist=-1174)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+938.6)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55702.947, SMA200: 57162.503 | EMA50: 55708.901173046064245791734995, EMA200: 56821.668737115579400302222728
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 139730
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 140171
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 141171
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 142034
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55687.345, SMA200: 57168.154 | EMA50: 55686.303087828571530270490485, EMA200: 56804.862580527364679901205586
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 14:20 ══════════════╗
+      ║  Price : 55,132.65   EMA50: 55,359.49   [BEAR↓]  RSI: 38.5
+      ║  3-Day High : 56,334.2 (dist=-1201.5)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+911)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY BANK] SCAN: No setup found yet. LTP=55,132.7 EMA=55,359.5 | PDLH=band<min | 3DH=56,334.2(+2.2%) 3DL=54,221.7(+1.7%) 
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 14:24 ══════════════╗
+      ║  Price : 24,147.50   EMA20: 24,158.35   [BEAR↓]  RSI: 48.1
+      ║  3-Day High : 24,482.1 (dist=-334.6)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+265.5)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      [NIFTY 50] SCAN: No setup found yet. LTP=24,147.5 EMA=24,158.3 | PDLH=band<min | 3DH=24,482.1(+1.4%) 3DL=23,882.1(+1.1%) 
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24193.942, SMA200: 24975.593 | EMA50: 24189.251434001715240314832234, EMA200: 24705.718959604670313322097866
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 143220
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55678.124, SMA200: 57175.569 | EMA50: 55665.036300070588333004981054, EMA200: 56788.336584701221747762885132
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY BANK] @ 14:20 ══════════════╗
+      ║  Price : 55,144.00   EMA50: 55,319.24   [BEAR↓]  RSI: 39.0
+      ║  3-Day High : 56,334.2 (dist=-1190.2)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 54,221.7  (dist=+922.4)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=55,737.8 L=55,621.4   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24200.079, SMA200: 24973.4425 | EMA50: 24187.692554236942093635819205, EMA200: 24700.184442593678568910932714
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.UltimateCombinedStrategy[0]
+      
+      ╔══════════════ STATUS PULSE [NIFTY 50] @ 14:20 ══════════════╗
+      ║  Price : 24,149.50   EMA20: 24,154.44   [BEAR↓]  RSI: 47.5
+      ║  3-Day High : 24,482.1 (dist=-332.6)   Broken=False  Retraced=False  → tdLong=False
+      ║  3-Day Low  : 23,882.1  (dist=+267.5)  Broken=False  Retraced=False  → tdShort=False
+      ║  PDLH High  : NOT READY   pdlhLong=False  BandOk=False
+      ║  PDLH Low   : NOT READY   pdlhShort=False
+      ║  ORB        : H=24,241.6 L=24,181.3   GapUp=False  GapDown=False  orbLong=False  orbShort=False
+      ║  Trades Today: 0/2   InWindow: True   GoLong=False  GoShort=False
+      ╚══════════════════════════════════════════════════════╝
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 144550
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24198.472, SMA200: 24970.622 | EMA50: 24186.251669757062011532453746, EMA200: 24694.719423264388234891918458
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55655.065, SMA200: 57180.97625 | EMA50: 55644.799582420761339553805326, EMA200: 56772.024777888274267685642494
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 145252
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 145819
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 146176
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24198.24, SMA200: 24967.87625 | EMA50: 24186.208467021490952256671246, EMA200: 24689.649080744344570863143150
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55639.01, SMA200: 57187.01725 | EMA50: 55630.636853698378541924244333, EMA200: 56757.215078605803876962402270
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 147267
 info: Trading.Strategy.StatusReporterService[0]
-      StatusReporterService: Sending report #2 at 05/04/2026 11:25:05...
+      StatusReporterService: Sending report #2 at 05/08/2026 14:50:15...
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24195.808, SMA200: 24965.331 | EMA50: 24188.002252628491307070135119, EMA200: 24685.094861035445619909281029
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY 50] CPR Table (05/08/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  24345.45 │  24364.25 │  24383.05 │
+      │ Weekly      │  24020.29 │  24043.03 │  24065.78 │
+      │ Monthly     │  23392.13 │  23593.93 │  23795.74 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  24444.50 │  24246.40 │  24562.35 │
+      └─────────────┴───────────┴───────────┴───────────┘
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55614.985, SMA200: 57193.26675 | EMA50: 55620.198153553344089299764163, EMA200: 56743.356719614701350823472894
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.CprBounceStrategy[0]
+      [CprBounceStrategy] [NIFTY BANK] CPR Table (05/08/2026 09:15:00)
+      ┌─────────────┬───────────┬───────────┬───────────┐
+      │ Timeframe   │  Bot.Ctrl │   Pivot   │  Top.Ctrl │
+      ├─────────────┼───────────┼───────────┼───────────┤
+      │ Daily       │  56051.16 │  56054.92 │  56058.68 │
+      │ Weekly      │  55061.43 │  55259.52 │  55457.60 │
+      │ Monthly     │  53705.58 │  54091.50 │  54477.43 │
+      │             │     R1    │     S1    │     R2    │
+      │ (Daily)     │  56326.63 │  55775.68 │  56605.87 │
+      └─────────────┴───────────┴───────────┴───────────┘
 info: Trading.Strategy.StatusReporterService[0]
       Telegram message sent OK.
 info: Trading.Strategy.StatusReporterService[0]
       StatusReporterService: Report #2 sent.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 4.3880ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 1.9320ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.8590ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 8.7165ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 19.2196ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.7273ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 4.3142ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 5.6754ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 3.6841ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 4.7278ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.7532ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 4.9169ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 3.1581ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.8014ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.9898ms
-info: Trading.Strategy.StatusReporterService[0]
-      StatusReporterService: Sending report #3 at 05/04/2026 11:40:06...
-info: Trading.Strategy.StatusReporterService[0]
-      Telegram message sent OK.
-info: Trading.Strategy.StatusReporterService[0]
-      StatusReporterService: Report #3 sent.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 4.6485ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 1.3935ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.1716ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 3.2033ms
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET http://localhost:5005/api/state - - -
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[1]
-      Setting HTTP status code 200.
-info: Microsoft.AspNetCore.Http.Result.OkObjectResult[3]
-      Writing value of type '<>f__AnonymousType0`2' as Json.
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'HTTP: GET /api/state'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/1.1 GET http://localhost:5005/api/state - 200 - application/json;+charset=utf-8 2.6495ms
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 147732
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 152637
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 157480
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 162308
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24193.146, SMA200: 24962.624 | EMA50: 24189.717850564628902871306290, EMA200: 24680.583966895789444586800621
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55590.754, SMA200: 57199.18625 | EMA50: 55610.417833806154125013498902, EMA200: 56729.699438822515267730702020
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+warn: Trading.Strategy.Consumers.MQDataConsumer[0]
+      STALE DATA DETECTED! Total Age: 25.135382s [Exchange: 3E-06s, MQ Delay: 25.135379s]. Skipping strategy.
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 162681
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 167455
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 168248
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 168683
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 169074
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      >>> 15:15 PM STRANGLE SQUARE-OFF for NIFTY BANK at 05/08/2026 15:30:31 <<<
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      Executing EOD Square-off for 9:20 Strangle legs for NIFTY BANK.
+warn: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] No cached LTP for BANKNIFTY26MAY56200CE. Falling back to live Kite API.
+warn: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] No cached LTP for BANKNIFTY26MAY55200PE. Falling back to live Kite API.
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      📊 [PnL Summary] NIFTY BANK CE: Entry=778 Exit=597 PnL=+5430 | PE: Entry=669.8 Exit=802.9 PnL=-3993 | TOTAL PROFIT: ₹+1437
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      >>> 15:15 PM STRANGLE SQUARE-OFF for NIFTY 50 at 05/08/2026 15:30:31 <<<
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      Executing EOD Square-off for 9:20 Strangle legs for NIFTY 50.
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] LTP for NIFTY2651224400CE: 67.65 (from tick cache)
+info: Trading.Strategy.Services.OrderExecutionService[0]
+      [PAPER] LTP for NIFTY2651224000PE: 60.1 (from tick cache)
+info: Trading.Strategy.Services.Strangle920Strategy[0]
+      📊 [PnL Summary] NIFTY 50 CE: Entry=94.0 Exit=67.65 PnL=+1712.75 | PE: Entry=78.35 Exit=60.1 PnL=+1186.25 | TOTAL PROFIT: ₹+2899
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55549.963, SMA200: 57204.667 | EMA50: 55598.724977578461806385518552, EMA200: 56715.595464306868349643829363
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24185.098, SMA200: 24959.172 | EMA50: 24189.266170150329730209686435, EMA200: 24675.585121454040295884444396
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 5m] SMA50: 24178.834, SMA200: 24955.209 | EMA50: 24188.922398771885427064208535, EMA200: 24670.658901340069745676638979
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY 50 daily CPR] Pivot: 24364.25, BC: 24345.45, TC: 24383.05, R1: 24444.50, S1: 24246.40
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK 5m] SMA50: 55509.511, SMA200: 57208.614 | EMA50: 55588.006351006757421821380570, EMA200: 56701.762673617247769050358424
+info: Trading.Strategy.Services.SampleStrategy[0]
+      [NIFTY BANK daily CPR] Pivot: 56054.916666666666666666666667, BC: 56051.158333333333333333333334, TC: 56058.675, R1: 56326.63333333333333333333333, S1: 55775.68333333333333333333333
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 175309
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 175556
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      MQDataConsumer: Received SystemStatus Heartbeat. Ticks: 175804
+warn: Trading.Strategy.Services.MarketClosingService[0]
+      Market Closing Service: 15:35 IST reached. Triggering system shutdown...
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+info: Trading.Strategy.Worker[0]
+      Worker shutdown requested.
+info: Trading.Strategy.Consumers.MQDataConsumer[0]
+      Stopping MQDataConsumer...

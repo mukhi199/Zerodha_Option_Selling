@@ -175,19 +175,6 @@ namespace Trading.Strategy.Services
         {
             candle.Symbol ??= string.Empty;
 
-            // ── Futures Volume Routing ──
-            // Spot indices (NIFTY 50 / NIFTY BANK) have zero traded volume on NSE.
-            // When a futures candle arrives we store its volume so UpdateVwap can
-            // use it for accurate VWAP calculation.
-            if (candle.Symbol.EndsWith("FUT", StringComparison.OrdinalIgnoreCase))
-            {
-                string spotSymbol = candle.Symbol.StartsWith("NIFTY BANK", StringComparison.OrdinalIgnoreCase) || candle.Symbol.StartsWith("BANKNIFTY", StringComparison.OrdinalIgnoreCase)
-                    ? "NIFTY BANK"
-                    : "NIFTY 50";
-                _tracker.SetFuturesVolume(spotSymbol, candle.Volume);
-                return; // futures candles don't drive strategy logic directly
-            }
-
             if (!_states.TryGetValue(candle.Symbol, out var state)) return;
 
             var localTime = candle.StartTime.ToLocalTime();

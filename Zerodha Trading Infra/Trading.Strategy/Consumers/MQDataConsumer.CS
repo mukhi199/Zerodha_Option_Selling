@@ -50,6 +50,7 @@ public class MQDataConsumer : BackgroundService
 
     private readonly IEnumerable<IStrategy>  _strategies;
     private readonly IStrategicStateStore    _stateStore;
+    private readonly TechnicalIndicatorsTracker _tracker; // DI Injected
     private readonly ILogger<MQDataConsumer> _logger;
 
     private IConnection? _connection;
@@ -77,11 +78,13 @@ public class MQDataConsumer : BackgroundService
         // FIX: inject IConfiguration and read the "RabbitMQ" section directly here.
         IEnumerable<IStrategy>  strategies,
         IStrategicStateStore    stateStore,
+        TechnicalIndicatorsTracker tracker,
         ILogger<MQDataConsumer> logger,
         IConfiguration          config)   // FIX #6
     {
         _strategies = strategies;
         _stateStore = stateStore;
+        _tracker    = tracker;
         _logger     = logger;
 
         // FIX #6 ↓ — read RabbitMQ settings from config section
@@ -281,6 +284,17 @@ public class MQDataConsumer : BackgroundService
                     var candle = JsonConvert.DeserializeObject<Candle>(message);
                     if (candle != null)
                     {
+                        // Centralized Futures Volume Routing for VWAP calculations
+                        if (candle.Symbol.EndsWith("FUT", StringComparison.OrdinalIgnoreCase))
+                        {
+                            string spotSymbol = candle.Symbol.StartsWith("NIFTY BANK", StringComparison.OrdinalIgnoreCase) || 
+                                                candle.Symbol.StartsWith("BANKNIFTY", StringComparison.OrdinalIgnoreCase)
+                                ? "NIFTY BANK"
+                                : "NIFTY 50";
+                            _tracker.SetFuturesVolume(spotSymbol, candle.Volume);
+                            return; // Do not dispatch FUT candles directly to strategies
+                        }
+
                         // FIX #3 ↓ — per-strategy isolation on candle dispatch
                         foreach (var strategy in _strategies)
                         {
